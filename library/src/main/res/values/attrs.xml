@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="DonutProgressView">
+        <attr name="donut_strokeWidth" format="dimension" />
+        <attr name="donut_bgLineColor" format="color" />
+    </declare-styleable>
+</resources>
