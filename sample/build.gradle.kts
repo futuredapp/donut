@@ -21,9 +21,9 @@ android {
 }
 
 dependencies {
+    implementation(kotlin(Deps.Kotlin.stdlib, KotlinCompilerVersion.VERSION))
     implementation(project(":library"))
 
-    // Kotlin
-    implementation(kotlin(Deps.Kotlin.stdlib, KotlinCompilerVersion.VERSION))
+    implementation(Deps.AndroidX.appcompat)
+    implementation(Deps.AndroidX.constraintLayout)
 }
-

@@ -9,4 +9,8 @@ object Versions {
     const val detekt = "1.0.0-RC14"
     const val ktlint = "8.2.0"
     const val ktlintExtension = "0.34.2"
+
+    // androidx
+    const val androidx = "1.1.0"
+    const val constraintLayout = "1.1.3"
 }
