@@ -40,7 +40,10 @@ subprojects {
 
 detekt {
     version = Versions.detekt
-    input = files("sample/src/main/kotlin", "library/src/main/kotlin")
+    input = files(
+        "sample/src/main/kotlin",
+        "library/src/main/kotlin"
+    )
     filters = ".*/resources/.*,.*/build/.*"
     config = files("detekt.yml")
 }
