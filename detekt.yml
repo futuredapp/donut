@@ -1,0 +1,258 @@
+autoCorrect: false
+
+build:
+  maxIssues: 100
+
+complexity:
+  active: true
+  ComplexCondition:
+    active: true
+  ComplexMethod:
+    active: true
+    threshold: 20
+    ignoreSimpleWhenEntries: true
+  LargeClass:
+    threshold: 250
+    active: true
+  TooManyFunctions:
+    active: true
+    thresholdInFiles: 30
+    thresholdInClasses: 30
+    thresholdInInterfaces: 30
+    thresholdInObjects: 25
+  LongParameterList:
+    active: true
+  NestedBlockDepth:
+    active: true
+    threshold: 4
+  StringLiteralDuplication:
+    active: true
+
+empty-blocks:
+  active: true
+  EmptyCatchBlock:
+    active: true
+  EmptyClassBlock:
+    active: true
+  EmptyDefaultConstructor:
+    active: true
+  EmptyDoWhileBlock:
+    active: true
+  EmptyElseBlock:
+    active: true
+  EmptyFinallyBlock:
+    active: true
+  EmptyForBlock:
+    active: true
+  EmptyFunctionBlock:
+    active: true
+  EmptyIfBlock:
+    active: true
+  EmptyInitBlock:
+    active: true
+  EmptyKtFile:
+    active: true
+  EmptySecondaryConstructor:
+    active: true
+  EmptyWhenBlock:
+    active: true
+  EmptyWhileBlock:
+    active: true
+
+exceptions:
+  active: true
+  ExceptionRaisedInUnexpectedLocation:
+    active: true
+  InstanceOfCheckForException:
+    active: true
+  ReturnFromFinally:
+    active: true
+  TooGenericExceptionCaught:
+    active: false
+  SwallowedException:
+    active: true
+  ThrowingExceptionFromFinally:
+    active: true
+  ThrowingExceptionsWithoutMessageOrCause:
+    active: true
+  ThrowingNewInstanceOfSameException:
+    active: true
+  TooGenericExceptionThrown:
+    active: true
+
+formatting:
+  active: false
+
+code-smell:
+  active: true
+
+naming:
+  active: true
+  ClassNaming:
+    active: true
+  ConstructorParameterNaming:
+    active: true
+  EnumNaming:
+    active: true
+  ForbiddenClassName:
+    active: true
+  FunctionMaxLength:
+    active: true
+    maximumFunctionNameLength: 35
+  FunctionMinLength:
+    active: true
+  FunctionNaming:
+    active: true
+  FunctionParameterNaming:
+    active: true
+  MatchingDeclarationName:
+    active: true
+  MemberNameEqualsClassName:
+    active: true
+  ObjectPropertyNaming:
+    active: true
+  PackageNaming:
+    active: true
+  TopLevelPropertyNaming:
+    active: true
+  VariableMaxLength:
+    active: true
+  VariableMinLength:
+    active: true
+  VariableNaming:
+    active: true
+
+performance:
+  ArrayPrimitive:
+    active: true
+  ForEachOnRange:
+    active: true
+  SpreadOperator:
+    active: true
+  UnnecessaryTemporaryInstantiation:
+    active: true
+
+potential-bugs:
+  active: true
+  DuplicateCaseInWhenExpression:
+    active: true
+  EqualsAlwaysReturnsTrueOrFalse:
+    active: true
+  EqualsWithHashCodeExist:
+    active: true
+  ExplicitGarbageCollectionCall:
+    active: true
+  InvalidRange:
+    active: true
+  IteratorHasNextCallsNextMethod:
+    active: true
+  IteratorNotThrowingNoSuchElementException:
+    active: true
+  UnconditionalJumpStatementInLoop:
+    active: true
+  UnreachableCode:
+    active: true
+  UnsafeCallOnNullableType:
+    active: true
+  UnsafeCast:
+    active: true
+  UselessPostfixExpression:
+    active: true
+  WrongEqualsTypeParameter:
+    active: true
+
+style:
+  active: true
+  MaxLineLength:
+    active: false
+  CollapsibleIfStatements:
+    active: true
+  DataClassContainsFunctions:
+    active: false
+  EqualsNullCall:
+    active: true
+  ExplicitItLambdaParameter:
+    active: true
+  ExpressionBodySyntax:
+    active: true
+  ForbiddenComment:
+    active: true
+  ForbiddenImport:
+    active: true
+  ForbiddenVoid:
+    active: true
+  FunctionMaxLength:
+    active: true
+    maximumFunctionNameLength: 50
+  FunctionOnlyReturningConstant:
+    active: true
+  LoopWithTooManyJumpStatements:
+    active: true
+  MagicNumber:
+    active: false
+  MandatoryBracesIfStatements:
+    active: true
+  MayBeConst:
+    active: true
+  ModifierOrder:
+    active: true
+  NestedClassesVisibility:
+    active: false
+  NewLineAtEndOfFile:
+    active: true
+  NoTabs:
+    active: true
+  OptionalAbstractKeyword:
+    active: true
+  OptionalUnit:
+    active: true
+  OptionalWhenBraces:
+    active: true
+  PreferToOverPairSyntax:
+    active: false
+  ProtectedMemberInFinalClass:
+    active: true
+  RedundantVisibilityModifierRule:
+    active: true
+  ReturnCount:
+    active: true
+    max: 4
+  SafeCast:
+    active: true
+  SerialVersionUIDInSerializableClass:
+    active: true
+  SpacingBetweenPackageAndImports:
+    active: true
+  ThrowsCount:
+    active: true
+  TrailingWhitespace:
+    active: true
+  UnnecessaryAbstractClass:
+    active: true
+    excludeAnnotatedClasses: "dagger.Module,android.arch.persistence.room.Dao"
+  UnnecessaryApply:
+    active: false # wait for fix
+  UnnecessaryInheritance:
+    active: true
+  UnnecessaryLet:
+    active: true
+  UnnecessaryParentheses:
+    active: true
+  UntilInsteadOfRangeTo:
+    active: true
+  UnusedImports:
+    active: false
+  UnusedPrivateMember:
+    active: true
+  UseDataClass:
+    active: true
+  UtilityClassWithPublicConstructor:
+    active: true
+  VarCouldBeVal:
+    active: true
+  VariableMaxLength:
+    active: true
+    maximumVariableNameLength: 50
+  WildcardImport:
+    active: true
+    excludeImports: 'kotlinx.android.synthetic.*'
