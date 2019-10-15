@@ -22,4 +22,5 @@ android {
 
 dependencies {
     implementation(kotlin(Deps.Kotlin.stdlib, KotlinCompilerVersion.VERSION))
+    implementation(Deps.AndroidX.ktx)
 }

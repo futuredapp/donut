@@ -14,5 +14,6 @@ object Deps {
     object AndroidX {
         const val appcompat = "androidx.appcompat:appcompat:${Versions.androidx}"
         const val constraintLayout = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
+        const val ktx = "androidx.core:core-ktx:${Versions.ktx}"
     }
 }

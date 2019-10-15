@@ -13,4 +13,5 @@ object Versions {
     // androidx
     const val androidx = "1.1.0"
     const val constraintLayout = "1.1.3"
+    const val ktx = "1.1.0"
 }
