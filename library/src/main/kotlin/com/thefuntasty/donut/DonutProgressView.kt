@@ -94,6 +94,9 @@ class DonutProgressView @JvmOverloads constructor(
             invalidate()
         }
 
+    /**
+     * Size of gap opening in degrees.
+     */
     var gapSizeDegrees: Float = 45f
         set(value) {
             field = value
