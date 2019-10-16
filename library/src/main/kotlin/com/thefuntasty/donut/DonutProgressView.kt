@@ -17,13 +17,8 @@ import com.thefuntasty.donut.extensions.sumByFloat
 
 /*
 Ideas:
-- configurable space width
-- space position
-- separate stroke width for fg / bg lines
-- allow changing line colors at runtime
-- tooling in layout editor
-- abstract away animation handling / allow to provide custom interpolator (or animation style, like SpringAnimation)
-- kotlin extensions
+- tooling in layout editor (testing data)
+- turn on / off corner path effect with configurable number of sides
  */
 class DonutProgressView @JvmOverloads constructor(
     context: Context,
@@ -99,6 +94,15 @@ class DonutProgressView @JvmOverloads constructor(
             invalidate()
         }
 
+    var gapSizeDegrees: Float = 45f
+        set(value) {
+            field = value
+
+            bgLine.gapSizeDegrees = value
+            lines.forEach { it.gapSizeDegrees = value }
+            invalidate()
+        }
+
     private var entries = mutableListOf<DonutProgressEntry>()
     private val lines = mutableListOf<DonutProgressLine>()
     private var animatorSet: AnimatorSet? = null
@@ -109,7 +113,8 @@ class DonutProgressView @JvmOverloads constructor(
         _lineColor = bgLineColor,
         _lineStrokeWidth = strokeWidth,
         _masterProgress = masterProgress,
-        _length = 1f
+        _length = 1f,
+        _gapSizeDegrees = gapSizeDegrees
     )
 
     init {
@@ -127,11 +132,14 @@ class DonutProgressView @JvmOverloads constructor(
             strokeWidth = it.getDimensionPixelSize(R.styleable.DonutProgressView_donut_strokeWidth, dpToPx(10)).toFloat()
             bgLineColor =
                 it.getColor(
-                    R.styleable.DonutProgressView_donut_bgLineColor, ContextCompat.getColor(
+                    R.styleable.DonutProgressView_donut_bgLineColor,
+                    ContextCompat.getColor(
                         context,
                         R.color.grey
                     )
                 )
+
+            gapSizeDegrees = it.getFloat(R.styleable.DonutProgressView_donut_gapSize, 45f)
         }
     }
 
@@ -156,7 +164,8 @@ class DonutProgressView @JvmOverloads constructor(
                         _lineColor = kvp.value[0].color,
                         _lineStrokeWidth = strokeWidth,
                         _masterProgress = masterProgress,
-                        _length = 0f
+                        _length = 0f,
+                        _gapSizeDegrees = gapSizeDegrees
                     )
                 )
             }
