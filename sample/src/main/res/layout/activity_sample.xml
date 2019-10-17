@@ -12,9 +12,9 @@
         android:layout_height="wrap_content"
         android:layout_margin="64dp"
         app:donut_bgLineColor="@color/cloud"
-        app:donut_gapAngle="90"
+        app:donut_gapAngle="270"
         app:donut_gapWidth="60"
-        app:donut_strokeWidth="18dp"
+        app:donut_strokeWidth="14dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
