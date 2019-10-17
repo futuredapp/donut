@@ -210,7 +210,7 @@ class DonutProgressView @JvmOverloads constructor(
 
     /**
      * Decreases amount in [category] by specified [amount].
-     * If resulting amount is less than zero, it's corresponding progress line will be removed from view.
+     * If resulting amount is equal to, or less than zero, it's corresponding progress line will be removed from view.
      */
     fun removeAmount(category: String, amount: Float) {
         require(amount >= 0f) { "Provided amount is less than zero" }
@@ -218,7 +218,7 @@ class DonutProgressView @JvmOverloads constructor(
         if (hasEntriesForCategory(category)) {
             val entryIndex = data.indexOfFirst { it.category == category }
             val resultAmount = data[entryIndex].amount - amount
-            if (resultAmount < 0f) {
+            if (resultAmount <= 0f) {
                 data.removeAt(entryIndex)
             } else {
                 data[entryIndex] = data[entryIndex].copy(amount = data[entryIndex].amount - amount)
@@ -229,22 +229,32 @@ class DonutProgressView @JvmOverloads constructor(
     }
 
     /**
-     * TODO
+     * Sets [amount] for specified [category].
+     * If amount is equal, or less than zero, it's corresponding progress line will be removed from view.
      */
     fun setAmount(category: String, amount: Float) {
+        if (hasEntriesForCategory(category)) {
+            val entryIndex = data.indexOfFirst { it.category == category }
+            if (amount <= 0f) {
+                data.removeAt(entryIndex)
+            } else {
+                data[entryIndex] = data[entryIndex].copy(amount = amount)
+            }
 
+            submitData(data)
+        }
     }
 
     /**
      * Submits new [entries] to the view.
      *
-     * New progress line will be created for each non-existent entry category and view
-     * will be animated to new state.
+     * New progress line will be created for each non-existent entry category and view will be animated to new state.
      * Entries with the same category will be internally merged into single entry.
      * Additionally, existing lines with no entry category in new data set will be removed when animation completes.
      */
     fun submitData(entries: List<DonutProgressEntry>) {
         val mergedEntries = entries
+            .filter { it.amount >= 0f }
             .groupBy { it.category }
             .flatMap {
                 listOf(
