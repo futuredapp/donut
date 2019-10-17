@@ -87,7 +87,8 @@ class DonutProgressView @JvmOverloads constructor(
     /**
      * Color of background line.
      */
-    @ColorInt var bgLineColor: Int = 0
+    @ColorInt
+    var bgLineColor: Int = 0
         set(value) {
             field = value
             bgLine.lineColor = value
@@ -106,6 +107,18 @@ class DonutProgressView @JvmOverloads constructor(
             invalidate()
         }
 
+    /**
+     * Angle at which the gap will be displayed in degrees.
+     */
+    var gapAngleDegrees: Float = 270f
+        set(value) {
+            field = value
+
+            bgLine.gapAngleDegrees = value
+            lines.forEach { it.gapAngleDegrees = value }
+            invalidate()
+        }
+
     private var entries = mutableListOf<DonutProgressEntry>()
     private val lines = mutableListOf<DonutProgressLine>()
     private var animatorSet: AnimatorSet? = null
@@ -117,7 +130,8 @@ class DonutProgressView @JvmOverloads constructor(
         _lineStrokeWidth = strokeWidth,
         _masterProgress = masterProgress,
         _length = 1f,
-        _gapSizeDegrees = gapSizeDegrees
+        _gapSizeDegrees = gapSizeDegrees,
+        _gapAngleDegrees = gapAngleDegrees
     )
 
     init {
@@ -132,7 +146,10 @@ class DonutProgressView @JvmOverloads constructor(
             defStyleAttr,
             defStyleRes
         ).use {
-            strokeWidth = it.getDimensionPixelSize(R.styleable.DonutProgressView_donut_strokeWidth, dpToPx(10)).toFloat()
+            strokeWidth = it.getDimensionPixelSize(
+                R.styleable.DonutProgressView_donut_strokeWidth,
+                dpToPx(10)
+            ).toFloat()
             bgLineColor =
                 it.getColor(
                     R.styleable.DonutProgressView_donut_bgLineColor,
@@ -143,6 +160,7 @@ class DonutProgressView @JvmOverloads constructor(
                 )
 
             gapSizeDegrees = it.getFloat(R.styleable.DonutProgressView_donut_gapSize, 45f)
+            gapAngleDegrees = it.getFloat(R.styleable.DonutProgressView_donut_gapAngle, 270f)
         }
     }
 
@@ -168,7 +186,8 @@ class DonutProgressView @JvmOverloads constructor(
                         _lineStrokeWidth = strokeWidth,
                         _masterProgress = masterProgress,
                         _length = 0f,
-                        _gapSizeDegrees = gapSizeDegrees
+                        _gapSizeDegrees = gapSizeDegrees,
+                        _gapAngleDegrees = gapAngleDegrees
                     )
                 )
             }
@@ -222,7 +241,8 @@ class DonutProgressView @JvmOverloads constructor(
         return thisLine + previousLine
     }
 
-    private fun hasEntriesForCategory(category: String) = entries.firstOrNull { it.category == category } != null
+    private fun hasEntriesForCategory(category: String) =
+        entries.firstOrNull { it.category == category } != null
 
     private fun animateLine(
         line: DonutProgressLine,
