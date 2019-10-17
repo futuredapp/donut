@@ -294,6 +294,8 @@ class DonutProgressView @JvmOverloads constructor(
         resolveState()
     }
 
+    fun clear() = submitData(listOf())
+
     private fun resolveState() {
         animatorSet?.cancel()
         animatorSet = AnimatorSet()
