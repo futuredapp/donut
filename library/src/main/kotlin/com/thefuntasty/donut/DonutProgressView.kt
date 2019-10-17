@@ -71,7 +71,6 @@ class DonutProgressView @JvmOverloads constructor(
             lines.forEach { it.lineStrokeWidth = value }
             updateLinesRadius()
             invalidate()
-            requestLayout()
         }
 
     /**
