@@ -16,7 +16,7 @@ class SampleActivity : AppCompatActivity() {
 
         donut_view.cap = 5f
         initControls()
-        runDelayed(1000) { fillData() }
+        runDelayed(500) { fillData() }
     }
 
     private fun fillData() {
