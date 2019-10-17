@@ -112,39 +112,45 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <LinearLayout
+            <HorizontalScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content">
 
-                <Button
-                    style="?attr/buttonBarButtonStyle"
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/button_add" />
+                    android:orientation="horizontal">
 
-                <Button
-                    style="?attr/buttonBarButtonStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/button_remove" />
+                    <Button
+                        android:id="@+id/button_add"
+                        style="?attr/buttonBarButtonStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/button_add" />
 
-                <Button
-                    style="?attr/buttonBarButtonStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/button_randomize" />
+                    <Button
+                        android:id="@+id/button_remove"
+                        style="?attr/buttonBarButtonStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/button_remove" />
 
-                <Button
-                    style="?attr/buttonBarButtonStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/button_clear" />
-            </LinearLayout>
+                    <Button
+                        android:id="@+id/button_set"
+                        style="?attr/buttonBarButtonStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/button_set" />
+
+                    <Button
+                        android:id="@+id/button_clear"
+                        style="?attr/buttonBarButtonStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/button_clear" />
+                </LinearLayout>
+
+            </HorizontalScrollView>
 
         </LinearLayout>
 
