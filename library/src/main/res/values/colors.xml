@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="grey">#A3B4C6</color>
+    <color name="data_color_default">#000F9F</color>
 </resources>
