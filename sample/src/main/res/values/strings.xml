@@ -1,7 +1,14 @@
 <resources>
     <string name="app_name">Donut Sample</string>
+    <string name="graph_style">Graph style</string>
     <string name="gap_width">Gap width: %d°</string>
     <string name="gap_angle">Gap angle: %d°</string>
     <string name="stroke_width">Stroke width: %d px</string>
     <string name="master_progress">Master progress: %d%%</string>
+    <string name="graph_data">Graph data</string>
+
+    <string name="button_add">Add</string>
+    <string name="button_remove">Remove</string>
+    <string name="button_randomize">Random</string>
+    <string name="button_clear">Clear</string>
 </resources>
