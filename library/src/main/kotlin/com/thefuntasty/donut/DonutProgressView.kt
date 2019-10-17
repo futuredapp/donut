@@ -204,8 +204,7 @@ class DonutProgressView @JvmOverloads constructor(
                 color = color ?: ContextCompat.getColor(context, R.color.data_color_default)
             )
 
-            val newList = data + newEntry
-            submitData(newList)
+            submitData(data + newEntry)
         }
     }
 
