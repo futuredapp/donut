@@ -107,7 +107,7 @@ class DonutProgressView @JvmOverloads constructor(
         }
 
     /**
-     * Angle at which the gap will be displayed in degrees.
+     * Angle in degrees, at which the gap will be displayed.
      */
     var gapAngleDegrees: Float = 270f
         set(value) {
