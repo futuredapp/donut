@@ -98,12 +98,12 @@ class DonutProgressView @JvmOverloads constructor(
     /**
      * Size of gap opening in degrees.
      */
-    var gapSizeDegrees: Float = 45f
+    var gapWidthDegrees: Float = 45f
         set(value) {
             field = value
 
-            bgLine.gapSizeDegrees = value
-            lines.forEach { it.gapSizeDegrees = value }
+            bgLine.gapWidthDegrees = value
+            lines.forEach { it.gapWidthDegrees = value }
             invalidate()
         }
 
@@ -130,7 +130,7 @@ class DonutProgressView @JvmOverloads constructor(
         _lineStrokeWidth = strokeWidth,
         _masterProgress = masterProgress,
         _length = 1f,
-        _gapSizeDegrees = gapSizeDegrees,
+        _gapWidthDegrees = gapWidthDegrees,
         _gapAngleDegrees = gapAngleDegrees
     )
 
@@ -159,7 +159,7 @@ class DonutProgressView @JvmOverloads constructor(
                     )
                 )
 
-            gapSizeDegrees = it.getFloat(R.styleable.DonutProgressView_donut_gapSize, 45f)
+            gapWidthDegrees = it.getFloat(R.styleable.DonutProgressView_donut_gapWidth, 45f)
             gapAngleDegrees = it.getFloat(R.styleable.DonutProgressView_donut_gapAngle, 270f)
         }
     }
@@ -186,7 +186,7 @@ class DonutProgressView @JvmOverloads constructor(
                         _lineStrokeWidth = strokeWidth,
                         _masterProgress = masterProgress,
                         _length = 0f,
-                        _gapSizeDegrees = gapSizeDegrees,
+                        _gapWidthDegrees = gapWidthDegrees,
                         _gapAngleDegrees = gapAngleDegrees
                     )
                 )

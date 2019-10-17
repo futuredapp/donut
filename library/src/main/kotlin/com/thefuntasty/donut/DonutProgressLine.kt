@@ -15,7 +15,7 @@ internal class DonutProgressLine(
     _lineStrokeWidth: Float,
     _masterProgress: Float,
     _length: Float,
-    _gapSizeDegrees: Float,
+    _gapWidthDegrees: Float,
     _gapAngleDegrees: Float
 ) {
 
@@ -62,7 +62,7 @@ internal class DonutProgressLine(
             updatePathEffect()
         }
 
-    var gapSizeDegrees = 10f
+    var gapWidthDegrees = 10f
         set(value) {
             field = value
             updatePath()
@@ -80,7 +80,7 @@ internal class DonutProgressLine(
         this.lineStrokeWidth = _lineStrokeWidth
         this.masterProgress = _masterProgress
         this.length = _length
-        this.gapSizeDegrees = _gapSizeDegrees
+        this.gapWidthDegrees = _gapWidthDegrees
         this.gapAngleDegrees = _gapAngleDegrees
     }
 
@@ -89,8 +89,8 @@ internal class DonutProgressLine(
 
         val offset = gapAngleDegrees.toRadians()
 
-        val startAngle = 0.0 + (gapSizeDegrees / 2f).toRadians()
-        val endAngle = Math.PI * 2.0 - (gapSizeDegrees / 2f).toRadians()
+        val startAngle = 0.0 + (gapWidthDegrees / 2f).toRadians()
+        val endAngle = Math.PI * 2.0 - (gapWidthDegrees / 2f).toRadians()
         val angleStep = (endAngle - startAngle) / SIDES
 
         path.moveTo(
