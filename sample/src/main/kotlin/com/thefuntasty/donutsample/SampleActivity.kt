@@ -37,7 +37,6 @@ class SampleActivity : AppCompatActivity() {
             (donut_view.masterProgress * 100f).toInt()
         )
         master_progress_seekbar.apply {
-            max = 100
             progress = (donut_view.masterProgress * 100f).toInt()
             doOnProgressChange {
                 donut_view.masterProgress = it / 100f
@@ -47,7 +46,6 @@ class SampleActivity : AppCompatActivity() {
 
         gap_width_text.text = getString(R.string.gap_width, donut_view.gapWidthDegrees.toInt())
         gap_width_seekbar.apply {
-            max = 360
             progress = donut_view.gapWidthDegrees.toInt()
             doOnProgressChange {
                 donut_view.gapWidthDegrees = it.toFloat()
@@ -57,7 +55,6 @@ class SampleActivity : AppCompatActivity() {
 
         gap_angle_text.text = getString(R.string.gap_angle, donut_view.gapAngleDegrees.toInt())
         gap_angle_seekbar.apply {
-            max = 360
             progress = donut_view.gapAngleDegrees.toInt()
             doOnProgressChange {
                 donut_view.gapAngleDegrees = it.toFloat()
@@ -67,7 +64,6 @@ class SampleActivity : AppCompatActivity() {
 
         stroke_width_text.text = getString(R.string.stroke_width, donut_view.strokeWidth.toInt())
         stroke_width_seekbar.apply {
-            max = 100
             progress = donut_view.strokeWidth.toInt()
             doOnProgressChange {
                 donut_view.strokeWidth = it.toFloat()
