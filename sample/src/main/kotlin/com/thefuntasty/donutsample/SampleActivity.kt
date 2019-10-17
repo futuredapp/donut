@@ -23,9 +23,9 @@ class SampleActivity : AppCompatActivity() {
         donut_view.apply {
             submitEntries(
                 listOf(
-                    DonutProgressEntry("broccoli", 1.5f, getColorCompat(R.color.dark_green)),
-                    DonutProgressEntry("avocado", 1.2f, getColorCompat(R.color.light_green)),
-                    DonutProgressEntry("eggplant", 0.5f, getColorCompat(R.color.light_violet))
+                    DonutProgressEntry("roboblue", 1.9f, getColorCompat(R.color.roboblue)),
+                    DonutProgressEntry("lavender", 1.7f, getColorCompat(R.color.lavender)),
+                    DonutProgressEntry("green", 0.5f, getColorCompat(R.color.process_green))
                 )
             )
         }
