@@ -36,6 +36,7 @@ internal class DonutProgressLine(
         set(value) {
             field = value
             updatePath()
+            updatePathEffect()
         }
 
     var lineColor: Int = 0
@@ -66,12 +67,14 @@ internal class DonutProgressLine(
         set(value) {
             field = value
             updatePath()
+            updatePathEffect()
         }
 
     var gapAngleDegrees = 270f
         set(value) {
             field = value
             updatePath()
+            updatePathEffect()
         }
 
     init {
@@ -105,7 +108,6 @@ internal class DonutProgressLine(
             )
         }
 
-        updatePathEffect()
         return path
     }
 
