@@ -5,5 +5,8 @@
         <attr name="donut_bgLineColor" format="color" />
         <attr name="donut_gapWidth" format="float" />
         <attr name="donut_gapAngle" format="float" />
+        <attr name="donut_animationEnabled" format="boolean" />
+        <attr name="donut_animationInterpolator" format="reference" />
+        <attr name="donut_animationDuration" format="integer" />
     </declare-styleable>
 </resources>

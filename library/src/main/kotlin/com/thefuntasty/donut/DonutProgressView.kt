@@ -9,7 +9,9 @@ import android.graphics.Canvas
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
+import android.view.animation.AnimationUtils
 import android.view.animation.DecelerateInterpolator
+import android.view.animation.Interpolator
 import androidx.annotation.ColorInt
 import androidx.core.animation.doOnEnd
 import androidx.core.content.ContextCompat
@@ -29,8 +31,10 @@ class DonutProgressView @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttr, defStyleRes) {
 
     companion object {
-        private const val ANIM_DURATION_MS = 1000L // TODO parametrize
-        private const val INTERPOLATOR_FACTOR = 1.5f // TODO parametrize
+        // TODO move defaults here
+        const val DEFAULT_ANIM_ENABLED = true
+        val DEFAULT_INTERPOLATOR = DecelerateInterpolator(1.5f)
+        const val DEFAULT_ANIM_DURATION_MS = 1000
     }
 
     private var w = 0
@@ -119,6 +123,22 @@ class DonutProgressView @JvmOverloads constructor(
             invalidate()
         }
 
+    /**
+     * If true, view will animate changes when new entries will be submitted.
+     * If false, state change will happen instantly.
+     */
+    var animationEnabled: Boolean = DEFAULT_ANIM_ENABLED
+
+    /**
+     * Interpolator used for state change animations
+     */
+    var animationInterpolator: Interpolator = DEFAULT_INTERPOLATOR
+
+    /**
+     * Duration of state change animations
+     */
+    var animationDurationMs: Long = DEFAULT_ANIM_DURATION_MS.toLong()
+
     private val defaultColor: Int
         get() {
             return try {
@@ -172,6 +192,25 @@ class DonutProgressView @JvmOverloads constructor(
 
             gapWidthDegrees = it.getFloat(R.styleable.DonutProgressView_donut_gapWidth, 45f)
             gapAngleDegrees = it.getFloat(R.styleable.DonutProgressView_donut_gapAngle, 270f)
+
+            animationEnabled = it.getBoolean(
+                R.styleable.DonutProgressView_donut_animationEnabled,
+                DEFAULT_ANIM_ENABLED
+            )
+            animationDurationMs = it.getInt(
+                R.styleable.DonutProgressView_donut_animationDuration,
+                DEFAULT_ANIM_DURATION_MS
+            ).toLong()
+
+            animationInterpolator =
+                it.getResourceId(R.styleable.DonutProgressView_donut_animationInterpolator, 0)
+                    .let { id ->
+                        if (id != 0) {
+                            AnimationUtils.loadInterpolator(context, id)
+                        } else {
+                            DEFAULT_INTERPOLATOR
+                        }
+                    }
         }
     }
 
@@ -296,8 +335,8 @@ class DonutProgressView @JvmOverloads constructor(
         animationEnded: (() -> Unit)? = null
     ): ValueAnimator {
         return ValueAnimator.ofFloat(line.length, to).apply {
-            duration = ANIM_DURATION_MS
-            interpolator = DecelerateInterpolator(INTERPOLATOR_FACTOR)
+            duration = if (animationEnabled) animationDurationMs else 0L
+            interpolator = animationInterpolator
             addUpdateListener {
                 line.length = it.animatedValue as Float
                 invalidate()
