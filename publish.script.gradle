@@ -1,0 +1,73 @@
+apply from: "https://raw.githubusercontent.com/sky-uk/gradle-maven-plugin/1.0.3/artifact-pom-manager.gradle"
+apply plugin: 'maven-publish'
+apply plugin: "org.jetbrains.dokka-android"
+apply plugin: "com.jfrog.bintray"
+
+project.ext {
+    mavDevelopers = ["$developerName":"$developerName"]
+    mavSiteUrl =  siteUrl
+    mavGitUrl = gitUrl
+    mavProjectName = "$libraryName"
+    mavLibraryLicenses = ["${allLicenses[0]}":"${licenseUrl}"]
+    mavLibraryDescription = "$libraryDescription"
+}
+
+publishing {
+    publications {
+        MavenCentralPublication(MavenPublication) {
+            decoratePom(pom)
+        }
+    }
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.srcDirs
+}
+
+dokka {
+    outputFormat = 'javadoc'
+    outputDirectory = "$buildDir/dokka"
+}
+
+task kotlinDocJar(type: Jar, dependsOn:dokka){
+    classifier = "javadoc"
+    from("$buildDir/dokka")
+}
+
+
+artifacts {
+    archives kotlinDocJar
+    archives sourcesJar
+}
+
+bintray {
+
+    user = project.findProperty("BINTRAY_USER")
+    key = project.findProperty("BINTRAY_KEY")
+
+    configurations = ['archives']
+    publications = ['MavenCentralPublication']
+
+    pkg {
+        repo = bintrayRepo
+        name = libraryName
+        desc = libraryDescription
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = allLicenses
+        dryRun = true
+        publish = true
+        override = false
+        publicDownloadNumbers = true
+        version {
+            gpg {
+                sign = true
+                passphrase = project.findProperty("BINTRAY_GPG_KEY")
+            }
+            name = ProjectSettings.version
+            vcsTag = ProjectSettings.version
+            desc = libraryDescription
+        }
+    }
+}
