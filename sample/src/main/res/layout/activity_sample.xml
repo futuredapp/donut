@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.thefuntasty.donutsample.SampleActivity">
+    tools:context="com.thefuntasty.donutsample.ui.playground.PlaygroundActivity">
 
     <com.thefuntasty.donut.DonutProgressView
         android:id="@+id/donut_view"
@@ -88,6 +88,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
+        android:fadeScrollbars="false"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

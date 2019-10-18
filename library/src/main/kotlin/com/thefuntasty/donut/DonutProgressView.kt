@@ -203,7 +203,7 @@ class DonutProgressView @JvmOverloads constructor(
      * New progress line will be created for each non-existent entry category and view will be animated to new state.
      * Additionally, existing lines with no entry category in new data set will be removed when animation completes.
      */
-    fun submitData(entries: List<DonutProgressEntry>) {
+    fun submitEntries(entries: List<DonutProgressEntry>) {
         val validEntries = entries.filter { it.amount > 0f }
         val groupedEntries = validEntries.groupBy { it.category }
 
@@ -241,7 +241,7 @@ class DonutProgressView @JvmOverloads constructor(
     /**
      * Clear data, removing all lines.
      */
-    fun clear() = submitData(listOf())
+    fun clear() = submitEntries(listOf())
 
     private fun resolveState() {
         animatorSet?.cancel()

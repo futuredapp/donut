@@ -1,6 +1,7 @@
-package com.thefuntasty.donutsample
+package com.thefuntasty.donutsample.data.model
 
 import androidx.annotation.ColorRes
+import com.thefuntasty.donutsample.R
 
 sealed class DataCategory(val name: String, @ColorRes val colorRes: Int)
 

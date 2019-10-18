@@ -1,4 +1,4 @@
-package com.thefuntasty.donutsample
+package com.thefuntasty.donutsample.data.model
 
 data class DataItem(
     val category: DataCategory,

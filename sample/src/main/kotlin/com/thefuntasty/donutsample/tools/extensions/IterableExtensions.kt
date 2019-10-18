@@ -1,4 +1,4 @@
-package com.thefuntasty.donutsample
+package com.thefuntasty.donutsample.tools.extensions
 
 /**
  * Returns the sum of all values produced by [selector] function applied to each element in the collection.
