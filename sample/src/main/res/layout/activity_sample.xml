@@ -10,12 +10,83 @@
         android:id="@+id/donut_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="48dp"
+        android:layout_margin="64dp"
         app:donut_bgLineColor="@color/grey"
+        app:donut_gapAngle="90"
+        app:donut_gapWidth="60"
         app:donut_strokeWidth="18dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/donut_view">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/master_progress_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/master_progress" />
+
+            <SeekBar
+                android:id="@+id/master_progress_seekbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp" />
+
+            <TextView
+                android:id="@+id/gap_width_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/gap_width" />
+
+            <SeekBar
+                android:id="@+id/gap_width_seekbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp" />
+
+            <TextView
+                android:id="@+id/gap_angle_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/gap_angle" />
+
+            <SeekBar
+                android:id="@+id/gap_angle_seekbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp" />
+
+            <TextView
+                android:id="@+id/stroke_width_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/stroke_width" />
+
+            <SeekBar
+                android:id="@+id/stroke_width_seekbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp" />
+
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

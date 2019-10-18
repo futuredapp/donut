@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Donut Sample</string>
+    <string name="gap_width">Gap width: %d°</string>
+    <string name="gap_angle">Gap angle: %d°</string>
+    <string name="stroke_width">Stroke width: %d px</string>
+    <string name="master_progress">Master progress: %d%%</string>
 </resources>

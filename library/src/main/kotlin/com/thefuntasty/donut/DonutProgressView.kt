@@ -17,13 +17,8 @@ import com.thefuntasty.donut.extensions.sumByFloat
 
 /*
 Ideas:
-- configurable space width
-- space position
-- separate stroke width for fg / bg lines
-- allow changing line colors at runtime
-- tooling in layout editor
-- abstract away animation handling / allow to provide custom interpolator (or animation style, like SpringAnimation)
-- kotlin extensions
+- tooling in layout editor (testing data)
+- turn on / off corner path effect with configurable number of sides
  */
 class DonutProgressView @JvmOverloads constructor(
     context: Context,
@@ -76,7 +71,6 @@ class DonutProgressView @JvmOverloads constructor(
             lines.forEach { it.lineStrokeWidth = value }
             updateLinesRadius()
             invalidate()
-            requestLayout()
         }
 
     /**
@@ -92,10 +86,35 @@ class DonutProgressView @JvmOverloads constructor(
     /**
      * Color of background line.
      */
-    @ColorInt var bgLineColor: Int = 0
+    @ColorInt
+    var bgLineColor: Int = 0
         set(value) {
             field = value
             bgLine.lineColor = value
+            invalidate()
+        }
+
+    /**
+     * Size of gap opening in degrees.
+     */
+    var gapWidthDegrees: Float = 45f
+        set(value) {
+            field = value
+
+            bgLine.gapWidthDegrees = value
+            lines.forEach { it.gapWidthDegrees = value }
+            invalidate()
+        }
+
+    /**
+     * Angle in degrees, at which the gap will be displayed.
+     */
+    var gapAngleDegrees: Float = 270f
+        set(value) {
+            field = value
+
+            bgLine.gapAngleDegrees = value
+            lines.forEach { it.gapAngleDegrees = value }
             invalidate()
         }
 
@@ -109,7 +128,9 @@ class DonutProgressView @JvmOverloads constructor(
         _lineColor = bgLineColor,
         _lineStrokeWidth = strokeWidth,
         _masterProgress = masterProgress,
-        _length = 1f
+        _length = 1f,
+        _gapWidthDegrees = gapWidthDegrees,
+        _gapAngleDegrees = gapAngleDegrees
     )
 
     init {
@@ -124,14 +145,21 @@ class DonutProgressView @JvmOverloads constructor(
             defStyleAttr,
             defStyleRes
         ).use {
-            strokeWidth = it.getDimensionPixelSize(R.styleable.DonutProgressView_donut_strokeWidth, dpToPx(10)).toFloat()
+            strokeWidth = it.getDimensionPixelSize(
+                R.styleable.DonutProgressView_donut_strokeWidth,
+                dpToPx(10)
+            ).toFloat()
             bgLineColor =
                 it.getColor(
-                    R.styleable.DonutProgressView_donut_bgLineColor, ContextCompat.getColor(
+                    R.styleable.DonutProgressView_donut_bgLineColor,
+                    ContextCompat.getColor(
                         context,
                         R.color.grey
                     )
                 )
+
+            gapWidthDegrees = it.getFloat(R.styleable.DonutProgressView_donut_gapWidth, 45f)
+            gapAngleDegrees = it.getFloat(R.styleable.DonutProgressView_donut_gapAngle, 270f)
         }
     }
 
@@ -156,7 +184,9 @@ class DonutProgressView @JvmOverloads constructor(
                         _lineColor = kvp.value[0].color,
                         _lineStrokeWidth = strokeWidth,
                         _masterProgress = masterProgress,
-                        _length = 0f
+                        _length = 0f,
+                        _gapWidthDegrees = gapWidthDegrees,
+                        _gapAngleDegrees = gapAngleDegrees
                     )
                 )
             }
@@ -210,7 +240,8 @@ class DonutProgressView @JvmOverloads constructor(
         return thisLine + previousLine
     }
 
-    private fun hasEntriesForCategory(category: String) = entries.firstOrNull { it.category == category } != null
+    private fun hasEntriesForCategory(category: String) =
+        entries.firstOrNull { it.category == category } != null
 
     private fun animateLine(
         line: DonutProgressLine,
