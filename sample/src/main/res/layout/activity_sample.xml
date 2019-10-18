@@ -19,6 +19,71 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="@id/donut_view"
+        app:layout_constraintEnd_toEndOf="@id/donut_view"
+        app:layout_constraintStart_toStartOf="@id/donut_view"
+        app:layout_constraintTop_toTopOf="@id/donut_view">
+
+        <TextView
+            android:id="@+id/amount_cap_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/amount_cap"
+            android:textColor="@color/process_black"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/amount_total_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/amount_total"
+            android:textColor="@color/process_black"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/black_dataset_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:drawableStart="@drawable/ic_dot_black"
+            android:drawablePadding="8dp"
+            android:includeFontPadding="false"
+            android:textColor="@color/process_black"
+            android:textStyle="bold"
+            tools:text="1.23"/>
+
+        <TextView
+            android:id="@+id/green_dataset_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:drawableStart="@drawable/ic_dot_green"
+            android:drawablePadding="8dp"
+            android:includeFontPadding="false"
+            android:textColor="@color/process_black"
+            android:textStyle="bold"
+            tools:text="1.23"/>
+
+        <TextView
+            android:id="@+id/orange_dataset_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:drawableStart="@drawable/ic_dot_orange"
+            android:drawablePadding="8dp"
+            android:includeFontPadding="false"
+            android:textColor="@color/process_black"
+            android:textStyle="bold"
+            tools:text="1.23"/>
+
+    </LinearLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"

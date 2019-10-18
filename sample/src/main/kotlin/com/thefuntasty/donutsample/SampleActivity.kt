@@ -3,6 +3,7 @@ package com.thefuntasty.donutsample
 import android.os.Bundle
 import android.os.Handler
 import android.widget.SeekBar
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.thefuntasty.donut.DonutProgressEntry
@@ -26,6 +27,7 @@ class SampleActivity : AppCompatActivity() {
         setContentView(R.layout.activity_sample)
 
         setupDonut()
+        updateIndicators()
         initControls()
         runDelayed(500) { fillInitialData() }
     }
@@ -34,7 +36,7 @@ class SampleActivity : AppCompatActivity() {
         donut_view.cap = 5f
 
         ALL_CATEGORIES.forEach {
-            donut_view.setColor(it.name, ContextCompat.getColor(this, it.colorRes))
+            donut_view.setColor(it.name, getColorCompat(it.colorRes))
         }
     }
 
@@ -44,6 +46,30 @@ class SampleActivity : AppCompatActivity() {
         dataItems += DataItem(OrangeCategory, 1.4f)
 
         donut_view.submitData(dataItems.toDonutEntries())
+        updateIndicators()
+    }
+
+    private fun updateIndicators() {
+        amount_cap_text.text = getString(R.string.amount_cap, donut_view.cap)
+        amount_total_text.text = getString(R.string.amount_total, dataItems.sumByDouble { it.amount.toDouble() }.toFloat())
+
+        updateIndicatorAmount(BlackCategory, black_dataset_text)
+        updateIndicatorAmount(GreenCategory, green_dataset_text)
+        updateIndicatorAmount(OrangeCategory, orange_dataset_text)
+    }
+
+    private fun updateIndicatorAmount(category: DataCategory, textView: TextView) {
+        dataItems
+            .filter { it.category == category }
+            .sumByFloat { it.amount }
+            .also {
+                if (it > 0f) {
+                    textView.visible()
+                    textView.text = getString(R.string.float_2f, it)
+                } else {
+                    textView.gone()
+                }
+            }
     }
 
     private fun initControls() {
@@ -96,6 +122,7 @@ class SampleActivity : AppCompatActivity() {
             )
 
             donut_view.submitData(dataItems.toDonutEntries())
+            updateIndicators()
         }
 
         // Remove random amount from random category
@@ -104,6 +131,7 @@ class SampleActivity : AppCompatActivity() {
                 val randomIndex = dataItems.indexOf(dataItems.random())
                 dataItems.removeAt(randomIndex)
                 donut_view.submitData(dataItems.toDonutEntries())
+                updateIndicators()
             }
         }
 
@@ -117,6 +145,7 @@ class SampleActivity : AppCompatActivity() {
         button_clear.setOnClickListener {
             dataItems.clear()
             donut_view.clear()
+            updateIndicators()
         }
 
         cap_text.text = getString(R.string.amount_cap, donut_view.cap)
@@ -125,6 +154,7 @@ class SampleActivity : AppCompatActivity() {
             doOnProgressChange {
                 donut_view.cap = it.toFloat()
                 cap_text.text = getString(R.string.amount_cap, it.toFloat())
+                updateIndicators()
             }
         }
     }

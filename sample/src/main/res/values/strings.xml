@@ -7,6 +7,8 @@
     <string name="master_progress">Master progress: %d%%</string>
     <string name="graph_data">Graph data</string>
     <string name="amount_cap">Amount cap: %.2f</string>
+    <string name="amount_total">Total amount: %.2f</string>
+    <string name="float_2f">%.2f</string>
 
     <string name="button_add">+ random</string>
     <string name="button_remove">- random</string>
