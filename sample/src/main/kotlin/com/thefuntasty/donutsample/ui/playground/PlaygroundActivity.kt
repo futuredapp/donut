@@ -7,8 +7,17 @@ import android.widget.SeekBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.thefuntasty.donutsample.R
-import com.thefuntasty.donutsample.data.model.*
-import com.thefuntasty.donutsample.tools.extensions.*
+import com.thefuntasty.donutsample.data.model.BlackCategory
+import com.thefuntasty.donutsample.data.model.DataCategory
+import com.thefuntasty.donutsample.data.model.DataItem
+import com.thefuntasty.donutsample.data.model.GreenCategory
+import com.thefuntasty.donutsample.data.model.OrangeCategory
+import com.thefuntasty.donutsample.tools.extensions.doOnProgressChange
+import com.thefuntasty.donutsample.tools.extensions.getColorCompat
+import com.thefuntasty.donutsample.tools.extensions.gone
+import com.thefuntasty.donutsample.tools.extensions.sumByFloat
+import com.thefuntasty.donutsample.tools.extensions.toDonutEntries
+import com.thefuntasty.donutsample.tools.extensions.visible
 import kotlinx.android.synthetic.main.activity_playground.*
 import kotlin.random.Random
 
