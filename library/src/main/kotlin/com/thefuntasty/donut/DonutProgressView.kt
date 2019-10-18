@@ -4,6 +4,7 @@ import android.animation.AnimatorSet
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.Canvas
 import android.util.AttributeSet
 import android.util.TypedValue
@@ -118,8 +119,15 @@ class DonutProgressView @JvmOverloads constructor(
             invalidate()
         }
 
-    // TODO get accent color from app theme
-    private val defaultColor: Int = ContextCompat.getColor(context, R.color.data_color_default)
+    private val defaultColor: Int
+        get() {
+            return try {
+                ContextCompat.getColor(context, R.color.colorPrimary)
+            } catch (e: Resources.NotFoundException) {
+                0
+            }
+        }
+
     private val colorMap = mutableMapOf<String, Int>()
 
     private val data = mutableListOf<DonutProgressEntry>()
