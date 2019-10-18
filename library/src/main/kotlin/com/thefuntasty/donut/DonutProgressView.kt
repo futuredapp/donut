@@ -136,12 +136,12 @@ class DonutProgressView @JvmOverloads constructor(
     var animationEnabled: Boolean = DEFAULT_ANIM_ENABLED
 
     /**
-     * Interpolator used for state change animations
+     * Interpolator used for state change animations.
      */
     var animationInterpolator: Interpolator = DEFAULT_INTERPOLATOR
 
     /**
-     * Duration of state change animations
+     * Duration of state change animations.
      */
     var animationDurationMs: Long = DEFAULT_ANIM_DURATION_MS.toLong()
 
