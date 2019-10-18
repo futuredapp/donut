@@ -31,7 +31,13 @@ class DonutProgressView @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttr, defStyleRes) {
 
     companion object {
-        // TODO move defaults here
+        const val DEFAULT_MASTER_PROGRESS = 1f
+        const val DEFAULT_STROKE_WIDTH = 40f
+        const val DEFAULT_GAP_WIDTH = 45f
+        const val DEFAULT_GAP_ANGLE = 90f
+        const val DEFAULT_CAP = 10f
+        val DEFAULT_BG_COLOR_RES = R.color.grey
+
         const val DEFAULT_ANIM_ENABLED = true
         val DEFAULT_INTERPOLATOR = DecelerateInterpolator(1.5f)
         const val DEFAULT_ANIM_DURATION_MS = 1000
@@ -52,7 +58,7 @@ class DonutProgressView @JvmOverloads constructor(
      * Eg. when one line has 50% of total graph length,
      * setting this to 0.5f will result in that line being animated to 25% of total graph length.
      */
-    var masterProgress: Float = 1f
+    var masterProgress: Float = DEFAULT_MASTER_PROGRESS
         set(value) {
             if (value !in (0f..1f)) {
                 return
@@ -68,7 +74,7 @@ class DonutProgressView @JvmOverloads constructor(
     /**
      * Stroke width of all lines in pixels.
      */
-    var strokeWidth = 10f
+    var strokeWidth = DEFAULT_STROKE_WIDTH
         set(value) {
             field = value
 
@@ -82,7 +88,7 @@ class DonutProgressView @JvmOverloads constructor(
      * Maximum value of sum of all entries in view, after which
      * all lines start to resize proportionally to amounts in their entry categories.
      */
-    var cap: Float = 10f
+    var cap: Float = DEFAULT_CAP
         set(value) {
             field = value
             resolveState()
@@ -92,7 +98,7 @@ class DonutProgressView @JvmOverloads constructor(
      * Color of background line.
      */
     @ColorInt
-    var bgLineColor: Int = 0
+    var bgLineColor: Int = ContextCompat.getColor(context, DEFAULT_BG_COLOR_RES)
         set(value) {
             field = value
             bgLine.lineColor = value
@@ -102,7 +108,7 @@ class DonutProgressView @JvmOverloads constructor(
     /**
      * Size of gap opening in degrees.
      */
-    var gapWidthDegrees: Float = 45f
+    var gapWidthDegrees: Float = DEFAULT_GAP_WIDTH
         set(value) {
             field = value
 
@@ -114,7 +120,7 @@ class DonutProgressView @JvmOverloads constructor(
     /**
      * Angle in degrees, at which the gap will be displayed.
      */
-    var gapAngleDegrees: Float = 270f
+    var gapAngleDegrees: Float = DEFAULT_GAP_ANGLE
         set(value) {
             field = value
 
@@ -179,24 +185,28 @@ class DonutProgressView @JvmOverloads constructor(
         ).use {
             strokeWidth = it.getDimensionPixelSize(
                 R.styleable.DonutProgressView_donut_strokeWidth,
-                dpToPx(10)
+                DEFAULT_STROKE_WIDTH.toInt()
             ).toFloat()
+
             bgLineColor =
                 it.getColor(
                     R.styleable.DonutProgressView_donut_bgLineColor,
                     ContextCompat.getColor(
                         context,
-                        R.color.grey
+                        DEFAULT_BG_COLOR_RES
                     )
                 )
 
-            gapWidthDegrees = it.getFloat(R.styleable.DonutProgressView_donut_gapWidth, 45f)
-            gapAngleDegrees = it.getFloat(R.styleable.DonutProgressView_donut_gapAngle, 270f)
+            gapWidthDegrees =
+                it.getFloat(R.styleable.DonutProgressView_donut_gapWidth, DEFAULT_GAP_WIDTH)
+            gapAngleDegrees =
+                it.getFloat(R.styleable.DonutProgressView_donut_gapAngle, DEFAULT_GAP_ANGLE)
 
             animationEnabled = it.getBoolean(
                 R.styleable.DonutProgressView_donut_animationEnabled,
                 DEFAULT_ANIM_ENABLED
             )
+
             animationDurationMs = it.getInt(
                 R.styleable.DonutProgressView_donut_animationDuration,
                 DEFAULT_ANIM_DURATION_MS
