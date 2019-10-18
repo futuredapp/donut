@@ -120,6 +120,7 @@ class DonutProgressView @JvmOverloads constructor(
 
     private val data = mutableListOf<DonutProgressEntry>()
     private val lines = mutableListOf<DonutProgressLine>()
+    private val colorMap = mutableMapOf<String, Int>()
     private var animatorSet: AnimatorSet? = null
 
     private val bgLine = DonutProgressLine(
@@ -169,10 +170,10 @@ class DonutProgressView @JvmOverloads constructor(
     fun getData() = data.toList()
 
     /**
-     * TODO
+     * Sets [color] of lines belonging to specified [category]
      */
     fun setColor(category: String, @ColorInt color: Int) {
-
+        colorMap[category] = color
     }
 
     /**
@@ -186,14 +187,21 @@ class DonutProgressView @JvmOverloads constructor(
         val groupedEntries = validEntries.groupBy { it.category }
 
         groupedEntries
-            .forEach { kvp ->
-                if (hasEntriesForCategory(kvp.key).not()) {
+            .forEach { mapEntry ->
+                val entryCategory = mapEntry.value[0].category
+
+                // TODO app context colorAccent
+                val lineColor = colorMap.getOrPut(entryCategory) {
+                    ContextCompat.getColor(context, R.color.data_color_default)
+                }
+
+                if (hasEntriesForCategory(mapEntry.key).not()) {
                     lines.add(
                         index = 0,
                         element = DonutProgressLine(
-                            category = kvp.value[0].category,
+                            category = entryCategory,
                             _radius = radius,
-                            _lineColor = kvp.value[0].color,
+                            _lineColor = lineColor,
                             _lineStrokeWidth = strokeWidth,
                             _masterProgress = masterProgress,
                             _length = 0f,
