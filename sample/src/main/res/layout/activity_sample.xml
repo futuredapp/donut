@@ -136,11 +136,11 @@
                         android:text="@string/button_remove" />
 
                     <Button
-                        android:id="@+id/button_set"
+                        android:id="@+id/button_random_colors"
                         style="?attr/buttonBarButtonStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/button_set" />
+                        android:text="@string/button_random_colors" />
 
                     <Button
                         android:id="@+id/button_clear"

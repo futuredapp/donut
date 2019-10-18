@@ -12,12 +12,14 @@ import kotlin.random.Random
 class SampleActivity : AppCompatActivity() {
 
     companion object {
-        val DATA_CATEGORIES = listOf(
+        private val ALL_CATEGORIES = listOf(
             RedCategory,
             GreenCategory,
             LavenderCategory
         )
     }
+
+    private val dataItems = mutableListOf<DataItem>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,31 +27,6 @@ class SampleActivity : AppCompatActivity() {
 
         donut_view.cap = 5f
         initControls()
-        runDelayed(500) { fillData() }
-    }
-
-    private fun fillData() {
-        donut_view.apply {
-            submitData(
-                listOf(
-                    DonutProgressEntry(
-                        RedCategory.name,
-                        1.9f,
-                        getColorCompat(RedCategory.colorRes)
-                    ),
-                    DonutProgressEntry(
-                        LavenderCategory.name,
-                        1.7f,
-                        getColorCompat(LavenderCategory.colorRes)
-                    ),
-                    DonutProgressEntry(
-                        GreenCategory.name,
-                        0.5f,
-                        getColorCompat(GreenCategory.colorRes)
-                    )
-                )
-            )
-        }
     }
 
     private fun initControls() {
@@ -94,38 +71,34 @@ class SampleActivity : AppCompatActivity() {
 
         // Add random amount to random category
         button_add.setOnClickListener {
-            val category = DATA_CATEGORIES.random()
-            donut_view.addAmount(
-                category = category.name,
-                amount = Random.nextFloat() * 1.5f,
-                color = ContextCompat.getColor(this, category.colorRes)
+            dataItems.add(
+                DataItem(
+                    ALL_CATEGORIES.random(),
+                    Random.nextFloat()
+                )
             )
+
+            donut_view.submitData(dataItems.toDonutEntries())
         }
 
         // Remove random amount from random category
         button_remove.setOnClickListener {
-            val viewData = donut_view.getData()
-            if (viewData.isEmpty().not()) {
-                donut_view.removeAmount(
-                    category = viewData.random().category,
-                    amount = Random.nextFloat() * 1.5f
-                )
+            if (dataItems.isNotEmpty()) {
+                val randomIndex = dataItems.indexOf(dataItems.random())
+                dataItems.removeAt(randomIndex)
+                donut_view.submitData(dataItems.toDonutEntries())
             }
         }
 
-        // Set random amount for random category
-        button_set.setOnClickListener {
-            val viewData = donut_view.getData()
-            if (viewData.isEmpty().not()) {
-                donut_view.setAmount(
-                    category = viewData.random().category,
-                    amount = (Random.nextFloat() - 0.5f) * donut_view.cap
-                )
-            }
+        button_random_colors.setOnClickListener {
+            // TODO
         }
 
         // Clear graph
-        button_clear.setOnClickListener { donut_view.clear() }
+        button_clear.setOnClickListener {
+            dataItems.clear()
+            donut_view.clear()
+        }
     }
 
     private fun AppCompatActivity.getColorCompat(id: Int) = ContextCompat.getColor(this, id)
@@ -146,4 +119,12 @@ class SampleActivity : AppCompatActivity() {
             override fun onStopTrackingTouch(seekBar: SeekBar?) = Unit
         })
     }
+
+    private fun List<DataItem>.toDonutEntries() = map { it.toDonutEntry() }
+
+    private fun DataItem.toDonutEntry() = DonutProgressEntry(
+        category = category.name,
+        amount = amount,
+        color = ContextCompat.getColor(this@SampleActivity, category.colorRes)
+    )
 }

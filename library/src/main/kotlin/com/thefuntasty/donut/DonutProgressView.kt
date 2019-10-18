@@ -176,98 +176,16 @@ class DonutProgressView @JvmOverloads constructor(
     }
 
     /**
-     * Increases amount in [category] by specified [amount].
-     *
-     * If [category] does not yet exist in the view, new progress line with specified [color] will be created. If there is no
-     * color defined, progress line will have default color. (TODO app's accent color).
-     *
-     * If [category] already exists and [color] is specified, it's progress line will be updated with that color.
-     */
-    fun addAmount(category: String, amount: Float, @ColorInt color: Int? = null) {
-        require(amount >= 0f) { "Provided amount is less than zero" }
-
-        if (hasEntriesForCategory(category)) {
-            val entryIndex = data.indexOfFirst { it.category == category }
-            val newColor = color ?: data[entryIndex].color
-
-            data[entryIndex] = data[entryIndex].copy(
-                amount = data[entryIndex].amount + amount,
-                color = newColor
-            )
-
-            lines.first { it.category == category }.lineColor = newColor
-            submitData(data)
-        } else {
-            val newEntry = DonutProgressEntry(
-                category = category,
-                amount = amount,
-                color = color ?: ContextCompat.getColor(context, R.color.data_color_default)
-            )
-
-            submitData(data + newEntry)
-        }
-    }
-
-    /**
-     * Decreases amount in [category] by specified [amount].
-     * If resulting amount is equal to, or less than zero, it's corresponding progress line will be removed from view.
-     */
-    fun removeAmount(category: String, amount: Float) {
-        require(amount >= 0f) { "Provided amount is less than zero" }
-
-        if (hasEntriesForCategory(category)) {
-            val entryIndex = data.indexOfFirst { it.category == category }
-            val resultAmount = data[entryIndex].amount - amount
-            if (resultAmount <= 0f) {
-                data.removeAt(entryIndex)
-            } else {
-                data[entryIndex] = data[entryIndex].copy(amount = data[entryIndex].amount - amount)
-            }
-
-            submitData(data)
-        }
-    }
-
-    /**
-     * Sets [amount] for specified [category].
-     * If amount is equal, or less than zero, it's corresponding progress line will be removed from view.
-     */
-    fun setAmount(category: String, amount: Float) {
-        if (hasEntriesForCategory(category)) {
-            val entryIndex = data.indexOfFirst { it.category == category }
-            if (amount <= 0f) {
-                data.removeAt(entryIndex)
-            } else {
-                data[entryIndex] = data[entryIndex].copy(amount = amount)
-            }
-
-            submitData(data)
-        }
-    }
-
-    /**
      * Submits new [entries] to the view.
      *
      * New progress line will be created for each non-existent entry category and view will be animated to new state.
-     * Entries with the same category will be internally merged into single entry.
      * Additionally, existing lines with no entry category in new data set will be removed when animation completes.
      */
     fun submitData(entries: List<DonutProgressEntry>) {
-        val mergedEntries = entries
-            .filter { it.amount >= 0f }
-            .groupBy { it.category }
-            .flatMap {
-                listOf(
-                    DonutProgressEntry(
-                        category = it.value.first().category,
-                        amount = it.value.sumByFloat { it.amount },
-                        color = it.value.first().color
-                    )
-                )
-            }
+        val validEntries = entries.filter { it.amount > 0f }
+        val groupedEntries = validEntries.groupBy { it.category }
 
-        mergedEntries
-            .groupBy { it.category }
+        groupedEntries
             .forEach { kvp ->
                 if (hasEntriesForCategory(kvp.key).not()) {
                     lines.add(
@@ -288,7 +206,7 @@ class DonutProgressView @JvmOverloads constructor(
 
         this.data.apply {
             clear()
-            addAll(mergedEntries)
+            addAll(validEntries)
         }
 
         resolveState()
