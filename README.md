@@ -1,3 +1,5 @@
+[![Build Status](https://app.bitrise.io/app/e9f4fbbcc143c212/status.svg?token=LK6EaX0H10eB3wjz5k-HlQ&branch=master)](https://app.bitrise.io/app/e9f4fbbcc143c212)
+
 # Donut 🍩
 `DonutView` is doughnut-like graph view capable of showing multiple datasets with assignable colors. It has (configurable TBD) gap at the top, which makes it look like a gauge.
 
