@@ -17,7 +17,7 @@ import com.thefuntasty.donutsample.tools.extensions.gone
 import com.thefuntasty.donutsample.tools.extensions.sumByFloat
 import com.thefuntasty.donutsample.tools.extensions.toDonutEntries
 import com.thefuntasty.donutsample.tools.extensions.visible
-import kotlinx.android.synthetic.main.activity_sample.*
+import kotlinx.android.synthetic.main.activity_playground.*
 import kotlin.random.Random
 
 class PlaygroundActivity : AppCompatActivity() {
@@ -34,7 +34,7 @@ class PlaygroundActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sample)
+        setContentView(R.layout.activity_playground)
 
         setupDonut()
         updateIndicators()
