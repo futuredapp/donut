@@ -107,7 +107,9 @@ class SampleActivity : AppCompatActivity() {
         }
 
         button_random_colors.setOnClickListener {
-            // TODO
+            ALL_CATEGORIES.forEach {
+                donut_view.setColor(it.name, Random.nextInt())
+            }
         }
 
         // Clear graph
