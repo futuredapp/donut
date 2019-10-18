@@ -126,14 +126,14 @@ class PlaygroundActivity : AppCompatActivity() {
             }
         )
 
-        // Add random amount to random category
+        // Add entry with random category and random amount
         button_add.setOnClickListener {
             dataItems.add(DataItem(ALL_CATEGORIES.random(), Random.nextFloat()))
             donut_view.submitEntries(dataItems.toDonutEntries())
             updateIndicators()
         }
 
-        // Remove random amount from random category
+        // Remove random entry
         button_remove.setOnClickListener {
             if (dataItems.isNotEmpty()) {
                 val randomIndex = dataItems.indexOf(dataItems.random())
