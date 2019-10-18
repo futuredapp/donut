@@ -118,6 +118,15 @@ class SampleActivity : AppCompatActivity() {
             dataItems.clear()
             donut_view.clear()
         }
+
+        cap_text.text = getString(R.string.amount_cap, donut_view.cap)
+        cap_seekbar.apply {
+            progress = donut_view.cap.toInt()
+            doOnProgressChange {
+                donut_view.cap = it.toFloat()
+                cap_text.text = getString(R.string.amount_cap, it.toFloat())
+            }
+        }
     }
 
     private fun AppCompatActivity.getColorCompat(id: Int) = ContextCompat.getColor(this, id)

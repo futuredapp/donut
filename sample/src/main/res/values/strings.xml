@@ -6,6 +6,7 @@
     <string name="stroke_width">Stroke width: %d px</string>
     <string name="master_progress">Master progress: %d%%</string>
     <string name="graph_data">Graph data</string>
+    <string name="amount_cap">Amount cap: %.2f</string>
 
     <string name="button_add">+ random</string>
     <string name="button_remove">- random</string>
