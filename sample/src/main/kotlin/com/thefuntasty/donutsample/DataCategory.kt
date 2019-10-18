@@ -4,6 +4,6 @@ import androidx.annotation.ColorRes
 
 sealed class DataCategory(val name: String, @ColorRes val colorRes: Int)
 
-object RedCategory : DataCategory("red", R.color.furious_red)
+object BlackCategory : DataCategory("black", R.color.process_black)
 object GreenCategory : DataCategory("green", R.color.process_green)
-object LavenderCategory : DataCategory("lavender", R.color.lavender)
+object OrangeCategory : DataCategory("orange", R.color.strive_orange)

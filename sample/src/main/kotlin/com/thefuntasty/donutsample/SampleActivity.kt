@@ -13,9 +13,9 @@ class SampleActivity : AppCompatActivity() {
 
     companion object {
         private val ALL_CATEGORIES = listOf(
-            RedCategory,
+            BlackCategory,
             GreenCategory,
-            LavenderCategory
+            OrangeCategory
         )
     }
 
@@ -39,8 +39,9 @@ class SampleActivity : AppCompatActivity() {
     }
 
     private fun fillInitialData() {
-        dataItems += DataItem(RedCategory, 0.5f)
-        dataItems += DataItem(GreenCategory, 1f)
+        dataItems += DataItem(BlackCategory, 1f)
+        dataItems += DataItem(GreenCategory, 1.2f)
+        dataItems += DataItem(OrangeCategory, 1.4f)
 
         donut_view.submitData(dataItems.toDonutEntries())
     }
