@@ -1,3 +1,4 @@
+import com.thefuntasty.donut.LintCheck
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 buildscript {
@@ -16,6 +17,10 @@ plugins {
     idea
     id(Deps.Plugins.detekt) version Versions.detekt
     id(Deps.Plugins.ktlint) version Versions.ktlint
+}
+
+tasks {
+    register<LintCheck>("lintCheck")
 }
 
 allprojects {
