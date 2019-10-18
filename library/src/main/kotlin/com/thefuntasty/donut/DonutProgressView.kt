@@ -118,9 +118,12 @@ class DonutProgressView @JvmOverloads constructor(
             invalidate()
         }
 
+    // TODO get accent color from app theme
+    private val defaultColor: Int = ContextCompat.getColor(context, R.color.data_color_default)
+    private val colorMap = mutableMapOf<String, Int>()
+
     private val data = mutableListOf<DonutProgressEntry>()
     private val lines = mutableListOf<DonutProgressLine>()
-    private val colorMap = mutableMapOf<String, Int>()
     private var animatorSet: AnimatorSet? = null
 
     private val bgLine = DonutProgressLine(
@@ -174,6 +177,16 @@ class DonutProgressView @JvmOverloads constructor(
      */
     fun setColor(category: String, @ColorInt color: Int) {
         colorMap[category] = color
+
+        lines
+            .groupBy { it.category }
+            .forEach { mapEntry ->
+                val category = mapEntry.key
+                val lines = mapEntry.value
+                lines.forEach { it.lineColor = colorMap[category] ?: defaultColor }
+            }
+
+        invalidate()
     }
 
     /**
@@ -190,10 +203,7 @@ class DonutProgressView @JvmOverloads constructor(
             .forEach { mapEntry ->
                 val entryCategory = mapEntry.value[0].category
 
-                // TODO app context colorAccent
-                val lineColor = colorMap.getOrPut(entryCategory) {
-                    ContextCompat.getColor(context, R.color.data_color_default)
-                }
+                val lineColor = colorMap.getOrPut(entryCategory) { defaultColor }
 
                 if (hasEntriesForCategory(mapEntry.key).not()) {
                     lines.add(
