@@ -173,7 +173,7 @@ class DonutProgressView @JvmOverloads constructor(
     fun getData() = data.toList()
 
     /**
-     * Sets [color] of lines belonging to specified [category]
+     * Sets color of lines belonging to specified [category] to provided [color].
      */
     fun setColor(category: String, @ColorInt color: Int) {
         colorMap[category] = color
