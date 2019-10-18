@@ -2,21 +2,13 @@ package com.thefuntasty.donutsample.ui.playground
 
 import android.os.Bundle
 import android.os.Handler
+import android.view.animation.AnimationUtils
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.thefuntasty.donutsample.R
-import com.thefuntasty.donutsample.data.model.BlackCategory
-import com.thefuntasty.donutsample.data.model.DataCategory
-import com.thefuntasty.donutsample.data.model.DataItem
-import com.thefuntasty.donutsample.data.model.GreenCategory
-import com.thefuntasty.donutsample.data.model.OrangeCategory
-import com.thefuntasty.donutsample.tools.extensions.doOnProgressChange
-import com.thefuntasty.donutsample.tools.extensions.getColorCompat
-import com.thefuntasty.donutsample.tools.extensions.gone
-import com.thefuntasty.donutsample.tools.extensions.sumByFloat
-import com.thefuntasty.donutsample.tools.extensions.toDonutEntries
-import com.thefuntasty.donutsample.tools.extensions.visible
+import com.thefuntasty.donutsample.data.model.*
+import com.thefuntasty.donutsample.tools.extensions.*
 import kotlinx.android.synthetic.main.activity_playground.*
 import kotlin.random.Random
 
@@ -61,7 +53,10 @@ class PlaygroundActivity : AppCompatActivity() {
 
     private fun updateIndicators() {
         amount_cap_text.text = getString(R.string.amount_cap, donut_view.cap)
-        amount_total_text.text = getString(R.string.amount_total, dataItems.sumByDouble { it.amount.toDouble() }.toFloat())
+        amount_total_text.text = getString(
+            R.string.amount_total,
+            dataItems.sumByDouble { it.amount.toDouble() }.toFloat()
+        )
 
         updateIndicatorAmount(BlackCategory, black_dataset_text)
         updateIndicatorAmount(GreenCategory, green_dataset_text)
@@ -83,6 +78,9 @@ class PlaygroundActivity : AppCompatActivity() {
     }
 
     private fun initControls() {
+
+        // region Styles
+
         setupSeekbar(
             seekBar = master_progress_seekbar,
             titleTextView = master_progress_text,
@@ -114,6 +112,10 @@ class PlaygroundActivity : AppCompatActivity() {
             getTitleText = { getString(R.string.stroke_width, it) },
             onProgressChanged = { donut_view.strokeWidth = it.toFloat() }
         )
+
+        // endregion
+
+        // region Data
 
         setupSeekbar(
             seekBar = cap_seekbar,
@@ -156,6 +158,37 @@ class PlaygroundActivity : AppCompatActivity() {
             donut_view.clear()
             updateIndicators()
         }
+
+        // endregion
+
+        // region Animations
+
+        anim_enabled_switch.isChecked = donut_view.animationEnabled
+        anim_enabled_switch.setOnCheckedChangeListener { _, isChecked ->
+            donut_view.animationEnabled = isChecked
+        }
+
+        setupSeekbar(
+            seekBar = anim_duration_seekbar,
+            titleTextView = anim_duration_text,
+            initProgress = donut_view.animationDurationMs.toInt(),
+            getTitleText = { getString(R.string.animation_duration, it) },
+            onProgressChanged = { donut_view.animationDurationMs = it.toLong() }
+        )
+
+        val interpolators = listOf(
+            AnimationUtils.loadInterpolator(this, android.R.interpolator.decelerate_quint),
+            AnimationUtils.loadInterpolator(this, android.R.interpolator.accelerate_quint),
+            AnimationUtils.loadInterpolator(this, android.R.interpolator.accelerate_decelerate),
+            AnimationUtils.loadInterpolator(this, android.R.interpolator.linear),
+            AnimationUtils.loadInterpolator(this, android.R.interpolator.bounce)
+        )
+
+        interpolator_radio_group.setOnCheckedChangeListener { _, checkedId ->
+            donut_view.animationInterpolator = interpolators[checkedId - 1]
+        }
+
+        // endregion
     }
 
     private fun setupSeekbar(

@@ -9,6 +9,16 @@
     <string name="amount_cap">Amount cap: %.2f</string>
     <string name="amount_total">Total amount: %.2f</string>
     <string name="float_2f">%.2f</string>
+    <string name="animations">Animations</string>
+    <string name="animation_enabled">Animations enabled</string>
+    <string name="animation_duration">Animation duration: %d ms</string>
+    <string name="animation_interpolators">Interpolators</string>
+
+    <string name="interpolator_decel">Decelerate</string>
+    <string name="interpolator_accel">Accelerate</string>
+    <string name="interpolator_accel_decel">AccelerateDecelerate</string>
+    <string name="interpolator_linear">Linear</string>
+    <string name="interpolator_bounce">Bounce</string>
 
     <string name="button_add">+ random</string>
     <string name="button_remove">- random</string>
