@@ -5,15 +5,8 @@
     <color name="colorAccent">@color/strive_orange</color>
 
     <color name="process_black">#222222</color>
-    <color name="futuristic_grey">#C1C5C8</color>
     <color name="cloud">#E7E8E9</color>
     <color name="strive_orange">#FF5F00</color>
-    <color name="citrus">#E0E622</color>
-
-    <color name="furious_red">#FB1D32</color>
     <color name="process_green">#19D3C5</color>
-    <color name="lavender">#8A84D6</color>
-    <color name="miami_peach">#FFB98E</color>
-    <color name="roboblue">#000F9F</color>
 
 </resources>

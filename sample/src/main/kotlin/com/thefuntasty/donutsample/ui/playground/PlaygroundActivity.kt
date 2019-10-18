@@ -156,7 +156,6 @@ class PlaygroundActivity : AppCompatActivity() {
             donut_view.clear()
             updateIndicators()
         }
-
     }
 
     private fun setupSeekbar(
