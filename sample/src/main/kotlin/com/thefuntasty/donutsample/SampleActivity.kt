@@ -25,8 +25,24 @@ class SampleActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sample)
 
-        donut_view.cap = 5f
+        setupDonut()
         initControls()
+        runDelayed(500) { fillInitialData() }
+    }
+
+    private fun setupDonut() {
+        donut_view.cap = 5f
+
+        ALL_CATEGORIES.forEach {
+            donut_view.setColor(it.name, ContextCompat.getColor(this, it.colorRes))
+        }
+    }
+
+    private fun fillInitialData() {
+        dataItems += DataItem(RedCategory, 0.5f)
+        dataItems += DataItem(GreenCategory, 1f)
+
+        donut_view.submitData(dataItems.toDonutEntries())
     }
 
     private fun initControls() {
@@ -124,7 +140,6 @@ class SampleActivity : AppCompatActivity() {
 
     private fun DataItem.toDonutEntry() = DonutProgressEntry(
         category = category.name,
-        amount = amount,
-        color = ContextCompat.getColor(this@SampleActivity, category.colorRes)
+        amount = amount
     )
 }
