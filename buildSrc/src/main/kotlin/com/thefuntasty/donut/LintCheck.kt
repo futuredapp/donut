@@ -4,7 +4,7 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.plugins.ExtraPropertiesExtension
 import org.gradle.kotlin.dsl.configure
 
-open class BitriseLint : DefaultTask() {
+open class LintCheck : DefaultTask() {
 
     init {
         group = "thefuntasty"

@@ -1,4 +1,4 @@
-import com.thefuntasty.donut.BitriseLint
+import com.thefuntasty.donut.LintCheck
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 buildscript {
@@ -20,7 +20,7 @@ plugins {
 }
 
 tasks {
-    register<BitriseLint>("bitriseLint")
+    register<LintCheck>("lintCheck")
 }
 
 allprojects {
