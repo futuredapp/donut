@@ -230,6 +230,9 @@ class DonutProgressView @JvmOverloads constructor(
         resolveState()
     }
 
+    /**
+     * Clear data, removing all lines.
+     */
     fun clear() = submitData(listOf())
 
     private fun resolveState() {
