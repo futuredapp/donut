@@ -6,6 +6,7 @@ plugins {
 }
 
 group = ProjectSettings.group
+version = ProjectSettings.version
 
 android {
     compileSdkVersion(ProjectSettings.targetSdk)
@@ -24,3 +25,11 @@ dependencies {
     implementation(kotlin(Deps.Kotlin.stdlib, KotlinCompilerVersion.VERSION))
     implementation(Deps.AndroidX.ktx)
 }
+
+project.apply {
+    extensions.add("artifact", ProjectSettings.Donut.artifact)
+    extensions.add("libraryName", ProjectSettings.Donut.artifact)
+    extensions.add("libraryDescription", ProjectSettings.Donut.libraryDescription)
+}
+
+apply("../publish.script.gradle")
