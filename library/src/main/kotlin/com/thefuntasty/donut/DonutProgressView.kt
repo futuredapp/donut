@@ -4,7 +4,6 @@ import android.animation.AnimatorSet
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.res.Resources
 import android.graphics.Canvas
 import android.util.AttributeSet
 import android.util.TypedValue
@@ -56,8 +55,8 @@ class DonutProgressView @JvmOverloads constructor(
 
             field = value
 
-            bgLine.masterProgress = value
-            lines.forEach { it.masterProgress = value }
+            bgLine.mMasterProgress = value
+            lines.forEach { it.mMasterProgress = value }
             invalidate()
         }
 
@@ -68,8 +67,8 @@ class DonutProgressView @JvmOverloads constructor(
         set(value) {
             field = value
 
-            bgLine.lineStrokeWidth = value
-            lines.forEach { it.lineStrokeWidth = value }
+            bgLine.mLineStrokeWidth = value
+            lines.forEach { it.mLineStrokeWidth = value }
             updateLinesRadius()
             invalidate()
         }
@@ -91,7 +90,7 @@ class DonutProgressView @JvmOverloads constructor(
     var bgLineColor: Int = 0
         set(value) {
             field = value
-            bgLine.lineColor = value
+            bgLine.mLineColor = value
             invalidate()
         }
 
@@ -102,8 +101,8 @@ class DonutProgressView @JvmOverloads constructor(
         set(value) {
             field = value
 
-            bgLine.gapWidthDegrees = value
-            lines.forEach { it.gapWidthDegrees = value }
+            bgLine.mGapWidthDegrees = value
+            lines.forEach { it.mGapWidthDegrees = value }
             invalidate()
         }
 
@@ -114,18 +113,9 @@ class DonutProgressView @JvmOverloads constructor(
         set(value) {
             field = value
 
-            bgLine.gapAngleDegrees = value
-            lines.forEach { it.gapAngleDegrees = value }
+            bgLine.mGapAngleDegrees = value
+            lines.forEach { it.mGapAngleDegrees = value }
             invalidate()
-        }
-
-    private val defaultColor: Int
-        get() {
-            return try {
-                ContextCompat.getColor(context, R.color.colorPrimary)
-            } catch (e: Resources.NotFoundException) {
-                0
-            }
         }
 
     private val data = mutableListOf<DonutDataset>()
@@ -134,13 +124,13 @@ class DonutProgressView @JvmOverloads constructor(
 
     private val bgLine = DonutProgressLine(
         name = "_bg",
-        _radius = radius,
-        _lineColor = bgLineColor,
-        _lineStrokeWidth = strokeWidth,
-        _masterProgress = masterProgress,
-        _length = 1f,
-        _gapWidthDegrees = gapWidthDegrees,
-        _gapAngleDegrees = gapAngleDegrees
+        radius = radius,
+        lineColor = bgLineColor,
+        lineStrokeWidth = strokeWidth,
+        masterProgress = masterProgress,
+        length = 1f,
+        gapWidthDegrees = gapWidthDegrees,
+        gapAngleDegrees = gapAngleDegrees
     )
 
     init {
@@ -194,19 +184,19 @@ class DonutProgressView @JvmOverloads constructor(
                         index = 0,
                         element = DonutProgressLine(
                             name = dataset.name,
-                            _radius = radius,
-                            _lineColor = newLineColor,
-                            _lineStrokeWidth = strokeWidth,
-                            _masterProgress = masterProgress,
-                            _length = 0f,
-                            _gapWidthDegrees = gapWidthDegrees,
-                            _gapAngleDegrees = gapAngleDegrees
+                            radius = radius,
+                            lineColor = newLineColor,
+                            lineStrokeWidth = strokeWidth,
+                            masterProgress = masterProgress,
+                            length = 0f,
+                            gapWidthDegrees = gapWidthDegrees,
+                            gapAngleDegrees = gapAngleDegrees
                         )
                     )
                 } else {
                     lines
                         .filter { it.name == dataset.name }
-                        .forEach { it.lineColor = newLineColor }
+                        .forEach { it.mLineColor = newLineColor }
                 }
             }
 
@@ -279,11 +269,11 @@ class DonutProgressView @JvmOverloads constructor(
         to: Float,
         animationEnded: (() -> Unit)? = null
     ): ValueAnimator {
-        return ValueAnimator.ofFloat(line.length, to).apply {
+        return ValueAnimator.ofFloat(line.mLength, to).apply {
             duration = ANIM_DURATION_MS
             interpolator = DecelerateInterpolator(INTERPOLATOR_FACTOR)
             addUpdateListener {
-                line.length = it.animatedValue as Float
+                line.mLength = it.animatedValue as Float
                 invalidate()
             }
 
@@ -325,8 +315,8 @@ class DonutProgressView @JvmOverloads constructor(
         val hh = h.toFloat() - yPadd
         this.radius = Math.min(ww, hh) / 2f - strokeWidth / 2f
 
-        bgLine.radius = radius
-        lines.forEach { it.radius = radius }
+        bgLine.mRadius = radius
+        lines.forEach { it.mRadius = radius }
     }
 
     override fun onDraw(canvas: Canvas) {
