@@ -5,17 +5,17 @@ import android.os.Handler
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.thefuntasty.donut.DonutDataset
+import com.thefuntasty.donut.DonutEntry
 import com.thefuntasty.donutsample.R
 import com.thefuntasty.donutsample.data.model.BlackCategory
 import com.thefuntasty.donutsample.data.model.DataCategory
-import com.thefuntasty.donutsample.data.model.DataItem
 import com.thefuntasty.donutsample.data.model.GreenCategory
 import com.thefuntasty.donutsample.data.model.OrangeCategory
 import com.thefuntasty.donutsample.tools.extensions.doOnProgressChange
 import com.thefuntasty.donutsample.tools.extensions.getColorCompat
 import com.thefuntasty.donutsample.tools.extensions.gone
 import com.thefuntasty.donutsample.tools.extensions.sumByFloat
-import com.thefuntasty.donutsample.tools.extensions.toDonutEntries
 import com.thefuntasty.donutsample.tools.extensions.visible
 import kotlinx.android.synthetic.main.activity_playground.*
 import kotlin.random.Random
@@ -30,7 +30,7 @@ class PlaygroundActivity : AppCompatActivity() {
         )
     }
 
-    private val dataItems = mutableListOf<DataItem>()
+    private val datasets = mutableListOf<DonutDataset>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,24 +44,38 @@ class PlaygroundActivity : AppCompatActivity() {
 
     private fun setupDonut() {
         donut_view.cap = 5f
-
-        ALL_CATEGORIES.forEach {
-            donut_view.setColor(it.name, getColorCompat(it.colorRes))
-        }
     }
 
     private fun fillInitialData() {
-        dataItems += DataItem(BlackCategory, 1f)
-        dataItems += DataItem(GreenCategory, 1.2f)
-        dataItems += DataItem(OrangeCategory, 1.4f)
+        datasets += DonutDataset(
+            BlackCategory.name,
+            getColorCompat(BlackCategory.colorRes),
+            listOf(DonutEntry(1f))
+        )
 
-        donut_view.submitEntries(dataItems.toDonutEntries())
+        datasets += DonutDataset(
+            GreenCategory.name,
+            getColorCompat(GreenCategory.colorRes),
+            listOf(DonutEntry(1.2f))
+        )
+
+        datasets += DonutDataset(
+            OrangeCategory.name,
+            getColorCompat(OrangeCategory.colorRes),
+            listOf(DonutEntry(1.4f))
+        )
+
+        donut_view.submitData(datasets)
+
         updateIndicators()
     }
 
     private fun updateIndicators() {
         amount_cap_text.text = getString(R.string.amount_cap, donut_view.cap)
-        amount_total_text.text = getString(R.string.amount_total, dataItems.sumByDouble { it.amount.toDouble() }.toFloat())
+        amount_total_text.text = getString(
+            R.string.amount_total,
+            datasets.sumByFloat { it.entries.sumByFloat { it.amount } }
+        )
 
         updateIndicatorAmount(BlackCategory, black_dataset_text)
         updateIndicatorAmount(GreenCategory, green_dataset_text)
@@ -69,9 +83,9 @@ class PlaygroundActivity : AppCompatActivity() {
     }
 
     private fun updateIndicatorAmount(category: DataCategory, textView: TextView) {
-        dataItems
-            .filter { it.category == category }
-            .sumByFloat { it.amount }
+        datasets
+            .filter { it.name == category.name }
+            .sumByFloat { it.entries.sumByFloat { it.amount } }
             .also {
                 if (it > 0f) {
                     textView.visible()
@@ -128,31 +142,57 @@ class PlaygroundActivity : AppCompatActivity() {
 
         // Add entry with random category and random amount
         button_add.setOnClickListener {
-            dataItems.add(DataItem(ALL_CATEGORIES.random(), Random.nextFloat()))
-            donut_view.submitEntries(dataItems.toDonutEntries())
+            val randomCategory = ALL_CATEGORIES.random()
+            if (datasets.firstOrNull { it.name == randomCategory.name } == null) {
+                datasets.add(
+                    DonutDataset(
+                        randomCategory.name,
+                        getColorCompat(randomCategory.colorRes),
+                        listOf()
+                    )
+                )
+            }
+
+            val datasetIndex = datasets.indexOfFirst { it.name == randomCategory.name }
+            val dataset = datasets[datasetIndex]
+            datasets[datasetIndex] =
+                dataset.copy(entries = dataset.entries + DonutEntry(Random.nextFloat()))
+
+            donut_view.submitData(datasets)
             updateIndicators()
         }
 
         // Remove random entry
         button_remove.setOnClickListener {
-            if (dataItems.isNotEmpty()) {
-                val randomIndex = dataItems.indexOf(dataItems.random())
-                dataItems.removeAt(randomIndex)
-                donut_view.submitEntries(dataItems.toDonutEntries())
+            if (datasets.isNotEmpty()) {
+                val randomIndex = datasets.indices.random()
+                val dataset = datasets[randomIndex]
+                if (dataset.entries.isNotEmpty()) {
+                    datasets[randomIndex] =
+                        dataset.copy(entries = dataset.entries - dataset.entries.random())
+                }
+
+                if (datasets[randomIndex].entries.isEmpty()) {
+                    datasets.removeAt(randomIndex)
+                }
+
+                donut_view.submitData(datasets)
                 updateIndicators()
             }
         }
 
         // Randomize data set colors
         button_random_colors.setOnClickListener {
-            ALL_CATEGORIES.forEach {
-                donut_view.setColor(it.name, Random.nextInt())
+            for (i in 0 until datasets.size) {
+                datasets[i] = datasets[i].copy(color = Random.nextInt())
             }
+
+            donut_view.submitData(datasets)
         }
 
         // Clear graph
         button_clear.setOnClickListener {
-            dataItems.clear()
+            datasets.clear()
             donut_view.clear()
             updateIndicators()
         }
