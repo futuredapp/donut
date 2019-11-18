@@ -133,7 +133,7 @@ class DonutProgressView @JvmOverloads constructor(
     private var animatorSet: AnimatorSet? = null
 
     private val bgLine = DonutProgressLine(
-        category = "_bg",
+        name = "_bg",
         _radius = radius,
         _lineColor = bgLineColor,
         _lineStrokeWidth = strokeWidth,
@@ -193,7 +193,7 @@ class DonutProgressView @JvmOverloads constructor(
                     lines.add(
                         index = 0,
                         element = DonutProgressLine(
-                            category = dataset.name,
+                            name = dataset.name,
                             _radius = radius,
                             _lineColor = newLineColor,
                             _lineStrokeWidth = strokeWidth,
@@ -205,7 +205,7 @@ class DonutProgressView @JvmOverloads constructor(
                     )
                 } else {
                     lines
-                        .filter { it.category == dataset.name }
+                        .filter { it.name == dataset.name }
                         .forEach { it.lineColor = newLineColor }
                 }
             }
@@ -227,7 +227,7 @@ class DonutProgressView @JvmOverloads constructor(
         animatorSet?.cancel()
         animatorSet = AnimatorSet()
 
-        val datasetAmounts = lines.map { getAmountForDataset(it.category) }
+        val datasetAmounts = lines.map { getAmountForDataset(it.name) }
         val totalAmount = datasetAmounts.sumByFloat { it }
 
         val drawPercentages = datasetAmounts.mapIndexed { index, _ ->
@@ -241,7 +241,7 @@ class DonutProgressView @JvmOverloads constructor(
         drawPercentages.forEachIndexed { index, newPercentage ->
             val line = lines[index]
             val animator = animateLine(line, newPercentage) {
-                if (!hasEntriesForDataset(line.category)) {
+                if (!hasEntriesForDataset(line.name)) {
                     removeLine(line)
                 }
             }

@@ -9,7 +9,7 @@ import android.graphics.Path
 import android.graphics.PathMeasure
 
 internal class DonutProgressLine(
-    val category: String,
+    val name: String,
     _radius: Float,
     _lineColor: Int,
     _lineStrokeWidth: Float,
