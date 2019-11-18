@@ -1,8 +1,8 @@
 package com.thefuntasty.donut
 
 /**
- * Data class representing progress entry in specified [category].
- * Entries with same [category] are shown with the same progress line.
+ * Data class representing dataset containing [Float] entries, color and name.
+ * Entries with the same [name] are shown on same progress line.
  */
 data class DonutDataset(
     val name: String,
