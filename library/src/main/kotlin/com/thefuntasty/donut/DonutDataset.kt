@@ -7,5 +7,5 @@ package com.thefuntasty.donut
 data class DonutDataset(
     val name: String,
     val color: Int,
-    val entries: List<DonutEntry>
+    val entries: List<Float>
 )

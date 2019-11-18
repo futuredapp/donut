@@ -6,7 +6,6 @@ import android.widget.SeekBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.thefuntasty.donut.DonutDataset
-import com.thefuntasty.donut.DonutEntry
 import com.thefuntasty.donutsample.R
 import com.thefuntasty.donutsample.data.model.BlackCategory
 import com.thefuntasty.donutsample.data.model.DataCategory
@@ -50,19 +49,19 @@ class PlaygroundActivity : AppCompatActivity() {
         datasets += DonutDataset(
             BlackCategory.name,
             getColorCompat(BlackCategory.colorRes),
-            listOf(DonutEntry(1f))
+            listOf(1f)
         )
 
         datasets += DonutDataset(
             GreenCategory.name,
             getColorCompat(GreenCategory.colorRes),
-            listOf(DonutEntry(1.2f))
+            listOf(1.2f)
         )
 
         datasets += DonutDataset(
             OrangeCategory.name,
             getColorCompat(OrangeCategory.colorRes),
-            listOf(DonutEntry(1.4f))
+            listOf(1.4f)
         )
 
         donut_view.submitData(datasets)
@@ -74,7 +73,7 @@ class PlaygroundActivity : AppCompatActivity() {
         amount_cap_text.text = getString(R.string.amount_cap, donut_view.cap)
         amount_total_text.text = getString(
             R.string.amount_total,
-            datasets.sumByFloat { it.entries.sumByFloat { it.amount } }
+            datasets.sumByFloat { it.entries.sum() }
         )
 
         updateIndicatorAmount(BlackCategory, black_dataset_text)
@@ -85,7 +84,7 @@ class PlaygroundActivity : AppCompatActivity() {
     private fun updateIndicatorAmount(category: DataCategory, textView: TextView) {
         datasets
             .filter { it.name == category.name }
-            .sumByFloat { it.entries.sumByFloat { it.amount } }
+            .sumByFloat { it.entries.sum() }
             .also {
                 if (it > 0f) {
                     textView.visible()
@@ -156,7 +155,7 @@ class PlaygroundActivity : AppCompatActivity() {
             val datasetIndex = datasets.indexOfFirst { it.name == randomCategory.name }
             val dataset = datasets[datasetIndex]
             datasets[datasetIndex] =
-                dataset.copy(entries = dataset.entries + DonutEntry(Random.nextFloat()))
+                dataset.copy(entries = dataset.entries + Random.nextFloat())
 
             donut_view.submitData(datasets)
             updateIndicators()
