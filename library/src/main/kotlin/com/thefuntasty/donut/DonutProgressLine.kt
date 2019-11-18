@@ -7,6 +7,7 @@ import android.graphics.DashPathEffect
 import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.PathMeasure
+import kotlin.math.ceil
 
 internal class DonutProgressLine(
     val name: String,
@@ -117,7 +118,7 @@ internal class DonutProgressLine(
 
     private fun updatePathEffect() {
         val pathLen = PathMeasure(path, false).length
-        val drawnLength = Math.ceil((pathLen.toDouble() * length) * masterProgress).toFloat()
+        val drawnLength = ceil(pathLen.toDouble() * length * masterProgress).toFloat()
 
         paint.pathEffect = ComposePathEffect(
             CornerPathEffect(pathLen / SIDES),

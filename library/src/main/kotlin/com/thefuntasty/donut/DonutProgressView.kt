@@ -50,7 +50,7 @@ class DonutProgressView @JvmOverloads constructor(
      */
     var masterProgress: Float = 1f
         set(value) {
-            if (value !in (0f..1f)) {
+            if (value !in 0f..1f) {
                 return
             }
 
