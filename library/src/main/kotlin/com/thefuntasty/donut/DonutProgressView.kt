@@ -176,7 +176,7 @@ class DonutProgressView @JvmOverloads constructor(
      */
     fun submitData(datasets: List<DonutDataset>) {
         datasets
-            .filter { it.entries.sum() > 0f }
+            .filter { it.amount > 0f }
             .forEach { dataset ->
                 val newLineColor = dataset.color
                 if (hasEntriesForDataset(dataset.name).not()) {
@@ -245,9 +245,7 @@ class DonutProgressView @JvmOverloads constructor(
     private fun getAmountForDataset(dataset: String): Float {
         return data
             .filter { it.name == dataset }
-            .sumByFloat {
-                it.entries.sum()
-            }
+            .sumByFloat { it.amount }
     }
 
     private fun getDrawAmountForLine(amounts: List<Float>, index: Int): Float {
