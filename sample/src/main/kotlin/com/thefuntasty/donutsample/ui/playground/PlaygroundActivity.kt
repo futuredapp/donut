@@ -14,6 +14,7 @@ import com.thefuntasty.donutsample.data.model.OrangeCategory
 import com.thefuntasty.donutsample.tools.extensions.doOnProgressChange
 import com.thefuntasty.donutsample.tools.extensions.getColorCompat
 import com.thefuntasty.donutsample.tools.extensions.gone
+import com.thefuntasty.donutsample.tools.extensions.modifyAt
 import com.thefuntasty.donutsample.tools.extensions.sumByFloat
 import com.thefuntasty.donutsample.tools.extensions.visible
 import kotlinx.android.synthetic.main.activity_playground.*
@@ -142,7 +143,7 @@ class PlaygroundActivity : AppCompatActivity() {
         // Add entry with random category and random amount
         button_add.setOnClickListener {
             val randomCategory = ALL_CATEGORIES.random()
-            if (datasets.firstOrNull { it.name == randomCategory.name } == null) {
+            if (datasets.any { it.name == randomCategory.name }.not()) {
                 datasets.add(
                     DonutDataset(
                         name = randomCategory.name,
@@ -152,10 +153,10 @@ class PlaygroundActivity : AppCompatActivity() {
                 )
             }
 
-            val datasetIndex = datasets.indexOfFirst { it.name == randomCategory.name }
-            val dataset = datasets[datasetIndex]
-            datasets[datasetIndex] =
-                dataset.copy(amount = dataset.amount + Random.nextFloat())
+            val randomIndex = datasets.indexOfFirst { it.name == randomCategory.name }
+            datasets.modifyAt(randomIndex) {
+                it.copy(amount = it.amount + Random.nextFloat())
+            }
 
             donut_view.submitData(datasets)
             updateIndicators()
@@ -165,8 +166,9 @@ class PlaygroundActivity : AppCompatActivity() {
         button_remove.setOnClickListener {
             if (datasets.isNotEmpty()) {
                 val randomIndex = datasets.indices.random()
-                val dataset = datasets[randomIndex]
-                datasets[randomIndex] = dataset.copy(amount = dataset.amount - Random.nextFloat())
+                datasets.modifyAt(randomIndex) {
+                    it.copy(amount = it.amount - Random.nextFloat())
+                }
                 if (datasets[randomIndex].amount <= 0f) {
                     datasets.removeAt(randomIndex)
                 }
