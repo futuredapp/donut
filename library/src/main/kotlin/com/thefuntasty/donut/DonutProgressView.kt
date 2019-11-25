@@ -49,14 +49,14 @@ class DonutProgressView @JvmOverloads constructor(
      */
     var masterProgress: Float = 1f
         set(value) {
-            if (value !in (0f..1f)) {
+            if (value !in 0f..1f) {
                 return
             }
 
             field = value
 
-            bgLine.masterProgress = value
-            lines.forEach { it.masterProgress = value }
+            bgLine.mMasterProgress = value
+            lines.forEach { it.mMasterProgress = value }
             invalidate()
         }
 
@@ -67,8 +67,8 @@ class DonutProgressView @JvmOverloads constructor(
         set(value) {
             field = value
 
-            bgLine.lineStrokeWidth = value
-            lines.forEach { it.lineStrokeWidth = value }
+            bgLine.mLineStrokeWidth = value
+            lines.forEach { it.mLineStrokeWidth = value }
             updateLinesRadius()
             invalidate()
         }
@@ -90,7 +90,7 @@ class DonutProgressView @JvmOverloads constructor(
     var bgLineColor: Int = 0
         set(value) {
             field = value
-            bgLine.lineColor = value
+            bgLine.mLineColor = value
             invalidate()
         }
 
@@ -101,8 +101,8 @@ class DonutProgressView @JvmOverloads constructor(
         set(value) {
             field = value
 
-            bgLine.gapWidthDegrees = value
-            lines.forEach { it.gapWidthDegrees = value }
+            bgLine.mGapWidthDegrees = value
+            lines.forEach { it.mGapWidthDegrees = value }
             invalidate()
         }
 
@@ -113,24 +113,24 @@ class DonutProgressView @JvmOverloads constructor(
         set(value) {
             field = value
 
-            bgLine.gapAngleDegrees = value
-            lines.forEach { it.gapAngleDegrees = value }
+            bgLine.mGapAngleDegrees = value
+            lines.forEach { it.mGapAngleDegrees = value }
             invalidate()
         }
 
-    private var entries = mutableListOf<DonutProgressEntry>()
+    private val data = mutableListOf<DonutDataset>()
     private val lines = mutableListOf<DonutProgressLine>()
     private var animatorSet: AnimatorSet? = null
 
     private val bgLine = DonutProgressLine(
-        category = "_bg",
-        _radius = radius,
-        _lineColor = bgLineColor,
-        _lineStrokeWidth = strokeWidth,
-        _masterProgress = masterProgress,
-        _length = 1f,
-        _gapWidthDegrees = gapWidthDegrees,
-        _gapAngleDegrees = gapAngleDegrees
+        name = "_bg",
+        radius = radius,
+        lineColor = bgLineColor,
+        lineStrokeWidth = strokeWidth,
+        masterProgress = masterProgress,
+        length = 1f,
+        gapWidthDegrees = gapWidthDegrees,
+        gapAngleDegrees = gapAngleDegrees
     )
 
     init {
@@ -164,57 +164,74 @@ class DonutProgressView @JvmOverloads constructor(
     }
 
     /**
-     * Submits new data set to the view.
-     *
-     * New progress line will be created for each non-existent entry category and view
-     * will be animated to new state.
-     *
-     * Additionally, existing lines with no entry category in new data set will be removed when animation completes.
+     * Returns current data.
      */
-    fun submitEntries(entries: List<DonutProgressEntry>) {
-        val groupedEntries = entries.groupBy { it.category }
+    fun getData() = data.toList()
 
-        groupedEntries.forEach { kvp ->
-            if (hasEntriesForCategory(kvp.key).not()) {
-                lines.add(
-                    index = 0,
-                    element = DonutProgressLine(
-                        category = kvp.value[0].category,
-                        _radius = radius,
-                        _lineColor = kvp.value[0].color,
-                        _lineStrokeWidth = strokeWidth,
-                        _masterProgress = masterProgress,
-                        _length = 0f,
-                        _gapWidthDegrees = gapWidthDegrees,
-                        _gapAngleDegrees = gapAngleDegrees
+    /**
+     * Submits new [datasets] to the view.
+     *
+     * New progress line will be created for each non-existent dataset and view will be animated to new state.
+     * Additionally, existing lines with no data set will be removed when animation completes.
+     */
+    fun submitData(datasets: List<DonutDataset>) {
+        datasets
+            .filter { it.amount > 0f }
+            .forEach { dataset ->
+                val newLineColor = dataset.color
+                if (hasEntriesForDataset(dataset.name).not()) {
+                    lines.add(
+                        index = 0,
+                        element = DonutProgressLine(
+                            name = dataset.name,
+                            radius = radius,
+                            lineColor = newLineColor,
+                            lineStrokeWidth = strokeWidth,
+                            masterProgress = masterProgress,
+                            length = 0f,
+                            gapWidthDegrees = gapWidthDegrees,
+                            gapAngleDegrees = gapAngleDegrees
+                        )
                     )
-                )
+                } else {
+                    lines
+                        .filter { it.name == dataset.name }
+                        .forEach { it.mLineColor = newLineColor }
+                }
             }
+
+        this.data.apply {
+            clear()
+            addAll(datasets)
         }
 
-        this.entries = entries.toMutableList()
         resolveState()
     }
+
+    /**
+     * Clear data, removing all lines.
+     */
+    fun clear() = submitData(listOf())
 
     private fun resolveState() {
         animatorSet?.cancel()
         animatorSet = AnimatorSet()
 
-        val amounts = lines.map { getAmountForCategory(it.category) }
-        val totalAmount = entries.sumByFloat { it.amount }
+        val datasetAmounts = lines.map { getAmountForDataset(it.name) }
+        val totalAmount = datasetAmounts.sumByFloat { it }
 
-        val drawPercentages = amounts.mapIndexed { index, _ ->
+        val drawPercentages = datasetAmounts.mapIndexed { index, _ ->
             if (totalAmount > cap) {
-                getDrawAmountForLine(amounts, index) / totalAmount
+                getDrawAmountForLine(datasetAmounts, index) / totalAmount
             } else {
-                getDrawAmountForLine(amounts, index) / cap
+                getDrawAmountForLine(datasetAmounts, index) / cap
             }
         }
 
         drawPercentages.forEachIndexed { index, newPercentage ->
             val line = lines[index]
             val animator = animateLine(line, newPercentage) {
-                if (!hasEntriesForCategory(line.category)) {
+                if (!hasEntriesForDataset(line.name)) {
                     removeLine(line)
                 }
             }
@@ -225,8 +242,10 @@ class DonutProgressView @JvmOverloads constructor(
         animatorSet?.start()
     }
 
-    private fun getAmountForCategory(category: String): Float {
-        return entries.filter { it.category == category }.sumByFloat { it.amount }
+    private fun getAmountForDataset(dataset: String): Float {
+        return data
+            .filter { it.name == dataset }
+            .sumByFloat { it.amount }
     }
 
     private fun getDrawAmountForLine(amounts: List<Float>, index: Int): Float {
@@ -240,19 +259,19 @@ class DonutProgressView @JvmOverloads constructor(
         return thisLine + previousLine
     }
 
-    private fun hasEntriesForCategory(category: String) =
-        entries.firstOrNull { it.category == category } != null
+    private fun hasEntriesForDataset(dataset: String) =
+        data.indexOfFirst { it.name == dataset } > -1
 
     private fun animateLine(
         line: DonutProgressLine,
         to: Float,
         animationEnded: (() -> Unit)? = null
     ): ValueAnimator {
-        return ValueAnimator.ofFloat(line.length, to).apply {
+        return ValueAnimator.ofFloat(line.mLength, to).apply {
             duration = ANIM_DURATION_MS
             interpolator = DecelerateInterpolator(INTERPOLATOR_FACTOR)
             addUpdateListener {
-                line.length = it.animatedValue as Float
+                line.mLength = it.animatedValue as Float
                 invalidate()
             }
 
@@ -294,8 +313,8 @@ class DonutProgressView @JvmOverloads constructor(
         val hh = h.toFloat() - yPadd
         this.radius = Math.min(ww, hh) / 2f - strokeWidth / 2f
 
-        bgLine.radius = radius
-        lines.forEach { it.radius = radius }
+        bgLine.mRadius = radius
+        lines.forEach { it.mRadius = radius }
     }
 
     override fun onDraw(canvas: Canvas) {

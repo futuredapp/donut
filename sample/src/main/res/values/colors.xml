@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">@color/dark_green</color>
-    <color name="colorPrimaryDark">@color/dark_green</color>
-    <color name="colorAccent">@color/light_green</color>
+    <color name="colorPrimary">@color/process_black</color>
+    <color name="colorPrimaryDark">@color/process_black</color>
+    <color name="colorAccent">@color/strive_orange</color>
 
-    <color name="grey">#ECF2F8</color>
-    <color name="light_green">#72CC75</color>
-    <color name="dark_green">#3B803D</color>
-    <color name="light_violet">#9C8CD5</color>
-    <color name="light_brown">#996C46</color>
-    <color name="dark_brown">#805D41</color>
+    <color name="process_black">#222222</color>
+    <color name="cloud">#E7E8E9</color>
+    <color name="strive_orange">#FF5F00</color>
+    <color name="process_green">#19D3C5</color>
+
 </resources>
