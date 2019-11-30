@@ -29,16 +29,16 @@ class DonutProgressView @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttr, defStyleRes) {
 
     companion object {
-        const val DEFAULT_MASTER_PROGRESS = 1f
-        const val DEFAULT_STROKE_WIDTH = 40f
-        const val DEFAULT_GAP_WIDTH = 45f
-        const val DEFAULT_GAP_ANGLE = 90f
-        const val DEFAULT_CAP = 10f
-        val DEFAULT_BG_COLOR_RES = R.color.grey
+        private const val DEFAULT_MASTER_PROGRESS = 1f
+        private const val DEFAULT_STROKE_WIDTH = 40f
+        private const val DEFAULT_GAP_WIDTH = 45f
+        private const val DEFAULT_GAP_ANGLE = 90f
+        private const val DEFAULT_CAP = 10f
+        private val DEFAULT_BG_COLOR_RES = R.color.grey
 
-        const val DEFAULT_ANIM_ENABLED = true
-        val DEFAULT_INTERPOLATOR = DecelerateInterpolator(1.5f)
-        const val DEFAULT_ANIM_DURATION_MS = 1000
+        private const val DEFAULT_ANIM_ENABLED = true
+        private val DEFAULT_INTERPOLATOR = DecelerateInterpolator(1.5f)
+        private const val DEFAULT_ANIM_DURATION_MS = 1000
     }
 
     private var w = 0
