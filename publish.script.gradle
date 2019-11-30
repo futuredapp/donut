@@ -1,0 +1,85 @@
+apply plugin: 'maven-publish'
+apply plugin: "org.jetbrains.dokka-android"
+apply plugin: "com.jfrog.bintray"
+
+project.ext {
+    mavDevelopers = ["$developerName":"$developerName"]
+    mavSiteUrl =  siteUrl
+    mavGitUrl = gitUrl
+    mavProjectName = "$libraryName"
+    mavLibraryLicenses = ["${allLicenses[0]}":"${licenseUrl}"]
+    mavLibraryDescription = "$libraryDescription"
+}
+
+publishing {
+    publications {
+        JcenterPublication(MavenPublication) {
+            pom.packaging = "aar"
+            pom.withXml {
+                def dependenciesNode = asNode().getAt('dependencies')[0] ?: asNode().appendNode('dependencies')
+                // Iterate over the compile dependencies (we don't want the test ones), adding a <dependency> node for each
+                configurations.implementation.allDependencies.each {
+                    // Ensure dependencies such as fileTree are not included.
+                    if (it.name != 'unspecified') {
+                        def dependencyNode = dependenciesNode.appendNode('dependency')
+                        dependencyNode.appendNode('groupId', it.group)
+                        dependencyNode.appendNode('artifactId', it.name)
+                        dependencyNode.appendNode('version', it.version)
+                    }
+                }
+            }
+        }
+    }
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.srcDirs
+}
+
+dokka {
+    outputFormat = 'javadoc'
+    outputDirectory = "$buildDir/dokka"
+}
+
+task kotlinDocJar(type: Jar, dependsOn:dokka){
+    classifier = "javadoc"
+    from("$buildDir/dokka")
+}
+
+
+artifacts {
+    archives kotlinDocJar
+    archives sourcesJar
+}
+
+bintray {
+
+    user = project.findProperty("BINTRAY_USER")
+    key = project.findProperty("BINTRAY_KEY")
+
+    configurations = ['archives']
+    publications = ['JcenterPublication']
+
+    pkg {
+        repo = bintrayRepo
+        name = libraryName
+        desc = libraryDescription
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = allLicenses
+        dryRun = false
+        publish = true
+        override = false
+        publicDownloadNumbers = true
+        version {
+            gpg {
+                sign = true
+                passphrase = project.findProperty("BINTRAY_GPG_KEY")
+            }
+            name = ProjectSettings.version
+            vcsTag = ProjectSettings.version
+            desc = libraryDescription
+        }
+    }
+}
