@@ -6,7 +6,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
 import android.util.AttributeSet
-import android.util.TypedValue
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.view.animation.DecelerateInterpolator
@@ -320,7 +319,9 @@ class DonutProgressView @JvmOverloads constructor(
             duration = if (animationEnabled) animationDurationMs else 0L
             interpolator = animationInterpolator
             addUpdateListener {
-                line.mLength = it.animatedValue as Float
+                (it.animatedValue as? Float)?.let { animValue ->
+                    line.mLength = animValue
+                }
                 invalidate()
             }
 
@@ -373,14 +374,4 @@ class DonutProgressView @JvmOverloads constructor(
         bgLine.draw(canvas)
         lines.forEach { it.draw(canvas) }
     }
-
-    // region helpers
-
-    private fun dpToPx(dp: Int) = TypedValue.applyDimension(
-        TypedValue.COMPLEX_UNIT_DIP,
-        dp.toFloat(),
-        resources.displayMetrics
-    ).toInt()
-
-    // endregion
 }
