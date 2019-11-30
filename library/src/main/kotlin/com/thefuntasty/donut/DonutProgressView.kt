@@ -128,7 +128,7 @@ class DonutProgressView @JvmOverloads constructor(
         }
 
     /**
-     * If true, view will animate changes when new entries will be submitted.
+     * If true, view will animate changes when new data is submitted.
      * If false, state change will happen instantly.
      */
     var animationEnabled: Boolean = DEFAULT_ANIM_ENABLED
