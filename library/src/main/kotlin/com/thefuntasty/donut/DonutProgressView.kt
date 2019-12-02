@@ -6,9 +6,10 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
 import android.util.AttributeSet
-import android.util.TypedValue
 import android.view.View
+import android.view.animation.AnimationUtils
 import android.view.animation.DecelerateInterpolator
+import android.view.animation.Interpolator
 import androidx.annotation.ColorInt
 import androidx.core.animation.doOnEnd
 import androidx.core.content.ContextCompat
@@ -28,8 +29,16 @@ class DonutProgressView @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttr, defStyleRes) {
 
     companion object {
-        private const val ANIM_DURATION_MS = 1000L // TODO parametrize
-        private const val INTERPOLATOR_FACTOR = 1.5f // TODO parametrize
+        private const val DEFAULT_MASTER_PROGRESS = 1f
+        private const val DEFAULT_STROKE_WIDTH = 40f
+        private const val DEFAULT_GAP_WIDTH = 45f
+        private const val DEFAULT_GAP_ANGLE = 90f
+        private const val DEFAULT_CAP = 10f
+        private val DEFAULT_BG_COLOR_RES = R.color.grey
+
+        private const val DEFAULT_ANIM_ENABLED = true
+        private val DEFAULT_INTERPOLATOR = DecelerateInterpolator(1.5f)
+        private const val DEFAULT_ANIM_DURATION_MS = 1000
     }
 
     private var w = 0
@@ -47,7 +56,7 @@ class DonutProgressView @JvmOverloads constructor(
      * Eg. when one line has 50% of total graph length,
      * setting this to 0.5f will result in that line being animated to 25% of total graph length.
      */
-    var masterProgress: Float = 1f
+    var masterProgress: Float = DEFAULT_MASTER_PROGRESS
         set(value) {
             if (value !in 0f..1f) {
                 return
@@ -63,7 +72,7 @@ class DonutProgressView @JvmOverloads constructor(
     /**
      * Stroke width of all lines in pixels.
      */
-    var strokeWidth = 10f
+    var strokeWidth = DEFAULT_STROKE_WIDTH
         set(value) {
             field = value
 
@@ -77,7 +86,7 @@ class DonutProgressView @JvmOverloads constructor(
      * Maximum value of sum of all entries in view, after which
      * all lines start to resize proportionally to amounts in their entry categories.
      */
-    var cap: Float = 10f
+    var cap: Float = DEFAULT_CAP
         set(value) {
             field = value
             resolveState()
@@ -87,7 +96,7 @@ class DonutProgressView @JvmOverloads constructor(
      * Color of background line.
      */
     @ColorInt
-    var bgLineColor: Int = 0
+    var bgLineColor: Int = ContextCompat.getColor(context, DEFAULT_BG_COLOR_RES)
         set(value) {
             field = value
             bgLine.mLineColor = value
@@ -97,7 +106,7 @@ class DonutProgressView @JvmOverloads constructor(
     /**
      * Size of gap opening in degrees.
      */
-    var gapWidthDegrees: Float = 45f
+    var gapWidthDegrees: Float = DEFAULT_GAP_WIDTH
         set(value) {
             field = value
 
@@ -109,7 +118,7 @@ class DonutProgressView @JvmOverloads constructor(
     /**
      * Angle in degrees, at which the gap will be displayed.
      */
-    var gapAngleDegrees: Float = 270f
+    var gapAngleDegrees: Float = DEFAULT_GAP_ANGLE
         set(value) {
             field = value
 
@@ -117,6 +126,22 @@ class DonutProgressView @JvmOverloads constructor(
             lines.forEach { it.mGapAngleDegrees = value }
             invalidate()
         }
+
+    /**
+     * If true, view will animate changes when new data is submitted.
+     * If false, state change will happen instantly.
+     */
+    var animationEnabled: Boolean = DEFAULT_ANIM_ENABLED
+
+    /**
+     * Interpolator used for state change animations.
+     */
+    var animationInterpolator: Interpolator = DEFAULT_INTERPOLATOR
+
+    /**
+     * Duration of state change animations.
+     */
+    var animationDurationMs: Long = DEFAULT_ANIM_DURATION_MS.toLong()
 
     private val data = mutableListOf<DonutDataset>()
     private val lines = mutableListOf<DonutProgressLine>()
@@ -147,19 +172,42 @@ class DonutProgressView @JvmOverloads constructor(
         ).use {
             strokeWidth = it.getDimensionPixelSize(
                 R.styleable.DonutProgressView_donut_strokeWidth,
-                dpToPx(10)
+                DEFAULT_STROKE_WIDTH.toInt()
             ).toFloat()
+
             bgLineColor =
                 it.getColor(
                     R.styleable.DonutProgressView_donut_bgLineColor,
                     ContextCompat.getColor(
                         context,
-                        R.color.grey
+                        DEFAULT_BG_COLOR_RES
                     )
                 )
 
-            gapWidthDegrees = it.getFloat(R.styleable.DonutProgressView_donut_gapWidth, 45f)
-            gapAngleDegrees = it.getFloat(R.styleable.DonutProgressView_donut_gapAngle, 270f)
+            gapWidthDegrees =
+                it.getFloat(R.styleable.DonutProgressView_donut_gapWidth, DEFAULT_GAP_WIDTH)
+            gapAngleDegrees =
+                it.getFloat(R.styleable.DonutProgressView_donut_gapAngle, DEFAULT_GAP_ANGLE)
+
+            animationEnabled = it.getBoolean(
+                R.styleable.DonutProgressView_donut_animationEnabled,
+                DEFAULT_ANIM_ENABLED
+            )
+
+            animationDurationMs = it.getInt(
+                R.styleable.DonutProgressView_donut_animationDuration,
+                DEFAULT_ANIM_DURATION_MS
+            ).toLong()
+
+            animationInterpolator =
+                it.getResourceId(R.styleable.DonutProgressView_donut_animationInterpolator, 0)
+                    .let { id ->
+                        if (id != 0) {
+                            AnimationUtils.loadInterpolator(context, id)
+                        } else {
+                            DEFAULT_INTERPOLATOR
+                        }
+                    }
         }
     }
 
@@ -268,10 +316,12 @@ class DonutProgressView @JvmOverloads constructor(
         animationEnded: (() -> Unit)? = null
     ): ValueAnimator {
         return ValueAnimator.ofFloat(line.mLength, to).apply {
-            duration = ANIM_DURATION_MS
-            interpolator = DecelerateInterpolator(INTERPOLATOR_FACTOR)
+            duration = if (animationEnabled) animationDurationMs else 0L
+            interpolator = animationInterpolator
             addUpdateListener {
-                line.mLength = it.animatedValue as Float
+                (it.animatedValue as? Float)?.let { animValue ->
+                    line.mLength = animValue
+                }
                 invalidate()
             }
 
@@ -324,14 +374,4 @@ class DonutProgressView @JvmOverloads constructor(
         bgLine.draw(canvas)
         lines.forEach { it.draw(canvas) }
     }
-
-    // region helpers
-
-    private fun dpToPx(dp: Int) = TypedValue.applyDimension(
-        TypedValue.COMPLEX_UNIT_DIP,
-        dp.toFloat(),
-        resources.displayMetrics
-    ).toInt()
-
-    // endregion
 }
