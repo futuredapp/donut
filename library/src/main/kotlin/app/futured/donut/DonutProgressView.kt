@@ -1,4 +1,4 @@
-package com.thefuntasty.donut
+package app.futured.donut
 
 import android.animation.AnimatorSet
 import android.animation.ValueAnimator
@@ -14,7 +14,7 @@ import androidx.annotation.ColorInt
 import androidx.core.animation.doOnEnd
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.use
-import com.thefuntasty.donut.extensions.sumByFloat
+import app.futured.donut.extensions.sumByFloat
 
 /*
 Ideas:

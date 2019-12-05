@@ -1,4 +1,4 @@
-package com.thefuntasty.donutsample.ui.playground
+package app.futured.donutsample.ui.playground
 
 import android.os.Bundle
 import android.os.Handler
@@ -6,18 +6,18 @@ import android.view.animation.AnimationUtils
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.thefuntasty.donut.DonutDataset
-import com.thefuntasty.donutsample.R
-import com.thefuntasty.donutsample.data.model.BlackCategory
-import com.thefuntasty.donutsample.data.model.DataCategory
-import com.thefuntasty.donutsample.data.model.GreenCategory
-import com.thefuntasty.donutsample.data.model.OrangeCategory
-import com.thefuntasty.donutsample.tools.extensions.doOnProgressChange
-import com.thefuntasty.donutsample.tools.extensions.getColorCompat
-import com.thefuntasty.donutsample.tools.extensions.gone
-import com.thefuntasty.donutsample.tools.extensions.modifyAt
-import com.thefuntasty.donutsample.tools.extensions.sumByFloat
-import com.thefuntasty.donutsample.tools.extensions.visible
+import app.futured.donut.DonutDataset
+import app.futured.donutsample.R
+import app.futured.donutsample.data.model.BlackCategory
+import app.futured.donutsample.data.model.DataCategory
+import app.futured.donutsample.data.model.GreenCategory
+import app.futured.donutsample.data.model.OrangeCategory
+import app.futured.donutsample.tools.extensions.doOnProgressChange
+import app.futured.donutsample.tools.extensions.getColorCompat
+import app.futured.donutsample.tools.extensions.gone
+import app.futured.donutsample.tools.extensions.modifyAt
+import app.futured.donutsample.tools.extensions.sumByFloat
+import app.futured.donutsample.tools.extensions.visible
 import kotlinx.android.synthetic.main.activity_playground.*
 import kotlin.random.Random
 

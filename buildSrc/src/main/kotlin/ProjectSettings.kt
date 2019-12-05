@@ -1,8 +1,8 @@
 object ProjectSettings {
-    const val applicationId = "com.thefuntasty.donut"
+    const val applicationId = "app.futured.donut"
     const val targetSdk = 29
     const val minSdk = 21
-    const val group = "com.thefuntasty.donut"
+    const val group = "app.futured.donut"
 
     /**
      * this version will be used only for local builds, jitpack will automatically provide TAG version
