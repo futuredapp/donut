@@ -1,4 +1,4 @@
-package com.thefuntasty.donutsample.tools.extensions
+package app.futured.donutsample.tools.extensions
 
 import android.view.View
 

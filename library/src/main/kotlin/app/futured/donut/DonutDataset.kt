@@ -1,4 +1,4 @@
-package com.thefuntasty.donut
+package app.futured.donut
 
 /**
  * Data class representing dataset containing [Float] amount, name and color of progress line.

@@ -1,4 +1,4 @@
-package com.thefuntasty.donut
+package app.futured.donut
 
 import android.graphics.Canvas
 import android.graphics.ComposePathEffect
