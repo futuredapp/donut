@@ -201,9 +201,9 @@ class PlaygroundActivity : AppCompatActivity() {
 
         // region Animations
 
-        anim_enabled_switch.isChecked = donut_view.animationEnabled
+        anim_enabled_switch.isChecked = donut_view.animateChanges
         anim_enabled_switch.setOnCheckedChangeListener { _, isChecked ->
-            donut_view.animationEnabled = isChecked
+            donut_view.animateChanges = isChecked
         }
 
         setupSeekbar(

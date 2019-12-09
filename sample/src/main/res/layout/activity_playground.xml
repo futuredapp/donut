@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="64dp"
         app:donut_animationDuration="1000"
-        app:donut_animationEnabled="true"
+        app:donut_animateChanges="true"
         app:donut_animationInterpolator="@android:interpolator/decelerate_quint"
         app:donut_bgLineColor="@color/cloud"
         app:donut_cap="6"
