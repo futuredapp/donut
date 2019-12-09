@@ -14,7 +14,12 @@ Place the view in your layout:
     android:id="@+id/donut_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:donut_cap="10"
+    app:donut_animationDuration="1000"
+    app:donut_animationEnabled="true"
+    app:donut_animationInterpolator="@android:interpolator/decelerate_quint"
+    app:donut_bgLineColor="@color/cloud"
+    app:donut_gapAngle="270"
+    app:donut_gapWidth="60"
     app:donut_strokeWidth="12dp"/>
 ```
 
@@ -22,18 +27,19 @@ Submit data to the view:
 
 ```kotlin
 val apples = DonutDataset(
-    name = "chocolate",
+    name = "dataset_apples",
     color = Color.parseColor("#e03e28"),
     amount = 4f
 )
 
 val oranges = DonutDataset(
-    name = "candy",
+    name = "dataset_oranges",
     color = Color.parseColor("#e09928"),
     amount = 2f
 )
 
-donut_view.submitData(listOf(chocolate, candy))
+donut_view.cap = 10f
+donut_view.submitData(listOf(apples, oranges))
 ```
 
 ### Customization
