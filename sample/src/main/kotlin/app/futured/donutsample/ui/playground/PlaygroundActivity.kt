@@ -37,14 +37,9 @@ class PlaygroundActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_playground)
 
-        setupDonut()
         updateIndicators()
         initControls()
         Handler().postDelayed({ fillInitialData() }, 500)
-    }
-
-    private fun setupDonut() {
-        donut_view.cap = 5f
     }
 
     private fun fillInitialData() {

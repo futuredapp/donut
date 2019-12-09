@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="DonutProgressView">
-        <attr name="donut_strokeWidth" format="dimension" />
-        <attr name="donut_bgLineColor" format="color" />
-        <attr name="donut_gapWidth" format="float" />
-        <attr name="donut_gapAngle" format="float" />
-        <attr name="donut_animationEnabled" format="boolean" />
-        <attr name="donut_animationInterpolator" format="reference" />
-        <attr name="donut_animationDuration" format="integer" />
+        <attr name="donut_strokeWidth" format="dimension"/>
+        <attr name="donut_bgLineColor" format="color"/>
+        <attr name="donut_gapWidth" format="float"/>
+        <attr name="donut_gapAngle" format="float"/>
+        <attr name="donut_animationEnabled" format="boolean"/>
+        <attr name="donut_animationInterpolator" format="reference"/>
+        <attr name="donut_animationDuration" format="integer"/>
+        <attr name="donut_cap" format="float"/>
     </declare-styleable>
 </resources>

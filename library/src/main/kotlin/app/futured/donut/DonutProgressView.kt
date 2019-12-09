@@ -208,6 +208,8 @@ class DonutProgressView @JvmOverloads constructor(
                             DEFAULT_INTERPOLATOR
                         }
                     }
+
+            cap = it.getFloat(R.styleable.DonutProgressView_donut_cap, DEFAULT_CAP)
         }
     }
 

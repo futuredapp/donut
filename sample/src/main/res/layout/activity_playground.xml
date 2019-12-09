@@ -15,6 +15,7 @@
         app:donut_animationEnabled="true"
         app:donut_animationInterpolator="@android:interpolator/decelerate_quint"
         app:donut_bgLineColor="@color/cloud"
+        app:donut_cap="6"
         app:donut_gapAngle="270"
         app:donut_gapWidth="60"
         app:donut_strokeWidth="14dp"
