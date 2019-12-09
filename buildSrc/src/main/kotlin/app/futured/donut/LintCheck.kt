@@ -13,6 +13,7 @@ open class LintCheck : DefaultTask() {
             dependsOn("detekt")
             project.subprojects.forEach {
                 dependsOn("${it.name}:ktlintCheck")
+                dependsOn("${it.name}:lintRelease")
             }
         }
     }
