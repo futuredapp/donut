@@ -46,7 +46,7 @@ would look like this:
 
 ![View with cap unexceeded](imgs/readme_intro_nocap.png)
 
-Once the sum of all dataset values exceeds view's `cap` property, the view starts to scale it's datasets proportionally to their amounts along the full length. E.g. if we, in the upper example, set cap to `donut_view.cap = 1f` (`dataset1.amount + dataset2.amount > 1f`), we would get something like this
+Once the sum of all dataset values exceeds view's `cap` property, the view starts to scale it's datasets proportionally to their amounts along the full length. E.g. if we, in the upper example, set cap to `donut_view.cap = 1f` (`dataset1.amount + dataset2.amount > 1f`), we would get something like this:
 
 ![View with cap exceeded](imgs/readme_intro_cap.png)
 
