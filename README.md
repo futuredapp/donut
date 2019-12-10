@@ -4,6 +4,8 @@
 # Donut 🍩
 `DonutProgressView` is a configurable doughnut-like graph view capable of displaying multiple datasets with assignable colors. It features a gap at the top, which makes it look like a gauge (or tasty bitten-off donut - that's why the name).
 
+![Header](imgs/readme-header.png)
+
 The view uses a `cap` property to determine when it should start to scale down it's datasets once their sum gets above it.
 
 ## Usage
@@ -43,7 +45,8 @@ donut_view.submitData(listOf(apples, oranges))
 ```
 
 ### Customization
-You can use various view properties to define it's appearance and behavior.
+You can use various view properties to define it's appearance and behavior.  
+TBD
 
 ## Download
 `build.gradle`:
