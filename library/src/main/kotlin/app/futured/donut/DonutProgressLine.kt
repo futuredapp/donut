@@ -31,7 +31,7 @@ internal class DonutProgressLine(
         color = mLineColor
     }
 
-    private var path: Path = createPath()
+    internal var path: Path = createPath()
 
     var mRadius: Float = 0.0f
         set(value) {

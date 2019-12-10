@@ -5,7 +5,14 @@ import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.Rect
 import android.util.AttributeSet
+import android.util.Log
+import android.util.TypedValue
+import android.view.GestureDetector
+import android.view.MotionEvent
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.view.animation.DecelerateInterpolator
@@ -14,7 +21,9 @@ import androidx.annotation.ColorInt
 import androidx.core.animation.doOnEnd
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.use
+import androidx.core.graphics.flatten
 import app.futured.donut.extensions.sumByFloat
+
 
 /*
 Ideas:
@@ -147,6 +156,29 @@ class DonutProgressView @JvmOverloads constructor(
     private val lines = mutableListOf<DonutProgressLine>()
     private var animatorSet: AnimatorSet? = null
 
+    private var blackPaint = Paint().apply {
+        style = Paint.Style.STROKE
+        strokeCap = Paint.Cap.ROUND
+        strokeWidth = 2f
+        color = Color.BLACK
+    }
+
+    private var redPaint = Paint().apply {
+        style = Paint.Style.STROKE
+        strokeCap = Paint.Cap.ROUND
+        strokeWidth = 2f
+        color = Color.RED
+    }
+
+    private val touchTarget = TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_DIP,
+        24f,
+        resources.displayMetrics
+    )
+
+    private var tapRect: Rect? = null
+    private var collisionRects: MutableList<Pair<DonutProgressLine, Rect>> = mutableListOf()
+
     private val bgLine = DonutProgressLine(
         name = "_bg",
         radius = radius,
@@ -160,6 +192,16 @@ class DonutProgressView @JvmOverloads constructor(
 
     init {
         obtainAttributes()
+
+        val detector = GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
+            override fun onDown(e: MotionEvent) = true
+
+            override fun onSingleTapConfirmed(e: MotionEvent) = detectTap(e.x, e.y)
+        })
+
+        setOnTouchListener { _, event ->
+            detector.onTouchEvent(event)
+        }
     }
 
     @SuppressLint("Recycle")
@@ -265,16 +307,7 @@ class DonutProgressView @JvmOverloads constructor(
         animatorSet?.cancel()
         animatorSet = AnimatorSet()
 
-        val datasetAmounts = lines.map { getAmountForDataset(it.name) }
-        val totalAmount = datasetAmounts.sumByFloat { it }
-
-        val drawPercentages = datasetAmounts.mapIndexed { index, _ ->
-            if (totalAmount > cap) {
-                getDrawAmountForLine(datasetAmounts, index) / totalAmount
-            } else {
-                getDrawAmountForLine(datasetAmounts, index) / cap
-            }
-        }
+        val drawPercentages = calculateLineDrawPercentages()
 
         drawPercentages.forEachIndexed { index, newPercentage ->
             val line = lines[index]
@@ -288,6 +321,82 @@ class DonutProgressView @JvmOverloads constructor(
         }
 
         animatorSet?.start()
+    }
+
+    private fun detectTap(tapX: Float, tapY: Float): Boolean {
+        tapRect = Rect(
+            (tapX - touchTarget / 2).toInt(),
+            (tapY - touchTarget / 2).toInt(),
+            (tapX + touchTarget / 2).toInt(),
+            (tapY + touchTarget / 2).toInt()
+        )
+
+        collisionRects.clear()
+
+        val drawPercentages = calculateLineDrawPercentages().reversed()
+
+        lines
+            .reversed()
+            .forEachIndexed { index, line ->
+                val lineSegments = line.path.flatten(0.1f)
+                val visibleIndexStart = if (index == 0) {
+                    0
+                } else {
+                    (lineSegments.count() * drawPercentages[index - 1] * line.mMasterProgress).toInt()
+                }
+                val visibleIndexEnd = (lineSegments.count() * drawPercentages[index] * line.mMasterProgress).toInt()
+
+                // Calculate collision rectangles that intersect with tap rectangle
+                lineSegments
+                    .toList()
+                    .subList(visibleIndexStart, visibleIndexEnd)
+                    .map { lineSegment ->
+                        Rect(
+                            lineSegment.start.x.toInt(),
+                            lineSegment.start.y.toInt(),
+                            lineSegment.end.x.toInt(),
+                            lineSegment.end.y.toInt()
+                        ).apply {
+                            sort()
+                            offset(centerX.toInt(), centerY.toInt())
+                        }
+                    }
+                    .filter { rect ->
+                        tapRect?.intersects(rect.left, rect.top, rect.right, rect.bottom) ?: false
+                    }
+                    .map { line to it }
+                    .also {
+                        collisionRects.addAll(it)
+                    }
+            }
+
+        invalidate()
+
+        lines
+            .map { line ->
+                line to collisionRects.count { it.first == line }
+            }
+            .sortedByDescending { it.second }
+            .filter { it.second > 0 }
+            .map { it.first }
+            .firstOrNull()?.let { line ->
+                d { "Tap collides with: ${line.name}" }
+            }
+
+        return collisionRects.isNotEmpty()
+    }
+
+    private fun calculateLineDrawPercentages(): List<Float> {
+        val datasetAmounts = lines.map { getAmountForDataset(it.name) }
+        val totalAmount = datasetAmounts.sumByFloat { it }
+
+        return datasetAmounts.mapIndexed { index, _ ->
+            if (totalAmount > cap) {
+                getDrawAmountForLine(datasetAmounts, index) / totalAmount
+            } else {
+                getDrawAmountForLine(datasetAmounts, index) / cap
+            }
+        }
     }
 
     private fun getAmountForDataset(dataset: String): Float {
@@ -368,10 +477,27 @@ class DonutProgressView @JvmOverloads constructor(
     }
 
     override fun onDraw(canvas: Canvas) {
-        super.onDraw(canvas)
         canvas.translate(centerX, centerY)
 
         bgLine.draw(canvas)
         lines.forEach { it.draw(canvas) }
+
+        if (BuildConfig.DEBUG) {
+            drawDebugTapCollisions(canvas)
+        }
+    }
+
+    private fun drawDebugTapCollisions(canvas: Canvas) {
+        canvas.translate(-centerX, -centerY)
+        collisionRects.forEach {
+            canvas.drawRect(it.second, redPaint)
+        }
+        tapRect?.let { canvas.drawRect(it, blackPaint) }
+    }
+
+    private fun d(message: () -> String) {
+        if (BuildConfig.DEBUG) {
+            Log.d("DonutProgressView", message())
+        }
     }
 }
