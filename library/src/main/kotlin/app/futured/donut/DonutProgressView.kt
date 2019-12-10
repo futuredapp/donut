@@ -24,7 +24,6 @@ import androidx.core.content.res.use
 import androidx.core.graphics.flatten
 import app.futured.donut.extensions.sumByFloat
 
-
 /*
 Ideas:
 - tooling in layout editor (testing data)
