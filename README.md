@@ -99,5 +99,5 @@ dependencies {
 ### Extension functions and databinding
 Extension functions and databinding adapter is coming in next releases.
 
---
+---
 Made with 🖤 in [Futured](http://futured.app)
