@@ -1,15 +1,15 @@
-[ ![Download](https://api.bintray.com/packages/thefuntastyops/donut/donut/images/download.svg) ](https://bintray.com/thefuntastyops/donut/donut/_latestVersion)
+[![Download](https://api.bintray.com/packages/thefuntastyops/donut/donut/images/download.svg) ](https://bintray.com/thefuntastyops/donut/donut/_latestVersion)
 [![Build Status](https://app.bitrise.io/app/e9f4fbbcc143c212/status.svg?token=LK6EaX0H10eB3wjz5k-HlQ&branch=master)](https://app.bitrise.io/app/e9f4fbbcc143c212)
 
 # Donut 🍩
-`DonutProgressView` is a configurable doughnut-like graph view capable of displaying multiple datasets with assignable colors. It features a gap at the top, which makes it look like a gauge (or tasty bitten-off donut - that's why the name).
+`DonutProgressView` is a configurable doughnut-like graph view capable of displaying multiple datasets with assignable colors. It supports animations and features a gap at the top, which makes it look like a gauge (or tasty bitten-off donut - that's why the name).
 
 ![Header](imgs/readme-header.png)
 
-The view uses a `cap` property to determine when it should start to proportionally scale it's datasets once their sum gets above it.
+It's signature feature is that the view automatically scales it's data proportionally to their values once it gets filled up. This allows you to show your users their daily progresses, reached goals, etc.  
 
-## Usage
-Placing the view in your layout
+## How to use
+Place the view in your layout
 
 ```xml
 <app.futured.donut.DonutProgressView
@@ -22,7 +22,7 @@ Placing the view in your layout
     app:donut_strokeWidth="8dp"/>
 ```
 
-and submitting data to the view
+Submit data to the view
 
 ```kotlin
 val dataset1 = DonutDataset(
@@ -41,16 +41,26 @@ donut_view.cap = 5f
 donut_view.submitData(listOf(dataset1, dataset2))
 ```
 
-would look like this:
-
+This will get you this:
 
 ![View with cap unexceeded](imgs/readme_intro_nocap.png)
 
+### About the data cap
 Once the sum of all dataset values exceeds view's `cap` property, the view starts to scale it's datasets proportionally to their amounts along the full length. E.g. if we, in the upper example, set cap to `donut_view.cap = 1f` (`dataset1.amount + dataset2.amount > 1f`), we would get something like this:
 
 ![View with cap exceeded](imgs/readme_intro_cap.png)
 
-### Customization
+## Submitting data
+The view accepts list of `DonutDataset` objects that define data to be displayed.  
+Each `DonutDataset` object holds dataset's unique identifier (string), it's color (color int) and dataset's value. *(Note: the view uses unique ID to resolve it's internal state and animations, and has undefined behavior if more datasets with the same ID are provided)*
+
+
+You have to submit new list of datasets everytime you want to modify displayed data, as `DonutDataset` object is immutable.
+
+
+The target use-case is: You observe data source, which emits new data on change (eg. database) → you map the data to list of dataset objects → you bind these datasets to the view *(Note: binding adapters are coming in future releases)* → **view automatically resolves (and animates) to new state**.
+
+## Customization
 You can use various view properties to define it's appearance and behavior.  
 TBD
 
