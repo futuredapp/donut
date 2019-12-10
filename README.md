@@ -54,8 +54,19 @@ Once the sum of all dataset values exceeds view's `cap` property, the view start
 The view accepts list of `DonutDataset` objects that define data to be displayed.  
 Each `DonutDataset` object holds dataset's unique identifier (string), it's color (color int) and dataset's value. *(Note: the view uses unique ID to resolve it's internal state and animations, and has undefined behavior if more datasets with the same ID are provided)*
 
+```kotlin
+val waterAmount = DonutDataset(
+    name = "drink_amount_water",
+    color = Color.parseColor("#03BFFA"),
+    amount = 1.2f
+)
+```
 
 You have to submit new list of datasets everytime you want to modify displayed data, as `DonutDataset` object is immutable.
+
+```kotlin
+donut_view.submitData(listOf(waterAmount))
+```
 
 
 The target use-case is: You observe data source, which emits new data on change (eg. database) → you map the data to list of dataset objects → you bind these datasets to the view *(Note: binding adapters are coming in future releases)* → **view automatically resolves (and animates) to new state**.
