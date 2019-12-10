@@ -352,7 +352,7 @@ class DonutProgressView @JvmOverloads constructor(
         lines
             .reversed()
             .forEachIndexed { index, line ->
-                val lineSegments = line.path.flatten(0.1f)
+                val lineSegments = line.path.flatten()
                 val visibleIndexStart = if (index == 0) {
                     0
                 } else {
