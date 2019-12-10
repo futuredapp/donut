@@ -38,6 +38,8 @@ class DonutProgressView @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttr, defStyleRes) {
 
     companion object {
+        private const val DEBUG_COLLISIONS = false
+
         private const val DEFAULT_MASTER_PROGRESS = 1f
         private const val DEFAULT_STROKE_WIDTH = 40f
         private const val DEFAULT_GAP_WIDTH = 45f
@@ -48,6 +50,10 @@ class DonutProgressView @JvmOverloads constructor(
         private const val DEFAULT_ANIM_ENABLED = true
         private val DEFAULT_INTERPOLATOR = DecelerateInterpolator(1.5f)
         private const val DEFAULT_ANIM_DURATION_MS = 1000
+    }
+
+    interface DatasetClickListener {
+        fun onClick(datasetName: String)
     }
 
     private var w = 0
@@ -179,6 +185,8 @@ class DonutProgressView @JvmOverloads constructor(
     private var tapRect: Rect? = null
     private var collisionRects: MutableList<Pair<DonutProgressLine, Rect>> = mutableListOf()
 
+    private var datasetClickListener: DatasetClickListener? = null
+
     private val bgLine = DonutProgressLine(
         name = "_bg",
         radius = radius,
@@ -299,6 +307,13 @@ class DonutProgressView @JvmOverloads constructor(
     }
 
     /**
+     * Sets dataset line click listener. This is experimental feature.
+     */
+    fun setDatasetClickListener(listener: DatasetClickListener) {
+        this.datasetClickListener = listener
+    }
+
+    /**
      * Clear data, removing all lines.
      */
     fun clear() = submitData(listOf())
@@ -370,8 +385,6 @@ class DonutProgressView @JvmOverloads constructor(
                     }
             }
 
-        invalidate()
-
         lines
             .map { line ->
                 line to collisionRects.count { it.first == line }
@@ -380,8 +393,12 @@ class DonutProgressView @JvmOverloads constructor(
             .filter { it.second > 0 }
             .map { it.first }
             .firstOrNull()?.let { line ->
-                d { "Tap collides with: ${line.name}" }
+                datasetClickListener?.onClick(line.name)
             }
+
+        if (DEBUG_COLLISIONS) {
+            invalidate()
+        }
 
         return collisionRects.isNotEmpty()
     }
@@ -482,7 +499,7 @@ class DonutProgressView @JvmOverloads constructor(
         bgLine.draw(canvas)
         lines.forEach { it.draw(canvas) }
 
-        if (BuildConfig.DEBUG) {
+        if (DEBUG_COLLISIONS) {
             drawDebugTapCollisions(canvas)
         }
     }

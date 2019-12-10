@@ -5,8 +5,10 @@ import android.os.Handler
 import android.view.animation.AnimationUtils
 import android.widget.SeekBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import app.futured.donut.DonutDataset
+import app.futured.donut.DonutProgressView
 import app.futured.donutsample.R
 import app.futured.donutsample.data.model.BlackCategory
 import app.futured.donutsample.data.model.DataCategory
@@ -45,6 +47,15 @@ class PlaygroundActivity : AppCompatActivity() {
 
     private fun setupDonut() {
         donut_view.cap = 5f
+        donut_view.setDatasetClickListener(object : DonutProgressView.DatasetClickListener {
+            override fun onClick(datasetName: String) {
+                Toast.makeText(
+                    this@PlaygroundActivity,
+                    getString(R.string.dataset_clicked, datasetName),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        })
     }
 
     private fun fillInitialData() {

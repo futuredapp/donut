@@ -24,4 +24,6 @@
     <string name="button_remove">- random</string>
     <string name="button_random_colors">Random colors</string>
     <string name="button_clear">Clear</string>
+
+    <string name="dataset_clicked">Dataset click: %s</string>
 </resources>
