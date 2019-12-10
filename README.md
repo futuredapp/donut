@@ -68,8 +68,10 @@ You have to submit new list of datasets everytime you want to modify displayed d
 donut_view.submitData(listOf(waterAmount))
 ```
 
+If you want to get currently displayed data, call `getData()` method. To clear displayed data, call `clear()` method.
 
-The target use-case is: You observe data source, which emits new data on change (eg. database) → you map the data to list of dataset objects → you bind these datasets to the view *(Note: binding adapters are coming in future releases)* → **view automatically resolves (and animates) to new state**.
+### Example use-case
+You observe data source, which emits new data on change (eg. database) → you map the data to list of dataset objects → you bind these datasets to the view → **view automatically resolves (and animates) to the new state**.
 
 ## Customization
 You can use various view properties to define it's appearance and behavior.  
@@ -93,3 +95,9 @@ dependencies {
     implementation("app.futured.donut:library:$version")
 }
 ```
+
+### Extension functions and databinding
+Extension functions and databinding adapter is coming in next releases.
+
+--
+Made with 🖤 in [Futured](http://futured.app)
