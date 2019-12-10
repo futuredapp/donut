@@ -6,43 +6,49 @@
 
 ![Header](imgs/readme-header.png)
 
-The view uses a `cap` property to determine when it should start to scale down it's datasets once their sum gets above it.
+The view uses a `cap` property to determine when it should start to proportionally scale it's datasets once their sum gets above it.
 
 ## Usage
-Place the view in your layout:
+Placing the view in your layout
 
 ```xml
 <app.futured.donut.DonutProgressView
     android:id="@+id/donut_view"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    app:donut_animationDuration="1000"
-    app:donut_animationEnabled="true"
-    app:donut_animationInterpolator="@android:interpolator/decelerate_quint"
     app:donut_bgLineColor="@color/cloud"
+    app:donut_gapWidth="20"
     app:donut_gapAngle="270"
-    app:donut_gapWidth="60"
-    app:donut_strokeWidth="12dp"/>
+    app:donut_strokeWidth="8dp"/>
 ```
 
-Submit data to the view:
+and submitting data to the view
 
 ```kotlin
-val apples = DonutDataset(
-    name = "dataset_apples",
-    color = Color.parseColor("#e03e28"),
-    amount = 4f
+val dataset1 = DonutDataset(
+    name = "dataset_1",
+    color = Color.parseColor("#FB1D32"),
+    amount = 1f
 )
 
-val oranges = DonutDataset(
-    name = "dataset_oranges",
-    color = Color.parseColor("#e09928"),
-    amount = 2f
+val dataset2 = DonutDataset(
+    name = "dataset_2",
+    color = Color.parseColor("#FFB98E"),
+    amount = 1f
 )
 
-donut_view.cap = 10f
-donut_view.submitData(listOf(apples, oranges))
+donut_view.cap = 5f
+donut_view.submitData(listOf(dataset1, dataset2))
 ```
+
+would look like this:
+
+
+![View with cap unexceeded](imgs/readme_intro_nocap.png)
+
+Once the sum of all dataset values exceeds view's `cap` property, the view starts to scale it's datasets proportionally to their amounts along the full length. E.g. if we, in the upper example, set cap to `donut_view.cap = 1f` (`dataset1.amount + dataset2.amount > 1f`), we would get something like this
+
+![View with cap exceeded](imgs/readme_intro_cap.png)
 
 ### Customization
 You can use various view properties to define it's appearance and behavior.  
