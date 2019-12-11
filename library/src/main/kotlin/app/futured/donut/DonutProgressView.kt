@@ -131,7 +131,7 @@ class DonutProgressView @JvmOverloads constructor(
      * If true, view will animate changes when new data is submitted.
      * If false, state change will happen instantly.
      */
-    var animationEnabled: Boolean = DEFAULT_ANIM_ENABLED
+    var animateChanges: Boolean = DEFAULT_ANIM_ENABLED
 
     /**
      * Interpolator used for state change animations.
@@ -189,8 +189,8 @@ class DonutProgressView @JvmOverloads constructor(
             gapAngleDegrees =
                 it.getFloat(R.styleable.DonutProgressView_donut_gapAngle, DEFAULT_GAP_ANGLE)
 
-            animationEnabled = it.getBoolean(
-                R.styleable.DonutProgressView_donut_animationEnabled,
+            animateChanges = it.getBoolean(
+                R.styleable.DonutProgressView_donut_animateChanges,
                 DEFAULT_ANIM_ENABLED
             )
 
@@ -208,6 +208,8 @@ class DonutProgressView @JvmOverloads constructor(
                             DEFAULT_INTERPOLATOR
                         }
                     }
+
+            cap = it.getFloat(R.styleable.DonutProgressView_donut_cap, DEFAULT_CAP)
         }
     }
 
@@ -316,7 +318,7 @@ class DonutProgressView @JvmOverloads constructor(
         animationEnded: (() -> Unit)? = null
     ): ValueAnimator {
         return ValueAnimator.ofFloat(line.mLength, to).apply {
-            duration = if (animationEnabled) animationDurationMs else 0L
+            duration = if (animateChanges) animationDurationMs else 0L
             interpolator = animationInterpolator
             addUpdateListener {
                 (it.animatedValue as? Float)?.let { animValue ->

@@ -37,14 +37,9 @@ class PlaygroundActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_playground)
 
-        setupDonut()
         updateIndicators()
         initControls()
         Handler().postDelayed({ fillInitialData() }, 500)
-    }
-
-    private fun setupDonut() {
-        donut_view.cap = 5f
     }
 
     private fun fillInitialData() {
@@ -206,9 +201,9 @@ class PlaygroundActivity : AppCompatActivity() {
 
         // region Animations
 
-        anim_enabled_switch.isChecked = donut_view.animationEnabled
+        anim_enabled_switch.isChecked = donut_view.animateChanges
         anim_enabled_switch.setOnCheckedChangeListener { _, isChecked ->
-            donut_view.animationEnabled = isChecked
+            donut_view.animateChanges = isChecked
         }
 
         setupSeekbar(
