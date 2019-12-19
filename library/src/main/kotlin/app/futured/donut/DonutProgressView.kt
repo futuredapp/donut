@@ -18,11 +18,6 @@ import androidx.core.content.res.use
 import app.futured.donut.extensions.hasDuplicatesBy
 import app.futured.donut.extensions.sumByFloat
 
-/*
-Ideas:
-- tooling in layout editor (testing data)
-- turn on / off corner path effect with configurable number of sides
- */
 class DonutProgressView @JvmOverloads constructor(
     context: Context,
     private val attrs: AttributeSet? = null,
