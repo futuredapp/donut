@@ -6,7 +6,7 @@
 
 ![Header](imgs/readme-header.png)
 
-It's signature feature is that the view automatically scales it's data proportionally to their values once it gets filled up. This allows you to show your users their daily progresses, reached goals, etc.  
+It's signature feature is that the view automatically scales it's datasets proportionally to their values once it gets filled up. This allows you to show your users their daily progresses, reached goals, etc.  
 
 ## How to use
 Place the view in your layout
@@ -41,7 +41,7 @@ donut_view.cap = 5f
 donut_view.submitData(listOf(dataset1, dataset2))
 ```
 
-This will get you this:
+You'll get something like this:
 
 ![View with cap unexceeded](imgs/readme_intro_nocap.png)
 
@@ -67,11 +67,9 @@ You have to submit new list of datasets everytime you want to modify displayed d
 ```kotlin
 donut_view.submitData(listOf(waterAmount))
 ```
+Once you call the `submitData` method, the view **automatically resolves and animates to the new state**.
 
 If you want to get currently displayed data, call `getData()` method. To clear displayed data, call `clear()` method.
-
-### Example use-case
-You observe data source, which emits new data on change (eg. database) → you map the data to list of dataset objects → you bind these datasets to the view → **view automatically resolves (and animates) to the new state**.
 
 ## Customization
 You can use various view properties to define it's appearance and behavior.  
@@ -97,7 +95,7 @@ dependencies {
 ```
 
 ### Extension functions and databinding
-Extension functions and databinding adapter is coming in next releases.
+Extension functions and databinding adapter are coming in next releases.
 
 ---
 Made with 🖤 in [Futured](http://futured.app)
