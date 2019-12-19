@@ -6,7 +6,7 @@
 
 ![Header](imgs/readme-header.png)
 
-It's signature feature is that the view automatically scales it's datasets proportionally to their values once it gets filled up. This allows you to show your users their daily progresses, reached goals, etc.  
+The view automatically scales it's datasets proportionally to their values once it gets filled up. This allows you to show your users their daily progresses, reached goals, etc.  
 
 ## How to use
 Place the view in your layout
@@ -72,8 +72,7 @@ Once you call the `submitData` method, the view **automatically resolves and ani
 If you want to get currently displayed data, call `getData()` method. To clear displayed data, call `clear()` method.
 
 ## Customization
-You can use various view properties to define it's appearance and behavior, either via XML attributes, or at runtime via property access.  
-The view uses various properties to let you create a unique style that fits your needs. The quickest way to start off is to try the [sample](sample/) app, which contains an interactive playground with buttons and sliders.
+You can use various view properties to define it's appearance and behavior, either via XML attributes, or at runtime via property access. The view uses various properties to let you create a unique style that fits your needs.
 
 ### XML attributes
 |Name|Description|
@@ -86,6 +85,15 @@ The view uses various properties to let you create a unique style that fits your
 | `donut_animationEnabled` | Animation enabled flag, if `true`, the will animate it's state changes (enabled by default) |
 | `donut_animationInterpolator` | Interpolator to be used in state change animations |
 | `donut_animationDuration` | Duration of state change animations in ms |
+
+In addition to these XML properties, the view features additional `masterProgress` property (`0f to 1f`) that can only be changed at runtime. It controls percentual progress of all lines, including the background line, which allows you to get creative with startup animations, etc.
+
+### Sample app
+
+The quickest way to start is to try the [sample](sample/) app, which contains an interactive playground with buttons and sliders to fiddle with.
+
+
+![Playground](imgs/playground.gif)
 
 ## Download
 `build.gradle`:
@@ -105,9 +113,5 @@ dependencies {
     implementation("app.futured.donut:library:$version")
 }
 ```
-
-### Extension functions and databinding
-Extension functions and databinding adapter are coming in next releases.
-
 ---
 Made with 🖤 in [Futured](http://futured.app)
