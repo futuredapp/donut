@@ -6,6 +6,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.view.animation.DecelerateInterpolator
@@ -30,7 +31,7 @@ class DonutProgressView @JvmOverloads constructor(
 
     companion object {
         private const val DEFAULT_MASTER_PROGRESS = 1f
-        private const val DEFAULT_STROKE_WIDTH = 40f
+        private const val DEFAULT_STROKE_WIDTH_DP = 12f
         private const val DEFAULT_GAP_WIDTH = 45f
         private const val DEFAULT_GAP_ANGLE = 90f
         private const val DEFAULT_CAP = 1f
@@ -72,7 +73,7 @@ class DonutProgressView @JvmOverloads constructor(
     /**
      * Stroke width of all lines in pixels.
      */
-    var strokeWidth = DEFAULT_STROKE_WIDTH
+    var strokeWidth = dpToPx(DEFAULT_STROKE_WIDTH_DP)
         set(value) {
             field = value
 
@@ -172,7 +173,7 @@ class DonutProgressView @JvmOverloads constructor(
         ).use {
             strokeWidth = it.getDimensionPixelSize(
                 R.styleable.DonutProgressView_donut_strokeWidth,
-                DEFAULT_STROKE_WIDTH.toInt()
+                dpToPx(DEFAULT_STROKE_WIDTH_DP).toInt()
             ).toFloat()
 
             bgLineColor =
@@ -376,4 +377,10 @@ class DonutProgressView @JvmOverloads constructor(
         bgLine.draw(canvas)
         lines.forEach { it.draw(canvas) }
     }
+
+    private fun dpToPx(dp: Float) = TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_DIP,
+        dp,
+        resources.displayMetrics
+    )
 }
