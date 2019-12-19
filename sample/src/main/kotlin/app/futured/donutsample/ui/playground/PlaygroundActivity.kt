@@ -40,8 +40,8 @@ class PlaygroundActivity : AppCompatActivity() {
         setContentView(R.layout.activity_playground)
 
         updateIndicators()
-        initControls()
         setupDonut()
+        initControls()
         Handler().postDelayed({
             fillInitialData()
             runInitialAnimation()
