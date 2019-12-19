@@ -72,8 +72,20 @@ Once you call the `submitData` method, the view **automatically resolves and ani
 If you want to get currently displayed data, call `getData()` method. To clear displayed data, call `clear()` method.
 
 ## Customization
-You can use various view properties to define it's appearance and behavior.  
-TBD
+You can use various view properties to define it's appearance and behavior, either via XML attributes, or at runtime via property access.  
+The view uses various properties to let you create a unique style that fits your needs. The quickest way to start off is to try the [sample](sample/) app, which contains an interactive playground with buttons and sliders.
+
+### XML attributes
+|Name|Description|
+|---|---|
+| `donut_cap`| View's cap property |
+| `donut_strokeWidth` | Width of background and dataset lines in dp |
+| `donut_bgLineColor`| Color of background line |
+| `donut_gapWidth` | Width of the line gap in degrees |
+| `donut_gapAngle` | Position of the line gap around the view in degrees |
+| `donut_animationEnabled` | Animation enabled flag, if `true`, the will animate it's state changes (enabled by default) |
+| `donut_animationInterpolator` | Interpolator to be used in state change animations |
+| `donut_animationDuration` | Duration of state change animations in ms |
 
 ## Download
 `build.gradle`:
