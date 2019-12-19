@@ -45,7 +45,7 @@ class PlaygroundActivity : AppCompatActivity() {
         Handler().postDelayed({
             fillInitialData()
             runInitialAnimation()
-        }, 1500)
+        }, 800)
     }
 
     private fun setupDonut() {
