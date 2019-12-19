@@ -1,23 +1,20 @@
 package app.futured.donutsample.ui.playground
 
+import android.animation.ValueAnimator
 import android.os.Bundle
 import android.os.Handler
 import android.view.animation.AnimationUtils
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import app.futured.donut.DonutDataset
 import app.futured.donutsample.R
 import app.futured.donutsample.data.model.BlackCategory
 import app.futured.donutsample.data.model.DataCategory
 import app.futured.donutsample.data.model.GreenCategory
 import app.futured.donutsample.data.model.OrangeCategory
-import app.futured.donutsample.tools.extensions.doOnProgressChange
-import app.futured.donutsample.tools.extensions.getColorCompat
-import app.futured.donutsample.tools.extensions.gone
-import app.futured.donutsample.tools.extensions.modifyAt
-import app.futured.donutsample.tools.extensions.sumByFloat
-import app.futured.donutsample.tools.extensions.visible
+import app.futured.donutsample.tools.extensions.*
 import kotlinx.android.synthetic.main.activity_playground.*
 import kotlin.random.Random
 
@@ -40,11 +37,31 @@ class PlaygroundActivity : AppCompatActivity() {
         setupDonut()
         updateIndicators()
         initControls()
-        Handler().postDelayed({ fillInitialData() }, 500)
+        Handler().postDelayed({
+            fillInitialData()
+            runInitialAnimation()
+        }, 1500)
     }
 
     private fun setupDonut() {
         donut_view.cap = 5f
+        donut_view.masterProgress = 0f
+        donut_view.alpha = 0f
+    }
+
+    private fun runInitialAnimation() {
+        ValueAnimator.ofFloat(0f, 1f).apply {
+            duration = 1000
+            interpolator = FastOutSlowInInterpolator()
+            addUpdateListener {
+                donut_view.masterProgress = it.animatedValue as Float
+                donut_view.alpha = it.animatedValue as Float
+
+                master_progress_seekbar.progress = (donut_view.masterProgress * 100).toInt()
+            }
+
+            start()
+        }
     }
 
     private fun fillInitialData() {
