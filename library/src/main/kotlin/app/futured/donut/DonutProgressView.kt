@@ -33,7 +33,7 @@ class DonutProgressView @JvmOverloads constructor(
         private const val DEFAULT_STROKE_WIDTH = 40f
         private const val DEFAULT_GAP_WIDTH = 45f
         private const val DEFAULT_GAP_ANGLE = 90f
-        private const val DEFAULT_CAP = 10f
+        private const val DEFAULT_CAP = 1f
         private val DEFAULT_BG_COLOR_RES = R.color.grey
 
         private const val DEFAULT_ANIM_ENABLED = true
