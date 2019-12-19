@@ -72,7 +72,7 @@ Once you call the `submitData` method, the view **automatically resolves and ani
 If you want to get currently displayed data, call `getData()` method. To clear displayed data, call `clear()` method.
 
 ## Customization
-You can use various view properties to define it's appearance and behavior, either via XML attributes, or at runtime via property access. The view uses various properties to let you create a unique style that fits your needs.
+The view allows you to configure various properties to let you create a unique style that fits your needs. They can be changed either via XML attributes, or at runtime via property access.
 
 ### XML attributes
 |Name|Description|
@@ -86,11 +86,11 @@ You can use various view properties to define it's appearance and behavior, eith
 | `donut_animationInterpolator` | Interpolator to be used in state change animations |
 | `donut_animationDuration` | Duration of state change animations in ms |
 
-In addition to these XML properties, the view features additional `masterProgress` property (`0f to 1f`) that can only be changed at runtime. It controls percentual progress of all lines, including the background line, which allows you to get creative with startup animations, etc.
+In addition to these XML attributes, the view features `masterProgress` property (`0f to 1f`) that can be changed programatically. It controls percentual progress of all lines, including the background line, which allows you to get creative with startup animations, etc.
 
 ### Sample app
 
-The quickest way to start is to try the [sample](sample/) app, which contains an interactive playground with buttons and sliders to fiddle with.
+The quickest way to explore different styles is to try the [sample](sample/) app, which contains an interactive playground with buttons and sliders to fiddle with.
 
 
 ![Playground](imgs/playground.gif)
