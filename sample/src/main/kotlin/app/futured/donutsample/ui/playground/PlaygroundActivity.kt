@@ -14,7 +14,12 @@ import app.futured.donutsample.data.model.BlackCategory
 import app.futured.donutsample.data.model.DataCategory
 import app.futured.donutsample.data.model.GreenCategory
 import app.futured.donutsample.data.model.OrangeCategory
-import app.futured.donutsample.tools.extensions.*
+import app.futured.donutsample.tools.extensions.doOnProgressChange
+import app.futured.donutsample.tools.extensions.getColorCompat
+import app.futured.donutsample.tools.extensions.gone
+import app.futured.donutsample.tools.extensions.modifyAt
+import app.futured.donutsample.tools.extensions.sumByFloat
+import app.futured.donutsample.tools.extensions.visible
 import kotlinx.android.synthetic.main.activity_playground.*
 import kotlin.random.Random
 
@@ -36,6 +41,7 @@ class PlaygroundActivity : AppCompatActivity() {
 
         updateIndicators()
         initControls()
+        setupDonut()
         Handler().postDelayed({
             fillInitialData()
             runInitialAnimation()

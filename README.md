@@ -82,7 +82,7 @@ The view allows you to configure various properties to let you create a unique s
 | `donut_bgLineColor`| Color of background line |
 | `donut_gapWidth` | Width of the line gap in degrees |
 | `donut_gapAngle` | Position of the line gap around the view in degrees |
-| `donut_animationEnabled` | Animation enabled flag, if `true`, the will animate it's state changes (enabled by default) |
+| `donut_animateChanges` | Animation enabled flag, if `true`, the will animate it's state changes (enabled by default) |
 | `donut_animationInterpolator` | Interpolator to be used in state change animations |
 | `donut_animationDuration` | Duration of state change animations in ms |
 
