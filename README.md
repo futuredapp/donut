@@ -75,16 +75,16 @@ If you want to get currently displayed data, call `getData()` method. To clear d
 The view allows you to configure various properties to let you create a unique style that fits your needs. They can be changed either via XML attributes, or at runtime via property access.
 
 ### XML attributes
-|Name|Description|
-|---|---|
-| `donut_cap`| View's cap property |
-| `donut_strokeWidth` | Width of background and dataset lines in dp |
-| `donut_bgLineColor`| Color of background line |
-| `donut_gapWidth` | Width of the line gap in degrees |
-| `donut_gapAngle` | Position of the line gap around the view in degrees |
-| `donut_animateChanges` | Animation enabled flag, if `true`, the will animate it's state changes (enabled by default) |
-| `donut_animationInterpolator` | Interpolator to be used in state change animations |
-| `donut_animationDuration` | Duration of state change animations in ms |
+|Name|Default value|Description|
+|---|---|---|
+| `donut_cap`| `1.0f` | View's cap property |
+| `donut_strokeWidth` | `12dp` | Width of background and dataset lines in dp |
+| `donut_bgLineColor`| `#e7e8e9` | Color of background line |
+| `donut_gapWidth` | `45°` | Width of the line gap in degrees |
+| `donut_gapAngle` | `90°` | Position of the line gap around the view in degrees |
+| `donut_animateChanges` | `true` | Animation enabled flag, if `true`, the view will animate it's state changes (enabled by default) |
+| `donut_animationInterpolator` | `DecelerateInterpolator` | Interpolator to be used in state change animations |
+| `donut_animationDuration` | `1000 ms` | Duration of state change animations in ms |
 
 In addition to these XML attributes, the view features `masterProgress` property (`0f to 1f`) that can be changed programatically. It controls percentual progress of all lines, including the background line, which allows you to get creative with startup animations, etc.
 
