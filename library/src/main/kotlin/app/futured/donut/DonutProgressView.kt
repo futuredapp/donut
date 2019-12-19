@@ -15,6 +15,7 @@ import androidx.annotation.ColorInt
 import androidx.core.animation.doOnEnd
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.use
+import app.futured.donut.extensions.hasDuplicatesBy
 import app.futured.donut.extensions.sumByFloat
 
 /*
@@ -226,6 +227,8 @@ class DonutProgressView @JvmOverloads constructor(
      * Additionally, existing lines with no data set will be removed when animation completes.
      */
     fun submitData(datasets: List<DonutDataset>) {
+        assertDataConsistency(datasets)
+
         datasets
             .filter { it.amount > 0f }
             .forEach { dataset ->
@@ -263,6 +266,12 @@ class DonutProgressView @JvmOverloads constructor(
      * Clear data, removing all lines.
      */
     fun clear() = submitData(listOf())
+
+    private fun assertDataConsistency(data: List<DonutDataset>) {
+        if (data.hasDuplicatesBy { it.name }) {
+            throw IllegalStateException("Multiple datasets with same name found")
+        }
+    }
 
     private fun resolveState() {
         animatorSet?.cancel()

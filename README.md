@@ -52,7 +52,7 @@ Once the sum of all dataset values exceeds view's `cap` property, the view start
 
 ## Submitting data
 The view accepts list of `DonutDataset` objects that define data to be displayed.  
-Each `DonutDataset` object holds dataset's unique identifier (string), it's color (color int) and dataset's value. *(Note: the view uses unique ID to resolve it's internal state and animations, and has undefined behavior if more datasets with the same ID are provided)*
+Each `DonutDataset` object holds dataset's unique name (string), it's color (color int) and dataset's value. *(Note: the view uses unique name for each dataset to resolve it's internal state and animations, and throws `IllegalStateException` if multiple datasets with same name are submitted.)*
 
 ```kotlin
 val waterAmount = DonutDataset(
