@@ -11,8 +11,6 @@ import android.graphics.Rect
 import android.util.AttributeSet
 import android.util.Log
 import android.util.TypedValue
-import android.util.Log
-import android.util.TypedValue
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
@@ -23,8 +21,8 @@ import androidx.annotation.ColorInt
 import androidx.core.animation.doOnEnd
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.use
-import app.futured.donut.extensions.hasDuplicatesBy
 import androidx.core.graphics.flatten
+import app.futured.donut.extensions.hasDuplicatesBy
 import app.futured.donut.extensions.sumByFloat
 
 class DonutProgressView @JvmOverloads constructor(
@@ -174,11 +172,7 @@ class DonutProgressView @JvmOverloads constructor(
         color = Color.RED
     }
 
-    private val touchTarget = TypedValue.applyDimension(
-        TypedValue.COMPLEX_UNIT_DIP,
-        24f,
-        resources.displayMetrics
-    )
+    private val touchTarget = dpToPx(24f)
 
     private var tapRect: Rect? = null
     private var collisionRects: MutableList<Pair<DonutProgressLine, Rect>> = mutableListOf()
@@ -438,7 +432,8 @@ class DonutProgressView @JvmOverloads constructor(
                 } else {
                     (lineSegments.count() * drawPercentages[index - 1] * line.mMasterProgress).toInt()
                 }
-                val visibleIndexEnd = (lineSegments.count() * drawPercentages[index] * line.mMasterProgress).toInt()
+                val visibleIndexEnd =
+                    (lineSegments.count() * drawPercentages[index] * line.mMasterProgress).toInt()
 
                 // Calculate collision rectangles that intersect with tap rectangle
                 lineSegments
