@@ -15,7 +15,6 @@ import app.futured.donutsample.data.model.OrangeCategory
 import app.futured.donutsample.tools.extensions.doOnProgressChange
 import app.futured.donutsample.tools.extensions.getColorCompat
 import app.futured.donutsample.tools.extensions.gone
-import app.futured.donutsample.tools.extensions.modifyAt
 import app.futured.donutsample.tools.extensions.sumByFloat
 import app.futured.donutsample.tools.extensions.visible
 import kotlinx.android.synthetic.main.activity_playground.*
@@ -31,8 +30,6 @@ class PlaygroundActivity : AppCompatActivity() {
         )
     }
 
-    private val datasets = mutableListOf<DonutDataset>()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_playground)
@@ -43,22 +40,22 @@ class PlaygroundActivity : AppCompatActivity() {
     }
 
     private fun fillInitialData() {
-        datasets += DonutDataset(
-            BlackCategory.name,
-            getColorCompat(BlackCategory.colorRes),
-            1f
-        )
-
-        datasets += DonutDataset(
-            GreenCategory.name,
-            getColorCompat(GreenCategory.colorRes),
-            1.2f
-        )
-
-        datasets += DonutDataset(
-            OrangeCategory.name,
-            getColorCompat(OrangeCategory.colorRes),
-            1.4f
+        val datasets = listOf(
+            DonutDataset(
+                BlackCategory.name,
+                getColorCompat(BlackCategory.colorRes),
+                1f
+            ),
+            DonutDataset(
+                GreenCategory.name,
+                getColorCompat(GreenCategory.colorRes),
+                1.2f
+            ),
+            DonutDataset(
+                OrangeCategory.name,
+                getColorCompat(OrangeCategory.colorRes),
+                1.4f
+            )
         )
 
         donut_view.submitData(datasets)
@@ -70,7 +67,7 @@ class PlaygroundActivity : AppCompatActivity() {
         amount_cap_text.text = getString(R.string.amount_cap, donut_view.cap)
         amount_total_text.text = getString(
             R.string.amount_total,
-            datasets.sumByFloat { it.amount }
+            donut_view.getData().sumByFloat { it.amount }
         )
 
         updateIndicatorAmount(BlackCategory, black_dataset_text)
@@ -79,7 +76,7 @@ class PlaygroundActivity : AppCompatActivity() {
     }
 
     private fun updateIndicatorAmount(category: DataCategory, textView: TextView) {
-        datasets
+        donut_view.getData()
             .filter { it.name == category.name }
             .sumByFloat { it.amount }
             .also {
@@ -143,46 +140,30 @@ class PlaygroundActivity : AppCompatActivity() {
             }
         )
 
-        // Add entry with random category and random amount
+        // Add random amount to random dataset
         button_add.setOnClickListener {
             val randomCategory = ALL_CATEGORIES.random()
-            if (datasets.any { it.name == randomCategory.name }.not()) {
-                datasets.add(
-                    DonutDataset(
-                        name = randomCategory.name,
-                        color = getColorCompat(randomCategory.colorRes),
-                        amount = 0f
-                    )
-                )
-            }
+            donut_view.addAmount(
+                randomCategory.name,
+                Random.nextFloat(),
+                getColorCompat(randomCategory.colorRes)
+            )
 
-            val randomIndex = datasets.indexOfFirst { it.name == randomCategory.name }
-            datasets.modifyAt(randomIndex) {
-                it.copy(amount = it.amount + Random.nextFloat())
-            }
-
-            donut_view.submitData(datasets)
             updateIndicators()
         }
 
-        // Remove random entry
+        // Remove random value from random dataset
         button_remove.setOnClickListener {
-            if (datasets.isNotEmpty()) {
-                val randomIndex = datasets.indices.random()
-                datasets.modifyAt(randomIndex) {
-                    it.copy(amount = it.amount - Random.nextFloat())
-                }
-                if (datasets[randomIndex].amount <= 0f) {
-                    datasets.removeAt(randomIndex)
-                }
-
-                donut_view.submitData(datasets)
+            val existingDatasets = donut_view.getData().map { it.name }
+            if (existingDatasets.isNotEmpty()) {
+                donut_view.removeAmount(existingDatasets.random(), Random.nextFloat())
                 updateIndicators()
             }
         }
 
         // Randomize data set colors
         button_random_colors.setOnClickListener {
+            val datasets = donut_view.getData().toMutableList()
             for (i in 0 until datasets.size) {
                 datasets[i] = datasets[i].copy(color = Random.nextInt())
             }
@@ -192,7 +173,6 @@ class PlaygroundActivity : AppCompatActivity() {
 
         // Clear graph
         button_clear.setOnClickListener {
-            datasets.clear()
             donut_view.clear()
             updateIndicators()
         }

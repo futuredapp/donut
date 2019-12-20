@@ -6,6 +6,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.view.animation.DecelerateInterpolator
@@ -29,6 +30,8 @@ class DonutProgressView @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttr, defStyleRes) {
 
     companion object {
+        private const val TAG = "DonutProgressView"
+
         private const val DEFAULT_MASTER_PROGRESS = 1f
         private const val DEFAULT_STROKE_WIDTH = 40f
         private const val DEFAULT_GAP_WIDTH = 45f
@@ -251,11 +254,61 @@ class DonutProgressView @JvmOverloads constructor(
             }
 
         this.data.apply {
+            val copy = ArrayList(datasets)
             clear()
-            addAll(datasets)
+            addAll(copy)
         }
 
         resolveState()
+    }
+
+    /**
+     * Adds [amount] to existing dataset specified by [datasetName]. If dataset does not exist and [color] is specified,
+     * creates new dataset internally.
+     */
+    fun addAmount(datasetName: String, amount: Float, color: Int? = null) {
+        for (i in 0 until data.size) {
+            if (data[i].name == datasetName) {
+                data[i] = data[i].copy(amount = data[i].amount + amount)
+                submitData(data)
+                return
+            }
+        }
+
+        color?.let {
+            submitData(
+                data + DonutDataset(
+                    name = datasetName,
+                    color = it,
+                    amount = amount
+                )
+            )
+        }
+            ?: warn {
+                "Adding amount to non-existent dataset: $datasetName. " +
+                        "Please specify color, if you want to have dataset created automatically."
+            }
+    }
+
+    /**
+     * Removes [amount] from existing dataset specified by [datasetName].
+     * If amount gets below zero, removes the dataset from view.
+     */
+    fun removeAmount(datasetName: String, amount: Float) {
+        for (i in 0 until data.size) {
+            if (data[i].name == datasetName) {
+                val resultAmount = data[i].amount - amount
+                if (resultAmount <= 0) {
+                    data.removeAt(i)
+                } else {
+                    data[i] = data[i].copy(amount = resultAmount)
+                }
+                submitData(data)
+                return
+            }
+        }
+
+        warn { "Removing amount from non-existend dataset: $datasetName" }
     }
 
     /**
@@ -375,5 +428,9 @@ class DonutProgressView @JvmOverloads constructor(
 
         bgLine.draw(canvas)
         lines.forEach { it.draw(canvas) }
+    }
+
+    private fun warn(text: () -> String) {
+        Log.w(TAG, text())
     }
 }
