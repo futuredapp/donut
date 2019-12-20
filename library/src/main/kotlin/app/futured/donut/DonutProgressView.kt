@@ -285,8 +285,29 @@ class DonutProgressView @JvmOverloads constructor(
         }
             ?: warn {
                 "Adding amount to non-existent dataset: $datasetName. " +
-                    "Please specify color, if you want to have dataset created automatically."
+                        "Please specify color, if you want to have dataset created automatically."
             }
+    }
+
+    /**
+     * Sets [amount] for existing dataset specified by [datasetName].
+     * Removes dataset if amount is <= 0.
+     * Does nothing if dataset does not exist.
+     */
+    fun setAmount(datasetName: String, amount: Float) {
+        for (i in 0 until data.size) {
+            if (data[i].name == datasetName) {
+                if (amount > 0) {
+                    data[i] = data[i].copy(amount = amount)
+                } else {
+                    data.removeAt(i)
+                }
+                submitData(data)
+                return
+            }
+        }
+
+        warn { "Setting amount for non-existent dataset: $datasetName" }
     }
 
     /**
@@ -297,10 +318,10 @@ class DonutProgressView @JvmOverloads constructor(
         for (i in 0 until data.size) {
             if (data[i].name == datasetName) {
                 val resultAmount = data[i].amount - amount
-                if (resultAmount <= 0) {
-                    data.removeAt(i)
-                } else {
+                if (resultAmount > 0) {
                     data[i] = data[i].copy(amount = resultAmount)
+                } else {
+                    data.removeAt(i)
                 }
                 submitData(data)
                 return

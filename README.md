@@ -70,7 +70,7 @@ donut_view.submitData(listOf(waterAmount))
 
 ### Granular controls
 
-The view also provides methods for more granular control over displayed data. You can use `addAmount` and `removeAmount` methods to add or remove specified amounts from displayed datasets.  
+The view also provides methods for more granular control over displayed data. You can use `addAmount`, `setAmount` and `removeAmount` methods to add, set or remove specified amounts from displayed datasets.  
 
 #### Adding amount
 
@@ -83,6 +83,17 @@ donut_view.addAmount(
 ```
 
 The `addAmount` adds specified amount to dataset with provided name. What if dataset does not yet exist? This method has one optional `color` parameter (default value is `null`) - when called, and there isn't already displayed any dataset with provided name and `color` parameter was specified, the new `DonutDataset` with provided name, amount and color will be automatically created internally for you. If you leave the `color` param `null` while trying to add value to non-existent dataset, nothing happens.
+
+#### Setting amount
+
+```kotlin
+donut_view.setAmount(
+    datasetName = "drink_amount_water",
+    amount = 2.5f
+)
+```
+
+The `setAmount` methods sets specified amount to dataset with provided name. If provided amount is equal or less than 0, dataset and corresponding progress line are automatically removed after animation. If view does not contain specified dataset, nothing happens.
 
 #### Removing amount
 
@@ -99,7 +110,7 @@ The `removeAmount` simply subtracts specified amount from any displayed dataset.
 
 If you want to get currently displayed data, call `getData()` method which returns immutable list of all displayed `DonutDataset` objects. To clear displayed data, call `clear()` method.
 
-Each call to a data method (submit, add, remove, clear) results in view **automatically resolving and animating to the new state**.
+Each call to a data method (submit, add, set, remove, clear) results in view **automatically resolving and animating to the new state**.
 
 ## Customization
 The view allows you to configure various properties to let you create a unique style that fits your needs. They can be changed either via XML attributes, or at runtime via property access.
