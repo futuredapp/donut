@@ -67,9 +67,39 @@ You have to submit new list of datasets everytime you want to modify displayed d
 ```kotlin
 donut_view.submitData(listOf(waterAmount))
 ```
-Once you call the `submitData` method, the view **automatically resolves and animates to the new state**.
 
-If you want to get currently displayed data, call `getData()` method. To clear displayed data, call `clear()` method.
+### Granular controls
+
+The view also provides methods for more granular control over displayed data. You can use `addAmount` and `removeAmount` methods to add or remove specified amounts from displayed datasets.  
+
+#### Adding amount
+
+```kotlin
+donut_view.addAmount(
+    datasetName = "drink_amount_water",
+    amount = 0.5f,
+    color = Color.parseColor("#03BFFA") // Optional, pass color if you want to create new dataset
+)
+```
+
+The `addAmount` adds specified amount to dataset with provided name. What if dataset does not yet exist? This method has one optional `color` parameter (default value is `null`) - when called, and there isn't already displayed any dataset with provided name and `color` parameter was specified, the new `DonutDataset` with provided name, amount and color will be automatically created internally for you. If you leave the `color` param `null` while trying to add value to non-existent dataset, nothing happens.
+
+#### Removing amount
+
+```kotlin
+donut_view.removeAmount(
+    datasetName = "drink_amount_water",
+    amount = 0.1f
+)
+```
+
+The `removeAmount` simply subtracts specified amount from any displayed dataset. If resulting amount is equal or less than 0, dataset and corresponding progress line are automatically removed after animation. If view does not contain specified dataset, nothing happens.
+
+### Get and clear data
+
+If you want to get currently displayed data, call `getData()` method which returns immutable list of all displayed `DonutDataset` objects. To clear displayed data, call `clear()` method.
+
+Each call to a data method (submit, add, remove, clear) results in view **automatically resolving and animating to the new state**.
 
 ## Customization
 The view allows you to configure various properties to let you create a unique style that fits your needs. They can be changed either via XML attributes, or at runtime via property access.
