@@ -6,8 +6,8 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
 import android.util.AttributeSet
-import android.util.TypedValue
 import android.util.Log
+import android.util.TypedValue
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.view.animation.DecelerateInterpolator
@@ -285,7 +285,7 @@ class DonutProgressView @JvmOverloads constructor(
         }
             ?: warn {
                 "Adding amount to non-existent dataset: $datasetName. " +
-                        "Please specify color, if you want to have dataset created automatically."
+                    "Please specify color, if you want to have dataset created automatically."
             }
     }
 
