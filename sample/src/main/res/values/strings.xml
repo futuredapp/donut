@@ -10,7 +10,7 @@
     <string name="amount_total">Total amount: %.2f</string>
     <string name="float_2f">%.2f</string>
     <string name="animations">Animations</string>
-    <string name="animation_enabled">Animations enabled</string>
+    <string name="animation_enabled">Animate changes</string>
     <string name="animation_duration">Animation duration: %d ms</string>
     <string name="animation_interpolators">Interpolators</string>
 

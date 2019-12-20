@@ -11,6 +11,8 @@ import android.graphics.Rect
 import android.util.AttributeSet
 import android.util.Log
 import android.util.TypedValue
+import android.util.Log
+import android.util.TypedValue
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
@@ -21,14 +23,10 @@ import androidx.annotation.ColorInt
 import androidx.core.animation.doOnEnd
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.use
+import app.futured.donut.extensions.hasDuplicatesBy
 import androidx.core.graphics.flatten
 import app.futured.donut.extensions.sumByFloat
 
-/*
-Ideas:
-- tooling in layout editor (testing data)
-- turn on / off corner path effect with configurable number of sides
- */
 class DonutProgressView @JvmOverloads constructor(
     context: Context,
     private val attrs: AttributeSet? = null,
@@ -37,13 +35,14 @@ class DonutProgressView @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttr, defStyleRes) {
 
     companion object {
+        private const val TAG = "DonutProgressView"
         private const val DEBUG_COLLISIONS = false
 
         private const val DEFAULT_MASTER_PROGRESS = 1f
-        private const val DEFAULT_STROKE_WIDTH = 40f
+        private const val DEFAULT_STROKE_WIDTH_DP = 12f
         private const val DEFAULT_GAP_WIDTH = 45f
         private const val DEFAULT_GAP_ANGLE = 90f
-        private const val DEFAULT_CAP = 10f
+        private const val DEFAULT_CAP = 1f
         private val DEFAULT_BG_COLOR_RES = R.color.grey
 
         private const val DEFAULT_ANIM_ENABLED = true
@@ -86,7 +85,7 @@ class DonutProgressView @JvmOverloads constructor(
     /**
      * Stroke width of all lines in pixels.
      */
-    var strokeWidth = DEFAULT_STROKE_WIDTH
+    var strokeWidth = dpToPx(DEFAULT_STROKE_WIDTH_DP)
         set(value) {
             field = value
 
@@ -145,7 +144,7 @@ class DonutProgressView @JvmOverloads constructor(
      * If true, view will animate changes when new data is submitted.
      * If false, state change will happen instantly.
      */
-    var animationEnabled: Boolean = DEFAULT_ANIM_ENABLED
+    var animateChanges: Boolean = DEFAULT_ANIM_ENABLED
 
     /**
      * Interpolator used for state change animations.
@@ -221,7 +220,7 @@ class DonutProgressView @JvmOverloads constructor(
         ).use {
             strokeWidth = it.getDimensionPixelSize(
                 R.styleable.DonutProgressView_donut_strokeWidth,
-                DEFAULT_STROKE_WIDTH.toInt()
+                dpToPx(DEFAULT_STROKE_WIDTH_DP).toInt()
             ).toFloat()
 
             bgLineColor =
@@ -238,8 +237,8 @@ class DonutProgressView @JvmOverloads constructor(
             gapAngleDegrees =
                 it.getFloat(R.styleable.DonutProgressView_donut_gapAngle, DEFAULT_GAP_ANGLE)
 
-            animationEnabled = it.getBoolean(
-                R.styleable.DonutProgressView_donut_animationEnabled,
+            animateChanges = it.getBoolean(
+                R.styleable.DonutProgressView_donut_animateChanges,
                 DEFAULT_ANIM_ENABLED
             )
 
@@ -257,6 +256,8 @@ class DonutProgressView @JvmOverloads constructor(
                             DEFAULT_INTERPOLATOR
                         }
                     }
+
+            cap = it.getFloat(R.styleable.DonutProgressView_donut_cap, DEFAULT_CAP)
         }
     }
 
@@ -272,6 +273,8 @@ class DonutProgressView @JvmOverloads constructor(
      * Additionally, existing lines with no data set will be removed when animation completes.
      */
     fun submitData(datasets: List<DonutDataset>) {
+        assertDataConsistency(datasets)
+
         datasets
             .filter { it.amount > 0f }
             .forEach { dataset ->
@@ -298,12 +301,88 @@ class DonutProgressView @JvmOverloads constructor(
             }
 
         this.data.apply {
+            val copy = ArrayList(datasets)
             clear()
-            addAll(datasets)
+            addAll(copy)
         }
 
         resolveState()
     }
+
+    /**
+     * Adds [amount] to existing dataset specified by [datasetName]. If dataset does not exist and [color] is specified,
+     * creates new dataset internally.
+     */
+    fun addAmount(datasetName: String, amount: Float, color: Int? = null) {
+        for (i in 0 until data.size) {
+            if (data[i].name == datasetName) {
+                data[i] = data[i].copy(amount = data[i].amount + amount)
+                submitData(data)
+                return
+            }
+        }
+
+        color?.let {
+            submitData(
+                data + DonutDataset(
+                    name = datasetName,
+                    color = it,
+                    amount = amount
+                )
+            )
+        }
+            ?: warn {
+                "Adding amount to non-existent dataset: $datasetName. " +
+                        "Please specify color, if you want to have dataset created automatically."
+            }
+    }
+
+    /**
+     * Sets [amount] for existing dataset specified by [datasetName].
+     * Removes dataset if amount is <= 0.
+     * Does nothing if dataset does not exist.
+     */
+    fun setAmount(datasetName: String, amount: Float) {
+        for (i in 0 until data.size) {
+            if (data[i].name == datasetName) {
+                if (amount > 0) {
+                    data[i] = data[i].copy(amount = amount)
+                } else {
+                    data.removeAt(i)
+                }
+                submitData(data)
+                return
+            }
+        }
+
+        warn { "Setting amount for non-existent dataset: $datasetName" }
+    }
+
+    /**
+     * Removes [amount] from existing dataset specified by [datasetName].
+     * If amount gets below zero, removes the dataset from view.
+     */
+    fun removeAmount(datasetName: String, amount: Float) {
+        for (i in 0 until data.size) {
+            if (data[i].name == datasetName) {
+                val resultAmount = data[i].amount - amount
+                if (resultAmount > 0) {
+                    data[i] = data[i].copy(amount = resultAmount)
+                } else {
+                    data.removeAt(i)
+                }
+                submitData(data)
+                return
+            }
+        }
+
+        warn { "Removing amount from non-existend dataset: $datasetName" }
+    }
+
+    /**
+     * Clear data, removing all lines.
+     */
+    fun clear() = submitData(listOf())
 
     /**
      * Sets dataset line click listener. This is experimental feature.
@@ -312,10 +391,11 @@ class DonutProgressView @JvmOverloads constructor(
         this.datasetClickListener = listener
     }
 
-    /**
-     * Clear data, removing all lines.
-     */
-    fun clear() = submitData(listOf())
+    private fun assertDataConsistency(data: List<DonutDataset>) {
+        if (data.hasDuplicatesBy { it.name }) {
+            throw IllegalStateException("Multiple datasets with same name found")
+        }
+    }
 
     private fun resolveState() {
         animatorSet?.cancel()
@@ -441,7 +521,7 @@ class DonutProgressView @JvmOverloads constructor(
         animationEnded: (() -> Unit)? = null
     ): ValueAnimator {
         return ValueAnimator.ofFloat(line.mLength, to).apply {
-            duration = if (animationEnabled) animationDurationMs else 0L
+            duration = if (animateChanges) animationDurationMs else 0L
             interpolator = animationInterpolator
             addUpdateListener {
                 (it.animatedValue as? Float)?.let { animValue ->
@@ -515,5 +595,15 @@ class DonutProgressView @JvmOverloads constructor(
         if (BuildConfig.DEBUG) {
             Log.d("DonutProgressView", message())
         }
+    }
+
+    private fun dpToPx(dp: Float) = TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_DIP,
+        dp,
+        resources.displayMetrics
+    )
+
+    private fun warn(text: () -> String) {
+        Log.w(TAG, text())
     }
 }
