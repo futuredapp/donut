@@ -6,6 +6,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.view.animation.DecelerateInterpolator
@@ -14,13 +15,9 @@ import androidx.annotation.ColorInt
 import androidx.core.animation.doOnEnd
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.use
+import app.futured.donut.extensions.hasDuplicatesBy
 import app.futured.donut.extensions.sumByFloat
 
-/*
-Ideas:
-- tooling in layout editor (testing data)
-- turn on / off corner path effect with configurable number of sides
- */
 class DonutProgressView @JvmOverloads constructor(
     context: Context,
     private val attrs: AttributeSet? = null,
@@ -30,10 +27,10 @@ class DonutProgressView @JvmOverloads constructor(
 
     companion object {
         private const val DEFAULT_MASTER_PROGRESS = 1f
-        private const val DEFAULT_STROKE_WIDTH = 40f
+        private const val DEFAULT_STROKE_WIDTH_DP = 12f
         private const val DEFAULT_GAP_WIDTH = 45f
         private const val DEFAULT_GAP_ANGLE = 90f
-        private const val DEFAULT_CAP = 10f
+        private const val DEFAULT_CAP = 1f
         private val DEFAULT_BG_COLOR_RES = R.color.grey
 
         private const val DEFAULT_ANIM_ENABLED = true
@@ -72,7 +69,7 @@ class DonutProgressView @JvmOverloads constructor(
     /**
      * Stroke width of all lines in pixels.
      */
-    var strokeWidth = DEFAULT_STROKE_WIDTH
+    var strokeWidth = dpToPx(DEFAULT_STROKE_WIDTH_DP)
         set(value) {
             field = value
 
@@ -172,7 +169,7 @@ class DonutProgressView @JvmOverloads constructor(
         ).use {
             strokeWidth = it.getDimensionPixelSize(
                 R.styleable.DonutProgressView_donut_strokeWidth,
-                DEFAULT_STROKE_WIDTH.toInt()
+                dpToPx(DEFAULT_STROKE_WIDTH_DP).toInt()
             ).toFloat()
 
             bgLineColor =
@@ -225,6 +222,8 @@ class DonutProgressView @JvmOverloads constructor(
      * Additionally, existing lines with no data set will be removed when animation completes.
      */
     fun submitData(datasets: List<DonutDataset>) {
+        assertDataConsistency(datasets)
+
         datasets
             .filter { it.amount > 0f }
             .forEach { dataset ->
@@ -262,6 +261,12 @@ class DonutProgressView @JvmOverloads constructor(
      * Clear data, removing all lines.
      */
     fun clear() = submitData(listOf())
+
+    private fun assertDataConsistency(data: List<DonutDataset>) {
+        if (data.hasDuplicatesBy { it.name }) {
+            throw IllegalStateException("Multiple datasets with same name found")
+        }
+    }
 
     private fun resolveState() {
         animatorSet?.cancel()
@@ -376,4 +381,10 @@ class DonutProgressView @JvmOverloads constructor(
         bgLine.draw(canvas)
         lines.forEach { it.draw(canvas) }
     }
+
+    private fun dpToPx(dp: Float) = TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_DIP,
+        dp,
+        resources.displayMetrics
+    )
 }
