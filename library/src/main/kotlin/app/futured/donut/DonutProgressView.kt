@@ -307,7 +307,7 @@ class DonutProgressView @JvmOverloads constructor(
             }
         }
 
-        warn { "Settings amount for non-existent dataset: $datasetName" }
+        warn { "Setting amount for non-existent dataset: $datasetName" }
     }
 
     /**
