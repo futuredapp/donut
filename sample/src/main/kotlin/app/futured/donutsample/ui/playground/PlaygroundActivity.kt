@@ -229,8 +229,13 @@ class PlaygroundActivity : AppCompatActivity() {
             AnimationUtils.loadInterpolator(this, android.R.interpolator.bounce)
         )
 
-        interpolator_radio_group.setOnCheckedChangeListener { _, checkedId ->
-            donut_view.animationInterpolator = interpolators[checkedId - 1]
+        interpolator_radio_group.setOnCheckedChangeListener { radioGroup, checkedId ->
+            for (i in 0 until radioGroup.childCount) {
+                if (radioGroup.getChildAt(i).id == checkedId) {
+                    donut_view.animationInterpolator = interpolators[i]
+                    break
+                }
+            }
         }
 
         // endregion
