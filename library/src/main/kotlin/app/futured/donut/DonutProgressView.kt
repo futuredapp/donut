@@ -89,6 +89,8 @@ class DonutProgressView @JvmOverloads constructor(
     var cap: Float = DEFAULT_CAP
         set(value) {
             field = value
+
+
             resolveState()
         }
 
