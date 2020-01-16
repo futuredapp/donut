@@ -1,0 +1,31 @@
+name: Check PR
+on: [pull_request]
+
+jobs:
+  pr:
+    name: PR check
+    runs-on: [ubuntu-latest]
+    env:
+      DANGER_GITHUB_API_TOKEN: ${{ secrets.DANGER_GITHUB_API_TOKEN }}
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-ruby@v1
+        with:
+          ruby-version: '2.6'
+      - name: set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+      - name: Run Lint Check
+        shell: bash
+        run: ./gradlew lintCheck
+      - name: Run unit tests
+        shell: bash
+        run: ./gradlew --continue testRelease
+      - name: Danger action
+        uses: MeilCli/danger-action@v2
+        continue-on-error: true
+        with:
+          plugins_file: 'Gemfile'
+          danger_file: 'Dangerfile'
+          danger_id: 'danger-pr'
