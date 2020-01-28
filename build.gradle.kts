@@ -1,4 +1,4 @@
-import com.thefuntasty.donut.LintCheck
+import app.futured.donut.LintCheck
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 buildscript {
