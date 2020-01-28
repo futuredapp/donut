@@ -61,6 +61,5 @@ subprojects {
 detekt {
     version = Versions.detekt
     input = files(rootDir)
-    filters = ".*/resources/.*,.*/build/.*"
     config = files("detekt.yml")
 }
