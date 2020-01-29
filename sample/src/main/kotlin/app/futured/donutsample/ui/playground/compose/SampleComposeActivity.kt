@@ -6,10 +6,21 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.Composable
 import androidx.compose.memo
 import androidx.compose.unaryPlus
-import androidx.ui.core.*
+import androidx.ui.core.Dp
+import androidx.ui.core.Draw
+import androidx.ui.core.Modifier
+import androidx.ui.core.Text
+import androidx.ui.core.center
+import androidx.ui.core.dp
+import androidx.ui.core.setContent
+import androidx.ui.core.toOffset
 import androidx.ui.graphics.Color
 import androidx.ui.graphics.Paint
-import androidx.ui.layout.*
+import androidx.ui.layout.Column
+import androidx.ui.layout.Container
+import androidx.ui.layout.Gravity
+import androidx.ui.layout.Row
+import androidx.ui.layout.WidthSpacer
 import androidx.ui.toStringAsFixed
 import app.futured.donut.librarycompose.DonutConfig
 import app.futured.donut.librarycompose.DonutProgress
@@ -48,7 +59,8 @@ class SampleComposeActivity : AppCompatActivity() {
             Container(height = Dp(280f), width = Dp(280f)) {
                 DonutProgress(config, data)
                 Column {
-                    Text(text = "Amount cap: ${data.progressEntries.sumByFloat { it.amount }.toStringAsFixed(2)}", modifier = Gravity.Center)
+                    val cap = data.progressEntries.sumByFloat { it.amount }.toStringAsFixed(2)
+                    Text(text = "Amount cap: $cap", modifier = Gravity.Center)
                     Text(text = "Total amount: ${data.cap.toStringAsFixed(2)}", modifier = Gravity.Center)
                     Row(modifier = Gravity.Center) {
                         Circle(radius = 4.dp, color = Color.Cyan, modifier = Gravity.Center)
@@ -97,7 +109,7 @@ class SampleComposeActivity : AppCompatActivity() {
         setupSeekbar(
             seekBar = gap_width_seekbar,
             titleTextView = gap_width_text,
-            initProgress = 90,
+            initProgress = 270,
             getTitleText = { getString(R.string.gap_width, it) },
             onProgressChanged = { config.gapWidthDegrees = it.toFloat() }
         )
@@ -105,7 +117,7 @@ class SampleComposeActivity : AppCompatActivity() {
         setupSeekbar(
             seekBar = gap_angle_seekbar,
             titleTextView = gap_angle_text,
-            initProgress = 270,
+            initProgress = 90,
             getTitleText = { getString(R.string.gap_angle, it) },
             onProgressChanged = { config.gapAngleDegrees = it.toFloat() }
         )
@@ -121,7 +133,7 @@ class SampleComposeActivity : AppCompatActivity() {
         setupSeekbar(
             seekBar = cap_seekbar,
             titleTextView = cap_text,
-            initProgress = 4    ,
+            initProgress = 4,
             getTitleText = { getString(R.string.amount_cap, it.toFloat()) },
             onProgressChanged = {
                 data.cap = it.toFloat()

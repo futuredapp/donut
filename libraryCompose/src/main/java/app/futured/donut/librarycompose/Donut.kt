@@ -10,7 +10,11 @@ import androidx.ui.core.center
 import androidx.ui.core.min
 import androidx.ui.engine.geometry.Offset
 import androidx.ui.engine.geometry.Rect
-import androidx.ui.graphics.*
+import androidx.ui.graphics.Canvas
+import androidx.ui.graphics.Color
+import androidx.ui.graphics.Paint
+import androidx.ui.graphics.PaintingStyle
+import androidx.ui.graphics.StrokeCap
 import app.futured.donut.librarycompose.utilities.sumByFloat
 import kotlin.math.max
 
@@ -75,18 +79,19 @@ private fun addRemainingDonutSegments(config: DonutConfig, progressEntries: List
     val remainingSegmentsSize = config.maxSegments - progressEntries.size
     return mutableListOf<DonutProgressEntry>().apply {
         addAll(progressEntries)
-        for (i in 0..remainingSegmentsSize) {
+        repeat((0..remainingSegmentsSize).count()) {
             add(DonutProgressEntry(0f, Color.Transparent))
         }
     }
 }
 
-private fun createDonutPathDataForSegments(startAngle: Float,
+private fun createDonutPathDataForSegments(
+    startAngle: Float,
     masterSegmentAmount: Float,
     masterSegmentAngle: Float,
     animatedTotalAmountProgress: Float,
     progressEntries: List<DonutProgressEntry>
-) : List<DonutPathData> {
+): List<DonutPathData> {
     var angleAccumulator = startAngle
     return progressEntries.map { segment ->
         val segmentAngle = if (masterSegmentAmount != 0f) {
@@ -113,7 +118,7 @@ private fun createDonutPathDataForSegments(startAngle: Float,
 private fun drawDonutSegment(canvas: Canvas, parentSize: PxSize, paint: Paint, donutPathData: DonutPathData) {
     val maxSize = min(parentSize.height, parentSize.width).value
     val center = Offset(parentSize.center().x.value, parentSize.center().y.value)
-    val radius = (maxSize / 2) - (paint.strokeWidth / 2)
+    val radius = maxSize / 2 - paint.strokeWidth / 2
     val rect = Rect.fromCircle(center, radius)
 
     paint.color = donutPathData.color
