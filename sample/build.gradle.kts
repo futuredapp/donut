@@ -18,6 +18,12 @@ android {
     sourceSets {
         getByName("main").java.srcDir("src/main/kotlin")
     }
+
+    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+        kotlinOptions {
+            jvmTarget = "1.8"
+        }
+    }
 }
 
 dependencies {
@@ -28,10 +34,7 @@ dependencies {
     implementation(Deps.AndroidX.appcompat)
     implementation(Deps.AndroidX.constraintLayout)
 
-    implementation(Deps.JetpackCompose.framework)
     implementation(Deps.JetpackCompose.foundation)
     implementation(Deps.JetpackCompose.layout)
     implementation(Deps.JetpackCompose.material)
-    implementation(Deps.JetpackCompose.animation)
-    implementation(Deps.JetpackCompose.tooling)
 }

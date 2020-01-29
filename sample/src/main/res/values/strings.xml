@@ -22,6 +22,10 @@
 
     <string name="button_add">+ random</string>
     <string name="button_remove">- random</string>
+    <string name="button_random_values">Random values</string>
     <string name="button_random_colors">Random colors</string>
     <string name="button_clear">Clear</string>
+
+    <string name="navigate_to_android_view">Android View Sample</string>
+    <string name="navigate_to_compose_view">Jetpack Compose Sample</string>
 </resources>

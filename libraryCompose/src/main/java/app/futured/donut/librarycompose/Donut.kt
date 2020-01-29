@@ -20,38 +20,38 @@ fun DonutProgress(config: DonutConfig, data: DonutProgressLine) {
         "Number of segments (${data.progressEntries.size}) exceeds maxSegments (${config.maxSegments})"
     }
 
-    val gap = config.gap.coerceIn(0f, 360f)
-    val animatedGap = +animatedFloat(gap)
-    animatedGap.animateTo(gap)
+    val gapAngleDegrees = config.gapAngleDegrees.coerceIn(0f, 360f)
+    val animatedGapAngle = +animatedFloat(gapAngleDegrees)
+    animatedGapAngle.animateTo(gapAngleDegrees)
 
-    val animatedRotation = +animatedFloat(config.rotation)
-    animatedRotation.animateTo(config.rotation)
+    val animatedGapWidthDegrees = +animatedFloat(config.gapWidthDegrees)
+    animatedGapWidthDegrees.animateTo(config.gapWidthDegrees)
 
     val animatedStrokeWidth = +animatedFloat(config.strokeWidth)
     animatedStrokeWidth.animateTo(config.strokeWidth)
 
-    val animatedTotalAmount = +animatedFloat(data.totalAmount)
-    animatedTotalAmount.animateTo(data.totalAmount)
+    val animatedCap = +animatedFloat(data.cap)
+    animatedCap.animateTo(data.cap)
 
-    val totalAmountProgress = data.totalAmountProgress.coerceIn(0f, 1f)
-    val animatedTotalAmountProgress = +animatedFloat(0f)
-    animatedTotalAmountProgress.animateTo(totalAmountProgress)
+    val masterProgress = data.masterProgress.coerceIn(0f, 1f)
+    val animatedMasterProgress = +animatedFloat(0f)
+    animatedMasterProgress.animateTo(masterProgress)
 
     val segments = addRemainingDonutSegments(config, data.progressEntries)
     val allSegmentsAmount = segments.sumByFloat { it.amount }
-    val wholeDonutAmount = max(animatedTotalAmount.value, allSegmentsAmount)
-    val wholeDonutAngle = 360f - animatedGap.value
-    val masterSegmentAmount = wholeDonutAmount * animatedTotalAmountProgress.value
-    val masterSegmentAngle = wholeDonutAngle * animatedTotalAmountProgress.value
+    val wholeDonutAmount = max(animatedCap.value, allSegmentsAmount)
+    val wholeDonutAngle = 360f - animatedGapAngle.value
+    val masterSegmentAmount = wholeDonutAmount * animatedMasterProgress.value
+    val masterSegmentAngle = wholeDonutAngle * animatedMasterProgress.value
 
-    val halfAnimatedGap = animatedGap.value / 2
-    val startAngle = animatedRotation.value + halfAnimatedGap
-    val totalPathData = DonutPathData(config.totalAmountColor, startAngle, masterSegmentAngle)
+    val halfAnimatedGap = animatedGapAngle.value / 2
+    val startAngle = animatedGapWidthDegrees.value + halfAnimatedGap
+    val totalPathData = DonutPathData(config.backgroundLineColor, startAngle, masterSegmentAngle)
     val segmentsPathData = createDonutPathDataForSegments(
         startAngle,
         masterSegmentAmount,
         masterSegmentAngle,
-        totalAmountProgress,
+        masterProgress,
         segments
     )
 

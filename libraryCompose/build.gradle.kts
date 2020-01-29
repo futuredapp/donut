@@ -20,14 +20,19 @@ android {
         getByName("main").java.srcDir("src/main/kotlin")
     }
 
+    buildFeatures {
+        compose = true
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
     tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
         kotlinOptions {
             jvmTarget = "1.8"
         }
-    }
-
-    buildFeatures {
-        compose = true
     }
 }
 
