@@ -18,8 +18,8 @@ import app.futured.donutsample.tools.extensions.gone
 import app.futured.donutsample.tools.extensions.sumByFloat
 import app.futured.donutsample.tools.extensions.visible
 import app.futured.donutsample.tools.view.setupSeekbar
-import kotlinx.android.synthetic.main.activity_playground.*
 import kotlin.random.Random
+import kotlinx.android.synthetic.main.activity_playground.*
 
 class PlaygroundActivity : AppCompatActivity() {
 

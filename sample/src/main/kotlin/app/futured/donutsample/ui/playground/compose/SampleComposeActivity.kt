@@ -29,9 +29,9 @@ import app.futured.donut.librarycompose.DonutProgressLine
 import app.futured.donutsample.R
 import app.futured.donutsample.tools.extensions.sumByFloat
 import app.futured.donutsample.tools.view.setupSeekbar
-import kotlinx.android.synthetic.main.activity_playground_compose.*
 import kotlin.math.max
 import kotlin.random.Random.Default.nextFloat
+import kotlinx.android.synthetic.main.activity_playground_compose.*
 
 class SampleComposeActivity : AppCompatActivity() {
 
