@@ -2,44 +2,49 @@ name: Check PR
 on: [pull_request]
 
 jobs:
-  setup:
-    name: setup workflow
-    runs-on: [ubuntu-latest]
-    steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-ruby@v1
-        with:
-          ruby-version: '2.6'
-      - name: set up JDK 1.8
-        uses: actions/setup-java@v1
-        with:
-          java-version: 1.8
 
   lint_check:
-    needs: setup
     name: run lint check
     runs-on: [ubuntu-latest]
     steps:
+      - name: checkout
+      - uses: actions/checkout@v1
+      - name: set up JDK 1.8
+      - uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+
       - name: Run Lint Check
         shell: bash
         run: ./gradlew lintCheck
 
   unit_tests:
-    needs: setup
     name: run unit tests
     runs-on: [ubuntu-latest]
     steps:
+      - name: checkout
+      - uses: actions/checkout@v1
+      - name: set up JDK 1.8
+      - uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+
       - name: Run unit tests
         shell: bash
         run: ./gradlew --continue testRelease
 
   danger:
-    needs: setup
     name: run danger
     runs-on: [ubuntu-latest]
     env:
       DANGER_GITHUB_API_TOKEN: ${{ secrets.DANGER_GITHUB_API_TOKEN }}
     steps:
+      - name: checkout
+      - uses: actions/checkout@v1
+      - uses: actions/setup-ruby@v1
+        with:
+          ruby-version: '2.6'
+
       - name: Run danger
         uses: MeilCli/danger-action@v2
         continue-on-error: true
