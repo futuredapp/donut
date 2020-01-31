@@ -27,6 +27,7 @@ jobs:
         shell: bash
         run: ./gradlew --continue testRelease
   danger:
+    needs: lint_check
     name: Check PR - run danger
     runs-on: [ubuntu-latest]
     env:
