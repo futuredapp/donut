@@ -1,7 +1,7 @@
 name: master
 on:
   push:
-    branches: [feature/github-actions-badge]
+    branches: [master]
 
 jobs:
   build:
