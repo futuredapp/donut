@@ -1,7 +1,7 @@
 name: master
 on:
   push:
-    branches: [master]
+    branches: [feature/github-actions-badge]
 
 jobs:
   build:
@@ -9,9 +9,6 @@ jobs:
     runs-on: [ubuntu-latest]
     steps:
       - uses: actions/checkout@v1
-      - uses: actions/setup-ruby@v1
-        with:
-          ruby-version: '2.6'
       - name: Set up JDK 1.8
         uses: actions/setup-java@v1
         with:
