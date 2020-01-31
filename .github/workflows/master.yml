@@ -1,4 +1,4 @@
-name: build_master
+name: master
 on:
   push:
     branches: [feature/github-actions-badge] #TODO change to master
