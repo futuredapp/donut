@@ -3,7 +3,7 @@ on: [pull_request]
 
 jobs:
   lint_check:
-    name: Check PR - run lint check
+    name: Run lint check
     runs-on: [ubuntu-latest]
     steps:
       - uses: actions/checkout@v1
@@ -15,7 +15,7 @@ jobs:
         shell: bash
         run: ./gradlew lintCheck
   unit_tests:
-    name: Check PR - run unit tests
+    name: Run unit tests
     runs-on: [ubuntu-latest]
     steps:
       - uses: actions/checkout@v1
