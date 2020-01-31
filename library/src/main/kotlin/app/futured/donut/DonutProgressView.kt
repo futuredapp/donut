@@ -227,30 +227,29 @@ class DonutProgressView @JvmOverloads constructor(
     fun submitData(datasets: List<DonutDataset>) {
         assertDataConsistency(datasets)
 
-        datasets
-            .filter { it.amount > 0f }
-            .forEach { dataset ->
-                val newLineColor = dataset.color
-                if (hasEntriesForDataset(dataset.name).not()) {
-                    lines.add(
-                        index = 0,
-                        element = DonutProgressLine(
-                            name = dataset.name,
-                            radius = radius,
-                            lineColor = newLineColor,
-                            lineStrokeWidth = strokeWidth,
-                            masterProgress = masterProgress,
-                            length = 0f,
-                            gapWidthDegrees = gapWidthDegrees,
-                            gapAngleDegrees = gapAngleDegrees
-                        )
+        datasets.filter { it.amount > 0f }.forEach { dataset ->
+            val newLineColor = dataset.color
+            if (hasEntriesForDataset(dataset.name).not()) {
+                lines.add(
+                    index = 0,
+                    element = DonutProgressLine(
+                        name = dataset.name,
+                        radius = radius,
+                        lineColor = newLineColor,
+                        lineStrokeWidth = strokeWidth,
+                        masterProgress = masterProgress,
+                        length = 0f,
+                        gapWidthDegrees = gapWidthDegrees,
+                        gapAngleDegrees = gapAngleDegrees
                     )
-                } else {
-                    lines
-                        .filter { it.name == dataset.name }
-                        .forEach { it.mLineColor = newLineColor }
+                )
+            } else {
+                lines
+                    .filter { it.name == dataset.name }
+                    .forEach { it.mLineColor = newLineColor }
                 }
             }
+
 
         this.data.apply {
             val copy = ArrayList(datasets)
