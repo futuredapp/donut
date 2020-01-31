@@ -1,7 +1,7 @@
 name: master
 on:
   push:
-    branches: [feature/github-actions-badge] #TODO change to master
+    branches: [master]
 
 jobs:
   build:
