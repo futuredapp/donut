@@ -1,15 +1,34 @@
+![Title](imgs/donut.svg)
+
+# Donut
+
 [![Download](https://api.bintray.com/packages/thefuntastyops/donut/donut/images/download.svg) ](https://bintray.com/thefuntastyops/donut/donut/_latestVersion)
 [![Build Status](https://github.com/futuredapp/donut/workflows/master/badge.svg)](https://github.com/futuredapp/donut/actions)
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Donut-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/8015)
+![License](https://img.shields.io/github/license/futuredapp/donut?color=black)
 
-# Donut 🍩
-`DonutProgressView` is a configurable doughnut-like graph view capable of displaying multiple datasets with assignable colors. It supports animations and features a gap at the top, which makes it look like a gauge (or tasty bitten-off donut - that's why the name).
+Donut is an Android library which helps you to easily create beautiful doughnut-like charts.
+
+## Installation
+
+`module/build.gradle`:
+
+```groovy
+dependencies {
+    implementation("app.futured.donut:library:$version")
+}
+```
+
+## Features
+
+`DonutProgressView` is a configurable doughnut-like chart view capable of displaying multiple datasets with assignable colors. It supports animations and features a gap at the top, which makes it look like a gauge (or tasty bitten-off donut - that's why the name).
 
 ![Header](imgs/readme-header.png)
 
 The view automatically scales it's datasets proportionally to their values once it gets filled up. This allows you to show your users their daily progresses, reached goals, etc.  
 
-## How to use
+## Usage
+
 Place the view in your layout
 
 ```xml
@@ -47,11 +66,13 @@ You'll get something like this:
 ![View with cap unexceeded](imgs/readme_intro_nocap.png)
 
 ### About the data cap
+
 Once the sum of all dataset values exceeds view's `cap` property, the view starts to scale it's datasets proportionally to their amounts along it's length. E.g. if we, in the upper example, set cap to `donut_view.cap = 1f` (`dataset1.amount + dataset2.amount > 1f`), we would get something like this:
 
 ![View with cap exceeded](imgs/readme_intro_cap.png)
 
-## Submitting data
+### Submitting data
+
 The view accepts list of `DonutDataset` objects that define data to be displayed.  
 Each `DonutDataset` object holds dataset's unique name (string), it's color (color int) and dataset's value. *(Note: the view uses unique name for each dataset to resolve it's internal state and animations, and throws `IllegalStateException` if multiple datasets with same name are submitted.)*
 
@@ -69,11 +90,11 @@ You have to submit new list of datasets everytime you want to modify displayed d
 donut_view.submitData(listOf(waterAmount))
 ```
 
-### Granular controls
+#### Granular controls
 
 The view also provides methods for more granular control over displayed data. You can use `addAmount`, `setAmount` and `removeAmount` methods to add, set or remove specified amounts from displayed datasets.  
 
-#### Adding amount
+##### Adding amount
 
 ```kotlin
 donut_view.addAmount(
@@ -85,7 +106,7 @@ donut_view.addAmount(
 
 The `addAmount` adds specified amount to dataset with provided name. What if dataset does not yet exist? This method has one optional `color` parameter (default value is `null`) - when called, and there isn't already displayed any dataset with provided name and `color` parameter was specified, the new `DonutDataset` with provided name, amount and color will be automatically created internally for you. If you leave the `color` param `null` while trying to add value to non-existent dataset, nothing happens.
 
-#### Setting amount
+##### Setting amount
 
 ```kotlin
 donut_view.setAmount(
@@ -96,7 +117,7 @@ donut_view.setAmount(
 
 The `setAmount` methods sets specified amount to dataset with provided name. If provided amount is equal or less than 0, dataset and corresponding progress line are automatically removed after animation. If view does not contain specified dataset, nothing happens.
 
-#### Removing amount
+##### Removing amount
 
 ```kotlin
 donut_view.removeAmount(
@@ -107,16 +128,18 @@ donut_view.removeAmount(
 
 The `removeAmount` simply subtracts specified amount from any displayed dataset. If resulting amount is equal or less than 0, dataset and corresponding progress line are automatically removed after animation. If view does not contain specified dataset, nothing happens.
 
-### Get and clear data
+#### Get and clear data
 
 If you want to get currently displayed data, call `getData()` method which returns immutable list of all displayed `DonutDataset` objects. To clear displayed data, call `clear()` method.
 
 Each call to a data method (submit, add, set, remove, clear) results in view **automatically resolving and animating to the new state**.
 
-## Customization
+### Customization
+
 The view allows you to configure various properties to let you create a unique style that fits your needs. They can be changed either via XML attributes, or at runtime via property access.
 
-### XML attributes
+#### XML attributes
+
 |Name|Default value|Description|
 |---|---|---|
 | `donut_cap`| `1.0f` | View's cap property |
@@ -130,30 +153,16 @@ The view allows you to configure various properties to let you create a unique s
 
 In addition to these XML attributes, the view features `masterProgress` property (`0f to 1f`) that can be changed programatically. It controls percentual progress of all lines, including the background line, which allows you to get creative with startup animations, etc.
 
-### Sample app
+#### Sample app
 
 The quickest way to explore different styles is to try the [sample](sample/) app, which contains an interactive playground with buttons and sliders to fiddle with.
 
-
 ![Playground](imgs/playground.gif)
 
-## Download
-`build.gradle`:
+## Contributors
 
-```groovy
-allprojects {
-    repositories {
-        jcenter()
-    }
-}
-```
+Current maintainer and main contributor is [Matěj Semančík](https://github.com/matejsemancik).
 
-`module/build.gradle`:
+## Licence
 
-```groovy
-dependencies {
-    implementation("app.futured.donut:library:$version")
-}
-```
----
-Made with 🖤 in [Futured](http://futured.app)
+Donut is available under MIT license. See [LICENSE file](LICENSE) for more information.
