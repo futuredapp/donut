@@ -161,7 +161,7 @@ The quickest way to explore different styles is to try the [sample](sample/) app
 
 ## Contributors
 
-Current maintainer and main contributor is [Matěj Semančík](https://github.com/matejsemancik).
+Current maintainer and main contributor is [Matej Semančík](https://github.com/matejsemancik).
 
 ## Licence
 
