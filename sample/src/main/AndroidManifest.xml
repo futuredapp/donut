@@ -23,7 +23,7 @@
 
         <activity android:name=".ui.playground.PlaygroundActivity" />
 
-        <activity android:name=".ui.playground.compose.SampleComposeActivity" />
+        <activity android:name=".ui.playground.compose.PlaygroundComposeActivity" />
     </application>
 
 </manifest>
