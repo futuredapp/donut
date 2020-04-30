@@ -4,6 +4,10 @@ plugins {
     id("com.android.library")
     id("kotlin-android")
 }
+apply {
+    plugin("kotlin-android")
+    plugin("kotlin-android-extensions")
+}
 
 group = ProjectSettings.group
 version = ProjectSettings.version
@@ -29,10 +33,12 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 
-    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
-        kotlinOptions {
-            jvmTarget = "1.8"
-        }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = Versions.jetpackCompose
     }
 }
 
