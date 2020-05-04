@@ -5,8 +5,7 @@ import androidx.compose.remember
 import androidx.ui.animation.animatedColor
 import androidx.ui.animation.animatedFloat
 import androidx.ui.core.Modifier
-import androidx.ui.core.drawBehind
-import androidx.ui.foundation.Box
+import androidx.ui.foundation.Canvas
 import androidx.ui.geometry.Offset
 import androidx.ui.geometry.Rect
 import androidx.ui.graphics.Canvas
@@ -33,14 +32,14 @@ import kotlin.math.max
  * @param data data used to draw the content of the Donut
  * @param config configuration used to define animations setup of the Donut
  */
-@Composable fun DonutProgress(data: DonutData, config: DonutConfig = DonutConfig()) {
+@Composable fun DonutProgress(data: DonutData, config: DonutConfig = DonutConfig(), modifier: Modifier = Modifier.fillMaxSize()) {
     assertDatasetSizeUnchanged(data)
 
     val adjustedData = adjustData(data)
     val donutProgressValues = createDonutProgressValues(adjustedData)
     animateOrSnapDistinctValues(adjustedData, config, donutProgressValues)
 
-    DrawDonut(adjustedData, donutProgressValues)
+    DrawDonut(adjustedData, donutProgressValues, modifier)
 }
 
 @Composable private fun createDonutProgressValues(data: DonutData): DonutProgressValues {
@@ -69,7 +68,7 @@ import kotlin.math.max
     )
 }
 
-@Composable private fun DrawDonut(data: DonutData, donutProgressValues: DonutProgressValues) {
+@Composable private fun DrawDonut(data: DonutData, donutProgressValues: DonutProgressValues, modifier: Modifier) {
     val masterProgress = donutProgressValues.animatedMasterProgress.value
     val gapAngleDegrees = donutProgressValues.animatedGapAngle.value
     val gapWidthDegrees = donutProgressValues.animatedGapWidthDegrees.value
@@ -92,13 +91,12 @@ import kotlin.math.max
     val donutPathData = DonutPathData(masterPathData, entriesPathData)
 
     val paint = getMemoizedPaint(donutProgressValues.animatedStrokeWidth.value)
-    val drawModifier = Modifier.drawBehind {
+    Canvas(modifier = modifier, onCanvas = {
         drawDonutSegment(size, paint, donutPathData.masterPathData)
         donutPathData.entriesPathData.forEach { pathData ->
             drawDonutSegment(size, paint, pathData)
         }
-    }
-    Box(modifier = Modifier.fillMaxSize() + drawModifier)
+    })
 }
 
 @Composable private fun getMemoizedPaint(strokeWidth: Float): Paint {
