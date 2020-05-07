@@ -5,10 +5,6 @@ plugins {
     id("kotlin-android")
     id("kotlin-android-extensions")
 }
-apply {
-    plugin("kotlin-android")
-    plugin("kotlin-android-extensions")
-}
 
 android {
     compileSdkVersion(ProjectSettings.targetSdk)
