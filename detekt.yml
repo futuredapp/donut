@@ -99,6 +99,7 @@ naming:
     active: true
   FunctionNaming:
     active: true
+    functionPattern: '^([a-zA-Z$][a-zA-Z$0-9]*)|(`.*`)$'
   FunctionParameterNaming:
     active: true
   MatchingDeclarationName:
