@@ -16,11 +16,11 @@ import app.futured.donut.library.compose.internal.extensions.sumByFloat
  * that is the half-circle.
  * @param gapAngleDegrees The angle in degrees, at which the gap will be displayed. Eg. when set to 90° then donut
  * will be rotated by 90° clockwise.
- * @param datasets The data used to define each section of the donut. This data should keep the same size
- * since adding or removing of the new dataset is not supported yet. If the size of this class will be
- * changed then exception will be thrown.
  * @param strokeWidth Stroke width of all lines in pixels.
  * @param backgroundLineColor The color of the donut background line.
+ * @param datasets The data used to define each section of the donut. This data should keep the same size
+ * since adding or removing of the new dataset is not supported yet. If the size of this list is changed then
+ * an exception will be thrown.
  */
 @Model data class DonutData(
     var cap: Float,
