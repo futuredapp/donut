@@ -1,16 +1,21 @@
 import org.jetbrains.kotlin.config.KotlinCompilerVersion
 
 plugins {
-    id("com.android.application")
+    id("com.android.library")
     id("kotlin-android")
-    id("kotlin-android-extensions")
 }
+apply {
+    plugin("kotlin-android")
+    plugin("kotlin-android-extensions")
+}
+
+group = ProjectSettings.group
+version = ProjectSettings.version
 
 android {
     compileSdkVersion(ProjectSettings.targetSdk)
 
     defaultConfig {
-        applicationId = ProjectSettings.applicationId
         minSdkVersion(ProjectSettings.minSdk)
         targetSdkVersion(ProjectSettings.targetSdk)
     }
@@ -39,13 +44,8 @@ android {
 
 dependencies {
     implementation(kotlin(Deps.Kotlin.stdlib, KotlinCompilerVersion.VERSION))
-    implementation(project(":library"))
-    implementation(project(":libraryCompose"))
-
     implementation(Deps.AndroidX.ktx)
     implementation(Deps.AndroidX.appcompat)
-    implementation(Deps.AndroidX.constraintLayout)
-
     implementation(Deps.JetpackCompose.framework)
     implementation(Deps.JetpackCompose.foundation)
     implementation(Deps.JetpackCompose.layout)

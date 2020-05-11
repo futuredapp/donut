@@ -4,22 +4,24 @@ import android.animation.ValueAnimator
 import android.os.Bundle
 import android.os.Handler
 import android.view.animation.AnimationUtils
+import android.widget.RadioGroup
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SwitchCompat
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import app.futured.donut.DonutDataset
+import app.futured.donut.DonutProgressView
 import app.futured.donutsample.R
 import app.futured.donutsample.data.model.BlackCategory
 import app.futured.donutsample.data.model.DataCategory
 import app.futured.donutsample.data.model.GreenCategory
 import app.futured.donutsample.data.model.OrangeCategory
-import app.futured.donutsample.tools.extensions.doOnProgressChange
 import app.futured.donutsample.tools.extensions.getColorCompat
 import app.futured.donutsample.tools.extensions.gone
 import app.futured.donutsample.tools.extensions.sumByFloat
 import app.futured.donutsample.tools.extensions.visible
-import kotlinx.android.synthetic.main.activity_playground.*
+import app.futured.donutsample.tools.view.setupSeekbar
 import kotlin.random.Random
 
 class PlaygroundActivity : AppCompatActivity() {
@@ -31,6 +33,31 @@ class PlaygroundActivity : AppCompatActivity() {
             OrangeCategory
         )
     }
+
+    private val donutProgressView by lazy { findViewById<DonutProgressView>(R.id.donut_view) }
+    private val masterProgressSeekbar by lazy { findViewById<SeekBar>(R.id.master_progress_seekbar) }
+    private val masterProgressText by lazy { findViewById<TextView>(R.id.master_progress_text) }
+    private val gapWidthSeekbar by lazy { findViewById<SeekBar>(R.id.gap_width_seekbar) }
+    private val gapWidthText by lazy { findViewById<TextView>(R.id.gap_width_text) }
+    private val gapAngleSeekbar by lazy { findViewById<SeekBar>(R.id.gap_angle_seekbar) }
+    private val gapAngleText by lazy { findViewById<TextView>(R.id.gap_angle_text) }
+    private val strokeWidthSeekbar by lazy { findViewById<SeekBar>(R.id.stroke_width_seekbar) }
+    private val strokeWidthText by lazy { findViewById<TextView>(R.id.stroke_width_text) }
+    private val capSeekbar by lazy { findViewById<SeekBar>(R.id.cap_seekbar) }
+    private val capText by lazy { findViewById<TextView>(R.id.cap_text) }
+    private val animationDurationSeekbar by lazy { findViewById<SeekBar>(R.id.anim_duration_seekbar) }
+    private val animationDurationText by lazy { findViewById<TextView>(R.id.anim_duration_text) }
+    private val addButton by lazy { findViewById<TextView>(R.id.button_add) }
+    private val removeButton by lazy { findViewById<TextView>(R.id.button_remove) }
+    private val randomColorsButton by lazy { findViewById<TextView>(R.id.button_random_colors) }
+    private val clearButton by lazy { findViewById<TextView>(R.id.button_clear) }
+    private val animationEnabledSwitch by lazy { findViewById<SwitchCompat>(R.id.anim_enabled_switch) }
+    private val amountCapText by lazy { findViewById<TextView>(R.id.amount_cap_text) }
+    private val amountTotalText by lazy { findViewById<TextView>(R.id.amount_total_text) }
+    private val blackDataSetText by lazy { findViewById<TextView>(R.id.black_dataset_text) }
+    private val greenDataSetText by lazy { findViewById<TextView>(R.id.green_dataset_text) }
+    private val orangeDataSetText by lazy { findViewById<TextView>(R.id.orange_dataset_text) }
+    private val interpolatorRadioGroup by lazy { findViewById<RadioGroup>(R.id.interpolator_radio_group) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,9 +73,9 @@ class PlaygroundActivity : AppCompatActivity() {
     }
 
     private fun setupDonut() {
-        donut_view.cap = 5f
-        donut_view.masterProgress = 0f
-        donut_view.alpha = 0f
+        donutProgressView.cap = 5f
+        donutProgressView.masterProgress = 0f
+        donutProgressView.gapAngleDegrees = 0f
     }
 
     private fun runInitialAnimation() {
@@ -56,10 +83,10 @@ class PlaygroundActivity : AppCompatActivity() {
             duration = 1000
             interpolator = FastOutSlowInInterpolator()
             addUpdateListener {
-                donut_view.masterProgress = it.animatedValue as Float
-                donut_view.alpha = it.animatedValue as Float
+                donutProgressView.masterProgress = it.animatedValue as Float
+                donutProgressView.alpha = it.animatedValue as Float
 
-                master_progress_seekbar.progress = (donut_view.masterProgress * 100).toInt()
+                masterProgressSeekbar.progress = (donutProgressView.masterProgress * 100).toInt()
             }
 
             start()
@@ -85,25 +112,25 @@ class PlaygroundActivity : AppCompatActivity() {
             )
         )
 
-        donut_view.submitData(datasets)
+        donutProgressView.submitData(datasets)
 
         updateIndicators()
     }
 
     private fun updateIndicators() {
-        amount_cap_text.text = getString(R.string.amount_cap, donut_view.cap)
-        amount_total_text.text = getString(
+        amountCapText.text = getString(R.string.amount_cap, donutProgressView.cap)
+        amountTotalText.text = getString(
             R.string.amount_total,
-            donut_view.getData().sumByFloat { it.amount }
+            donutProgressView.getData().sumByFloat { it.amount }
         )
 
-        updateIndicatorAmount(BlackCategory, black_dataset_text)
-        updateIndicatorAmount(GreenCategory, green_dataset_text)
-        updateIndicatorAmount(OrangeCategory, orange_dataset_text)
+        updateIndicatorAmount(BlackCategory, blackDataSetText)
+        updateIndicatorAmount(GreenCategory, greenDataSetText)
+        updateIndicatorAmount(OrangeCategory, orangeDataSetText)
     }
 
     private fun updateIndicatorAmount(category: DataCategory, textView: TextView) {
-        donut_view.getData()
+        donutProgressView.getData()
             .filter { it.name == category.name }
             .sumByFloat { it.amount }
             .also {
@@ -121,35 +148,35 @@ class PlaygroundActivity : AppCompatActivity() {
         // region Styles
 
         setupSeekbar(
-            seekBar = master_progress_seekbar,
-            titleTextView = master_progress_text,
-            initProgress = (donut_view.masterProgress * 100).toInt(),
+            seekBar = masterProgressSeekbar,
+            titleTextView = masterProgressText,
+            initProgress = (donutProgressView.masterProgress * 100).toInt(),
             getTitleText = { getString(R.string.master_progress, it) },
-            onProgressChanged = { donut_view.masterProgress = it / 100f }
+            onProgressChanged = { donutProgressView.masterProgress = it / 100f }
         )
 
         setupSeekbar(
-            seekBar = gap_width_seekbar,
-            titleTextView = gap_width_text,
-            initProgress = donut_view.gapWidthDegrees.toInt(),
+            seekBar = gapWidthSeekbar,
+            titleTextView = gapWidthText,
+            initProgress = donutProgressView.gapWidthDegrees.toInt(),
             getTitleText = { getString(R.string.gap_width, it) },
-            onProgressChanged = { donut_view.gapWidthDegrees = it.toFloat() }
+            onProgressChanged = { donutProgressView.gapWidthDegrees = it.toFloat() }
         )
 
         setupSeekbar(
-            seekBar = gap_angle_seekbar,
-            titleTextView = gap_angle_text,
-            initProgress = donut_view.gapAngleDegrees.toInt(),
+            seekBar = gapAngleSeekbar,
+            titleTextView = gapAngleText,
+            initProgress = donutProgressView.gapAngleDegrees.toInt(),
             getTitleText = { getString(R.string.gap_angle, it) },
-            onProgressChanged = { donut_view.gapAngleDegrees = it.toFloat() }
+            onProgressChanged = { donutProgressView.gapAngleDegrees = it.toFloat() }
         )
 
         setupSeekbar(
-            seekBar = stroke_width_seekbar,
-            titleTextView = stroke_width_text,
-            initProgress = donut_view.strokeWidth.toInt(),
+            seekBar = strokeWidthSeekbar,
+            titleTextView = strokeWidthText,
+            initProgress = donutProgressView.strokeWidth.toInt(),
             getTitleText = { getString(R.string.stroke_width, it) },
-            onProgressChanged = { donut_view.strokeWidth = it.toFloat() }
+            onProgressChanged = { donutProgressView.strokeWidth = it.toFloat() }
         )
 
         // endregion
@@ -157,20 +184,20 @@ class PlaygroundActivity : AppCompatActivity() {
         // region Data
 
         setupSeekbar(
-            seekBar = cap_seekbar,
-            titleTextView = cap_text,
-            initProgress = donut_view.cap.toInt(),
+            seekBar = capSeekbar,
+            titleTextView = capText,
+            initProgress = donutProgressView.cap.toInt(),
             getTitleText = { getString(R.string.amount_cap, it.toFloat()) },
             onProgressChanged = {
-                donut_view.cap = it.toFloat()
+                donutProgressView.cap = it.toFloat()
                 updateIndicators()
             }
         )
 
         // Add random amount to random dataset
-        button_add.setOnClickListener {
+        addButton.setOnClickListener {
             val randomCategory = ALL_CATEGORIES.random()
-            donut_view.addAmount(
+            donutProgressView.addAmount(
                 randomCategory.name,
                 Random.nextFloat(),
                 getColorCompat(randomCategory.colorRes)
@@ -180,27 +207,27 @@ class PlaygroundActivity : AppCompatActivity() {
         }
 
         // Remove random value from random dataset
-        button_remove.setOnClickListener {
-            val existingDatasets = donut_view.getData().map { it.name }
+        removeButton.setOnClickListener {
+            val existingDatasets = donutProgressView.getData().map { it.name }
             if (existingDatasets.isNotEmpty()) {
-                donut_view.removeAmount(existingDatasets.random(), Random.nextFloat())
+                donutProgressView.removeAmount(existingDatasets.random(), Random.nextFloat())
                 updateIndicators()
             }
         }
 
         // Randomize data set colors
-        button_random_colors.setOnClickListener {
-            val datasets = donut_view.getData().toMutableList()
+        randomColorsButton.setOnClickListener {
+            val datasets = donutProgressView.getData().toMutableList()
             for (i in 0 until datasets.size) {
                 datasets[i] = datasets[i].copy(color = Random.nextInt())
             }
 
-            donut_view.submitData(datasets)
+            donutProgressView.submitData(datasets)
         }
 
         // Clear graph
-        button_clear.setOnClickListener {
-            donut_view.clear()
+        clearButton.setOnClickListener {
+            donutProgressView.clear()
             updateIndicators()
         }
 
@@ -208,17 +235,17 @@ class PlaygroundActivity : AppCompatActivity() {
 
         // region Animations
 
-        anim_enabled_switch.isChecked = donut_view.animateChanges
-        anim_enabled_switch.setOnCheckedChangeListener { _, isChecked ->
-            donut_view.animateChanges = isChecked
+        animationEnabledSwitch.isChecked = donutProgressView.animateChanges
+        animationEnabledSwitch.setOnCheckedChangeListener { _, isChecked ->
+            donutProgressView.animateChanges = isChecked
         }
 
         setupSeekbar(
-            seekBar = anim_duration_seekbar,
-            titleTextView = anim_duration_text,
-            initProgress = donut_view.animationDurationMs.toInt(),
+            seekBar = animationDurationSeekbar,
+            titleTextView = animationDurationText,
+            initProgress = donutProgressView.animationDurationMs.toInt(),
             getTitleText = { getString(R.string.animation_duration, it) },
-            onProgressChanged = { donut_view.animationDurationMs = it.toLong() }
+            onProgressChanged = { donutProgressView.animationDurationMs = it.toLong() }
         )
 
         val interpolators = listOf(
@@ -229,32 +256,15 @@ class PlaygroundActivity : AppCompatActivity() {
             AnimationUtils.loadInterpolator(this, android.R.interpolator.bounce)
         )
 
-        interpolator_radio_group.setOnCheckedChangeListener { radioGroup, checkedId ->
+        interpolatorRadioGroup.setOnCheckedChangeListener { radioGroup, checkedId ->
             for (i in 0 until radioGroup.childCount) {
                 if (radioGroup.getChildAt(i).id == checkedId) {
-                    donut_view.animationInterpolator = interpolators[i]
+                    donutProgressView.animationInterpolator = interpolators[i]
                     break
                 }
             }
         }
 
         // endregion
-    }
-
-    private fun setupSeekbar(
-        seekBar: SeekBar,
-        titleTextView: TextView,
-        initProgress: Int,
-        getTitleText: (progress: Int) -> String,
-        onProgressChanged: (progress: Int) -> Unit
-    ) {
-        titleTextView.text = getTitleText(initProgress)
-        seekBar.apply {
-            progress = initProgress
-            doOnProgressChange {
-                onProgressChanged(progress)
-                titleTextView.text = getTitleText(progress)
-            }
-        }
     }
 }

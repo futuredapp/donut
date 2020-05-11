@@ -11,6 +11,8 @@
     <string name="float_2f">%.2f</string>
     <string name="animations">Animations</string>
     <string name="animation_enabled">Animate changes</string>
+    <string name="animation_enabled_layouts">Animate layout changes</string>
+    <string name="animation_enabled_colors">Animate color changes</string>
     <string name="animation_duration">Animation duration: %d ms</string>
     <string name="animation_interpolators">Interpolators</string>
 
@@ -20,8 +22,19 @@
     <string name="interpolator_linear">Linear</string>
     <string name="interpolator_bounce">Bounce</string>
 
+    <string name="animation_builder_fast_out_slow_in">FastOutSlowIn</string>
+    <string name="animation_builder_linear_out_slow_in">LinearOutSlowIn</string>
+    <string name="animation_builder_fast_out_linear_in">FastOutLinearIn</string>
+    <string name="animation_builder_linear">Linear</string>
+    <string name="animation_builder_spring">Spring</string>
+    <string name="animation_builder_custom">Custom</string>
+
     <string name="button_add">+ random</string>
     <string name="button_remove">- random</string>
+    <string name="button_random_values">Random values</string>
     <string name="button_random_colors">Random colors</string>
     <string name="button_clear">Clear</string>
+
+    <string name="navigate_to_android_view">Android View Sample</string>
+    <string name="navigate_to_compose_view">Jetpack Compose Sample</string>
 </resources>

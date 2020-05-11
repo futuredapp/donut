@@ -1,5 +1,3 @@
-autoCorrect: false
-
 build:
   maxIssues: 100
 
@@ -82,9 +80,7 @@ exceptions:
 
 formatting:
   active: false
-
-code-smell:
-  active: true
+  autoCorrect: false
 
 naming:
   active: true
@@ -103,6 +99,7 @@ naming:
     active: true
   FunctionNaming:
     active: true
+    functionPattern: '^([a-zA-Z$][a-zA-Z$0-9]*)|(`.*`)$'
   FunctionParameterNaming:
     active: true
   MatchingDeclarationName:
@@ -181,9 +178,6 @@ style:
     active: true
   ForbiddenVoid:
     active: true
-  FunctionMaxLength:
-    active: true
-    maximumFunctionNameLength: 50
   FunctionOnlyReturningConstant:
     active: true
   LoopWithTooManyJumpStatements:
@@ -250,9 +244,6 @@ style:
     active: true
   VarCouldBeVal:
     active: true
-  VariableMaxLength:
-    active: true
-    maximumVariableNameLength: 50
   WildcardImport:
     active: true
     excludeImports: 'kotlinx.android.synthetic.*'

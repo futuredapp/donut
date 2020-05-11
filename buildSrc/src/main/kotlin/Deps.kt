@@ -18,4 +18,13 @@ object Deps {
         const val constraintLayout = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
         const val ktx = "androidx.core:core-ktx:${Versions.ktx}"
     }
+
+    object JetpackCompose {
+        const val framework = "androidx.ui:ui-framework:${Versions.jetpackCompose}"
+        const val foundation = "androidx.ui:ui-foundation:${Versions.jetpackCompose}"
+        const val layout = "androidx.ui:ui-layout:${Versions.jetpackCompose}"
+        const val material = "androidx.ui:ui-material:${Versions.jetpackCompose}"
+        const val animation = "androidx.ui:ui-animation:${Versions.jetpackCompose}"
+        const val tooling = "androidx.ui:ui-tooling:${Versions.jetpackCompose}"
+    }
 }
