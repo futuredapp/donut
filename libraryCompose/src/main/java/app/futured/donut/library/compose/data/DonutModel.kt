@@ -18,22 +18,22 @@ import app.futured.donut.library.compose.internal.extensions.sumByFloat
  * will be rotated by 90° clockwise.
  * @param strokeWidth Stroke width of all lines in pixels.
  * @param backgroundLineColor The color of the donut background line.
- * @param datasets The data used to define each section of the donut. This data should keep the same size
- * since adding or removing of the new dataset is not supported yet. If the size of this list is changed then
+ * @param sections The data used to define each section of the donut. This data should keep the same size
+ * since adding or removing of the new section is not supported yet. If the size of this list is changed then
  * an exception will be thrown.
  */
-@Model data class DonutData(
+@Model data class DonutModel(
     var cap: Float,
     var masterProgress: Float = 1f,
     var gapWidthDegrees: Float = 90f,
     var gapAngleDegrees: Float = 90f,
     var strokeWidth: Float = 30f,
     var backgroundLineColor: Color = Color.LightGray,
-    var datasets: List<DonutDataset>
+    var sections: List<DonutSection>
 ) {
 
     /**
-     * Sum of all [DonutDataset.amount]
+     * Sum of all [DonutSection.amount]
      */
-    val datasetsCap: Float get() = datasets.sumByFloat { it.amount }
+    val sectionsCap: Float get() = sections.sumByFloat { it.amount }
 }

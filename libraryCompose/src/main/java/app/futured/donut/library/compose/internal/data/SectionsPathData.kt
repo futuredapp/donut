@@ -1,11 +1,11 @@
 package app.futured.donut.library.compose.internal.data
 
-import app.futured.donut.library.compose.data.DonutDataset
+import app.futured.donut.library.compose.data.DonutSection
 
-internal data class DatasetsPathData(
+internal data class SectionsPathData(
     val startAngle: Float,
     val masterSegmentAmount: Float,
     val masterSegmentAngle: Float,
     val masterProgress: Float,
-    val datasets: List<DonutDataset>
+    val sections: List<DonutSection>
 )

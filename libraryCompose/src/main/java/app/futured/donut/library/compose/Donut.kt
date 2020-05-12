@@ -17,11 +17,11 @@ import androidx.ui.unit.PxSize
 import androidx.ui.unit.center
 import androidx.ui.unit.min
 import app.futured.donut.library.compose.data.DonutConfig
-import app.futured.donut.library.compose.data.DonutData
-import app.futured.donut.library.compose.internal.data.DatasetsPathData
+import app.futured.donut.library.compose.data.DonutModel
 import app.futured.donut.library.compose.internal.data.DonutPathData
 import app.futured.donut.library.compose.internal.data.DonutPathDataEntry
 import app.futured.donut.library.compose.internal.data.DonutProgressValues
+import app.futured.donut.library.compose.internal.data.SectionsPathData
 import app.futured.donut.library.compose.internal.extensions.animateOrSnapDistinctValues
 import kotlin.math.max
 
@@ -29,30 +29,30 @@ import kotlin.math.max
  * [DonutProgress] is a composable Android view that helps you to easily create doughnut-like charts with fully
  * customizable animations.
  *
- * @param data data used to draw the content of the Donut
+ * @param model data used to draw the content of the Donut
  * @param config configuration used to define animations setup of the Donut
  */
-@Composable fun DonutProgress(data: DonutData, config: DonutConfig = DonutConfig(), modifier: Modifier = Modifier.fillMaxSize()) {
-    assertDatasetSizeUnchanged(data)
+@Composable fun DonutProgress(model: DonutModel, config: DonutConfig = DonutConfig(), modifier: Modifier = Modifier.fillMaxSize()) {
+    assertSectionsSizeUnchanged(model)
 
-    val adjustedData = adjustData(data)
+    val adjustedData = adjustData(model)
     val donutProgressValues = createDonutProgressValues(adjustedData)
     animateOrSnapDistinctValues(adjustedData, config, donutProgressValues)
 
     DrawDonut(adjustedData, donutProgressValues, modifier)
 }
 
-@Composable private fun createDonutProgressValues(data: DonutData): DonutProgressValues {
-    val pathData = calculatePathData(data)
-    val animatedGapAngle = animatedFloat(data.gapAngleDegrees)
-    val animatedMasterProgress = animatedFloat(data.masterProgress)
-    val animatedGapWidthDegrees = animatedFloat(data.gapWidthDegrees)
-    val animatedStrokeWidth = animatedFloat(data.strokeWidth)
-    val animatedBackgroundLineColor = animatedColor(data.backgroundLineColor)
-    val animatedCap = animatedFloat(data.cap)
-    val animatedProgressStartAngles = data.datasets.mapIndexed { index, _ -> animatedFloat(pathData[index].startAngle) }
-    val animatedProgressSweepAngles = data.datasets.mapIndexed { index, _ -> animatedFloat(pathData[index].sweepAngle) }
-    val animatedProgressColors = data.datasets.map { animatedColor(it.color) }
+@Composable private fun createDonutProgressValues(model: DonutModel): DonutProgressValues {
+    val pathData = calculatePathData(model)
+    val animatedGapAngle = animatedFloat(model.gapAngleDegrees)
+    val animatedMasterProgress = animatedFloat(model.masterProgress)
+    val animatedGapWidthDegrees = animatedFloat(model.gapWidthDegrees)
+    val animatedStrokeWidth = animatedFloat(model.strokeWidth)
+    val animatedBackgroundLineColor = animatedColor(model.backgroundLineColor)
+    val animatedCap = animatedFloat(model.cap)
+    val animatedProgressStartAngles = model.sections.mapIndexed { index, _ -> animatedFloat(pathData[index].startAngle) }
+    val animatedProgressSweepAngles = model.sections.mapIndexed { index, _ -> animatedFloat(pathData[index].sweepAngle) }
+    val animatedProgressColors = model.sections.map { animatedColor(it.color) }
 
     return DonutProgressValues(
         animatedGapAngle = animatedGapAngle,
@@ -68,7 +68,7 @@ import kotlin.math.max
     )
 }
 
-@Composable private fun DrawDonut(data: DonutData, donutProgressValues: DonutProgressValues, modifier: Modifier) {
+@Composable private fun DrawDonut(model: DonutModel, donutProgressValues: DonutProgressValues, modifier: Modifier) {
     val masterProgress = donutProgressValues.animatedMasterProgress.value
     val gapAngleDegrees = donutProgressValues.animatedGapAngle.value
     val gapWidthDegrees = donutProgressValues.animatedGapWidthDegrees.value
@@ -80,7 +80,7 @@ import kotlin.math.max
 
     val masterPathData = DonutPathDataEntry(backgroundLineColor, startAngle, masterSegmentAngle)
     val entriesPathData = mutableListOf<DonutPathDataEntry>().apply {
-        data.datasets.forEachIndexed { index, _ ->
+        model.sections.forEachIndexed { index, _ ->
             this += DonutPathDataEntry(
                 color = donutProgressValues.animatedColors[index].value,
                 startAngle = donutProgressValues.animatedStartAngles[index].value,
@@ -110,100 +110,100 @@ import kotlin.math.max
     }
 }
 
-@Composable private fun assertDatasetSizeUnchanged(data: DonutData) {
-    val initialDatasetsCount = remember { data.datasets.size }
-    check(data.datasets.size <= initialDatasetsCount) {
-        "Adding or removing datasets is not supported." +
-        "Instead of adding new datasets dynamically add empty datasets during initialization and " +
-        "instead of removing existing datasets dynamically set datasets value to zero."
+@Composable private fun assertSectionsSizeUnchanged(model: DonutModel) {
+    val initialSectionsCount = remember { model.sections.size }
+    check(model.sections.size <= initialSectionsCount) {
+        "Adding or removing sections is not supported." +
+        "Instead of adding new sections dynamically add empty sections during initialization and " +
+        "instead of removing existing sections dynamically set sections value to zero."
     }
 }
 
-private fun animateOrSnapDistinctValues(data: DonutData, config: DonutConfig, donutProgressValues: DonutProgressValues) {
+private fun animateOrSnapDistinctValues(model: DonutModel, config: DonutConfig, donutProgressValues: DonutProgressValues) {
     donutProgressValues.animatedGapAngle.animateOrSnapDistinctValues(
-        newValue = data.gapAngleDegrees,
+        newValue = model.gapAngleDegrees,
         isAnimationEnabled = config.isGapAngleAnimationEnabled,
         animationBuilder = config.gapAngleAnimationBuilder
     )
     donutProgressValues.animatedMasterProgress.animateOrSnapDistinctValues(
-        newValue = data.masterProgress,
+        newValue = model.masterProgress,
         isAnimationEnabled = config.isMasterProgressAnimationEnabled,
         animationBuilder = config.masterProgressAnimationBuilder
     )
     donutProgressValues.animatedGapWidthDegrees.animateOrSnapDistinctValues(
-        newValue = data.gapWidthDegrees,
+        newValue = model.gapWidthDegrees,
         isAnimationEnabled = config.isGapWidthAnimationEnabled,
         animationBuilder = config.gapWidthAnimationBuilder
     )
     donutProgressValues.animatedStrokeWidth.animateOrSnapDistinctValues(
-        newValue = data.strokeWidth,
+        newValue = model.strokeWidth,
         isAnimationEnabled = config.isStrokeWidthAnimationEnabled,
         animationBuilder = config.strokeWidthAnimationBuilder
     )
     donutProgressValues.animatedStrokeWidth.animateOrSnapDistinctValues(
-        newValue = data.strokeWidth,
+        newValue = model.strokeWidth,
         isAnimationEnabled = config.isStrokeWidthAnimationEnabled,
         animationBuilder = config.strokeWidthAnimationBuilder
     )
     donutProgressValues.animatedBackgroundLineColor.animateOrSnapDistinctValues(
-        newValue = data.backgroundLineColor,
+        newValue = model.backgroundLineColor,
         isAnimationEnabled = config.isBackgroundLineColorAnimationEnabled,
         animationBuilder = config.backgroundLineColorAnimationBuilder
     )
     donutProgressValues.animatedCap.animateOrSnapDistinctValues(
-        newValue = data.cap,
+        newValue = model.cap,
         isAnimationEnabled = config.isCapAnimationEnabled,
         animationBuilder = config.capAnimationBuilder
     )
     donutProgressValues.pathData.forEachIndexed { index, donutPathDataEntry ->
         donutProgressValues.animatedColors[index].animateOrSnapDistinctValues(
             newValue = donutPathDataEntry.color,
-            isAnimationEnabled = config.isDatasetColorAnimationEnabled,
-            animationBuilder = config.datasetColorAnimationBuilder
+            isAnimationEnabled = config.isSectionColorAnimationEnabled,
+            animationBuilder = config.sectionColorAnimationBuilder
         )
         donutProgressValues.animatedSweepAngles[index].animateOrSnapDistinctValues(
             newValue = donutPathDataEntry.sweepAngle,
-            isAnimationEnabled = config.isDatasetAmountAnimationEnabled,
-            animationBuilder = config.datasetAmountAnimationBuilder
+            isAnimationEnabled = config.isSectionAmountAnimationEnabled,
+            animationBuilder = config.sectionAmountAnimationBuilder
         )
         donutProgressValues.animatedStartAngles[index].animateOrSnapDistinctValues(
             newValue = donutPathDataEntry.startAngle,
-            isAnimationEnabled = config.isDatasetAmountAnimationEnabled,
-            animationBuilder = config.datasetAmountAnimationBuilder
+            isAnimationEnabled = config.isSectionAmountAnimationEnabled,
+            animationBuilder = config.sectionAmountAnimationBuilder
         )
     }
 }
 
-private fun adjustData(data: DonutData) = data.copy(
-    gapAngleDegrees = data.gapAngleDegrees.coerceIn(0f, 360f),
-    masterProgress = data.masterProgress.coerceIn(0f, 1f),
-    gapWidthDegrees = data.gapWidthDegrees.coerceIn(0f, 360f)
+private fun adjustData(model: DonutModel) = model.copy(
+    gapAngleDegrees = model.gapAngleDegrees.coerceIn(0f, 360f),
+    masterProgress = model.masterProgress.coerceIn(0f, 1f),
+    gapWidthDegrees = model.gapWidthDegrees.coerceIn(0f, 360f)
 )
 
-private fun calculatePathData(data: DonutData): List<DonutPathDataEntry> {
-    val allEntriesAmount = data.datasetsCap
-    val wholeDonutAmount = max(data.cap, allEntriesAmount)
-    val masterSegmentAmount = wholeDonutAmount * data.masterProgress
-    val wholeDonutAngle = 360f - data.gapWidthDegrees
-    val masterSegmentAngle = wholeDonutAngle * data.masterProgress
-    val halfGap = data.gapWidthDegrees / 2
-    val startAngle = data.gapAngleDegrees + halfGap
-    return createPathDataForDatasets(
-        DatasetsPathData(
+private fun calculatePathData(model: DonutModel): List<DonutPathDataEntry> {
+    val allEntriesAmount = model.sectionsCap
+    val wholeDonutAmount = max(model.cap, allEntriesAmount)
+    val masterSegmentAmount = wholeDonutAmount * model.masterProgress
+    val wholeDonutAngle = 360f - model.gapWidthDegrees
+    val masterSegmentAngle = wholeDonutAngle * model.masterProgress
+    val halfGap = model.gapWidthDegrees / 2
+    val startAngle = model.gapAngleDegrees + halfGap
+    return createPathDataForSections(
+        SectionsPathData(
             startAngle = startAngle,
             masterSegmentAmount = masterSegmentAmount,
             masterSegmentAngle = masterSegmentAngle,
-            masterProgress = data.masterProgress,
-            datasets = data.datasets
+            masterProgress = model.masterProgress,
+            sections = model.sections
         )
     )
 }
 
-private fun createPathDataForDatasets(data: DatasetsPathData): List<DonutPathDataEntry> = with(data) {
+private fun createPathDataForSections(data: SectionsPathData): List<DonutPathDataEntry> = with(data) {
     var angleAccumulator = startAngle
     val entriesPathData = mutableListOf<DonutPathDataEntry>()
 
-    for (entry in datasets) {
+    for (entry in sections) {
         val entryAngle = if (masterSegmentAmount != 0f) {
             masterSegmentAngle * (entry.amount / masterSegmentAmount) * masterProgress
         } else {
