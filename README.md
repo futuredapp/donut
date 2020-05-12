@@ -6,6 +6,7 @@
 [![Build Status](https://github.com/futuredapp/donut/workflows/master/badge.svg)](https://github.com/futuredapp/donut/actions)
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Donut-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/8015)
 ![License](https://img.shields.io/github/license/futuredapp/donut?color=black)
+![Jetpack Compose](https://img.shields.io/badge/Jetpack%20Compose-Ready-green)
 
 Donut is an Android library which helps you to easily create beautiful doughnut-like charts.
 
@@ -152,6 +153,37 @@ The view allows you to configure various properties to let you create a unique s
 | `donut_animationDuration` | `1000 ms` | Duration of state change animations in ms |
 
 In addition to these XML attributes, the view features `masterProgress` property (`0f to 1f`) that can be changed programatically. It controls percentual progress of all lines, including the background line, which allows you to get creative with startup animations, etc.
+
+#### Jetpack Compose version
+
+This library is implemented as a standalone module also for Jetpack Compose. It has the same features as the original implementation, but it supports a wider variety of animations.
+
+```kotlin
+@Composable
+fun Sample() {
+    DonutProgress(
+        model = DonutModel(
+            cap = 8f,
+            masterProgress = 1f,
+            gapWidthDegrees = 270f,
+            gapAngleDegrees = 90f,
+            strokeWidth = 40f,
+            backgroundLineColor = Color.LightGray,
+            sections = listOf(
+                DonutSection(amount = 1f, color = Color.Cyan),
+                DonutSection(amount = 1f, color = Color.Red),
+                DonutSection(amount = 1f, color = Color.Green),
+                DonutSection(amount = 0f, color = Color.Blue)
+            )
+        ),
+        config = DonutConfig(
+            isGapAngleAnimationEnabled = true,
+            gapAngleAnimationBuilder = TweenBuilder()
+            ...
+        )
+    )
+}
+```
 
 #### Sample app
 
