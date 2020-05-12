@@ -1,4 +1,4 @@
-![Title](imgs/donut.svg)
+<img align="right" src="imgs/donut.svg">
 
 # Donut
 
