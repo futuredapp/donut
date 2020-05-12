@@ -53,3 +53,11 @@ dependencies {
     implementation(Deps.JetpackCompose.animation)
     implementation(Deps.JetpackCompose.tooling)
 }
+
+project.apply {
+    extensions.add("artifact", ProjectSettings.DonutCompose.artifact)
+    extensions.add("libraryName", ProjectSettings.DonutCompose.artifact)
+    extensions.add("libraryDescription", ProjectSettings.DonutCompose.libraryDescription)
+}
+
+apply("../publish.script.gradle")
