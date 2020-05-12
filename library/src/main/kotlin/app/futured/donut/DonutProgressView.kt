@@ -328,7 +328,7 @@ class DonutProgressView @JvmOverloads constructor(
             }
         }
 
-        warn { "Removing amount from non-existend dataset: $datasetName" }
+        warn { "Removing amount from non-existent dataset: $datasetName" }
     }
 
     /**
