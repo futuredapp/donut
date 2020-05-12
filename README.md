@@ -179,7 +179,7 @@ fun Sample() {
         config = DonutConfig(
             isGapAngleAnimationEnabled = true,
             gapAngleAnimationBuilder = TweenBuilder()
-            ...
+            // ...
         )
     )
 }
