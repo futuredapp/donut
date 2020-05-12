@@ -143,7 +143,7 @@ class DonutProgressView @JvmOverloads constructor(
      */
     var animationDurationMs: Long = DEFAULT_ANIM_DURATION_MS.toLong()
 
-    private val data = mutableListOf<DonutDataset>()
+    private val data = mutableListOf<DonutSection>()
     private val lines = mutableListOf<DonutProgressLine>()
     private var animatorSet: AnimatorSet? = null
 
@@ -219,23 +219,23 @@ class DonutProgressView @JvmOverloads constructor(
     fun getData() = data.toList()
 
     /**
-     * Submits new [datasets] to the view.
+     * Submits new [sections] to the view.
      *
-     * New progress line will be created for each non-existent dataset and view will be animated to new state.
+     * New progress line will be created for each non-existent section and view will be animated to new state.
      * Additionally, existing lines with no data set will be removed when animation completes.
      */
-    fun submitData(datasets: List<DonutDataset>) {
-        assertDataConsistency(datasets)
+    fun submitData(sections: List<DonutSection>) {
+        assertDataConsistency(sections)
 
-        datasets
+        sections
             .filter { it.amount > 0f }
-            .forEach { dataset ->
-                val newLineColor = dataset.color
-                if (hasEntriesForDataset(dataset.name).not()) {
+            .forEach { section ->
+                val newLineColor = section.color
+                if (hasEntriesForSection(section.name).not()) {
                     lines.add(
                         index = 0,
                         element = DonutProgressLine(
-                            name = dataset.name,
+                            name = section.name,
                             radius = radius,
                             lineColor = newLineColor,
                             lineStrokeWidth = strokeWidth,
@@ -247,13 +247,13 @@ class DonutProgressView @JvmOverloads constructor(
                     )
                 } else {
                     lines
-                        .filter { it.name == dataset.name }
+                        .filter { it.name == section.name }
                         .forEach { it.mLineColor = newLineColor }
                 }
             }
 
         this.data.apply {
-            val copy = ArrayList(datasets)
+            val copy = ArrayList(sections)
             clear()
             addAll(copy)
         }
@@ -262,12 +262,12 @@ class DonutProgressView @JvmOverloads constructor(
     }
 
     /**
-     * Adds [amount] to existing dataset specified by [datasetName]. If dataset does not exist and [color] is specified,
-     * creates new dataset internally.
+     * Adds [amount] to existing section specified by [sectionName]. If section does not exist and [color] is specified,
+     * creates new section internally.
      */
-    fun addAmount(datasetName: String, amount: Float, color: Int? = null) {
+    fun addAmount(sectionName: String, amount: Float, color: Int? = null) {
         for (i in 0 until data.size) {
-            if (data[i].name == datasetName) {
+            if (data[i].name == sectionName) {
                 data[i] = data[i].copy(amount = data[i].amount + amount)
                 submitData(data)
                 return
@@ -276,27 +276,27 @@ class DonutProgressView @JvmOverloads constructor(
 
         color?.let {
             submitData(
-                data + DonutDataset(
-                    name = datasetName,
+                data + DonutSection(
+                    name = sectionName,
                     color = it,
                     amount = amount
                 )
             )
         }
             ?: warn {
-                "Adding amount to non-existent dataset: $datasetName. " +
-                        "Please specify color, if you want to have dataset created automatically."
+                "Adding amount to non-existent section: $sectionName. " +
+                        "Please specify color, if you want to have section created automatically."
             }
     }
 
     /**
-     * Sets [amount] for existing dataset specified by [datasetName].
-     * Removes dataset if amount is <= 0.
-     * Does nothing if dataset does not exist.
+     * Sets [amount] for existing section specified by [sectionName].
+     * Removes section if amount is <= 0.
+     * Does nothing if section does not exist.
      */
-    fun setAmount(datasetName: String, amount: Float) {
+    fun setAmount(sectionName: String, amount: Float) {
         for (i in 0 until data.size) {
-            if (data[i].name == datasetName) {
+            if (data[i].name == sectionName) {
                 if (amount > 0) {
                     data[i] = data[i].copy(amount = amount)
                 } else {
@@ -307,16 +307,16 @@ class DonutProgressView @JvmOverloads constructor(
             }
         }
 
-        warn { "Setting amount for non-existent dataset: $datasetName" }
+        warn { "Setting amount for non-existent section: $sectionName" }
     }
 
     /**
-     * Removes [amount] from existing dataset specified by [datasetName].
-     * If amount gets below zero, removes the dataset from view.
+     * Removes [amount] from existing section specified by [sectionName].
+     * If amount gets below zero, removes the section from view.
      */
-    fun removeAmount(datasetName: String, amount: Float) {
+    fun removeAmount(sectionName: String, amount: Float) {
         for (i in 0 until data.size) {
-            if (data[i].name == datasetName) {
+            if (data[i].name == sectionName) {
                 val resultAmount = data[i].amount - amount
                 if (resultAmount > 0) {
                     data[i] = data[i].copy(amount = resultAmount)
@@ -328,7 +328,7 @@ class DonutProgressView @JvmOverloads constructor(
             }
         }
 
-        warn { "Removing amount from non-existend dataset: $datasetName" }
+        warn { "Removing amount from non-existend section: $sectionName" }
     }
 
     /**
@@ -336,9 +336,9 @@ class DonutProgressView @JvmOverloads constructor(
      */
     fun clear() = submitData(listOf())
 
-    private fun assertDataConsistency(data: List<DonutDataset>) {
+    private fun assertDataConsistency(data: List<DonutSection>) {
         if (data.hasDuplicatesBy { it.name }) {
-            throw IllegalStateException("Multiple datasets with same name found")
+            throw IllegalStateException("Multiple sections with same name found")
         }
     }
 
@@ -346,21 +346,21 @@ class DonutProgressView @JvmOverloads constructor(
         animatorSet?.cancel()
         animatorSet = AnimatorSet()
 
-        val datasetAmounts = lines.map { getAmountForDataset(it.name) }
-        val totalAmount = datasetAmounts.sumByFloat { it }
+        val sectionAmounts = lines.map { getAmountForSection(it.name) }
+        val totalAmount = sectionAmounts.sumByFloat { it }
 
-        val drawPercentages = datasetAmounts.mapIndexed { index, _ ->
+        val drawPercentages = sectionAmounts.mapIndexed { index, _ ->
             if (totalAmount > cap) {
-                getDrawAmountForLine(datasetAmounts, index) / totalAmount
+                getDrawAmountForLine(sectionAmounts, index) / totalAmount
             } else {
-                getDrawAmountForLine(datasetAmounts, index) / cap
+                getDrawAmountForLine(sectionAmounts, index) / cap
             }
         }
 
         drawPercentages.forEachIndexed { index, newPercentage ->
             val line = lines[index]
             val animator = animateLine(line, newPercentage) {
-                if (!hasEntriesForDataset(line.name)) {
+                if (!hasEntriesForSection(line.name)) {
                     removeLine(line)
                 }
             }
@@ -371,9 +371,9 @@ class DonutProgressView @JvmOverloads constructor(
         animatorSet?.start()
     }
 
-    private fun getAmountForDataset(dataset: String): Float {
+    private fun getAmountForSection(sectionName: String): Float {
         return data
-            .filter { it.name == dataset }
+            .filter { it.name == sectionName }
             .sumByFloat { it.amount }
     }
 
@@ -388,8 +388,8 @@ class DonutProgressView @JvmOverloads constructor(
         return thisLine + previousLine
     }
 
-    private fun hasEntriesForDataset(dataset: String) =
-        data.indexOfFirst { it.name == dataset } > -1
+    private fun hasEntriesForSection(section: String) =
+        data.indexOfFirst { it.name == section } > -1
 
     private fun animateLine(
         line: DonutProgressLine,
