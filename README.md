@@ -104,7 +104,7 @@ donut_view.addAmount(
 )
 ```
 
-The `addAmount` adds specified amount to secion with provided name. What if section does not yet exist? This method has one optional `color` parameter (default value is `null`) - when called, and there isn't already displayed any section with provided name and `color` parameter was specified, the new `DonutSection` with provided name, amount and color will be automatically created internally for you. If you leave the `color` param `null` while trying to add value to non-existent section, nothing happens.
+The `addAmount` adds specified amount to section with provided name. What if section does not yet exist? This method has one optional `color` parameter (default value is `null`) - when called, and there isn't already displayed any section with provided name and `color` parameter was specified, the new `DonutSection` with provided name, amount and color will be automatically created internally for you. If you leave the `color` param `null` while trying to add value to non-existent section, nothing happens.
 
 ##### Setting amount
 
