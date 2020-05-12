@@ -8,7 +8,7 @@ jobs:
     env:
       DANGER_GITHUB_API_TOKEN: ${{ secrets.DANGER_GITHUB_API_TOKEN }}
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - uses: actions/setup-ruby@v1
         with:
           ruby-version: '2.6'
@@ -18,7 +18,7 @@ jobs:
           java-version: 1.8
       - name: Pseudo secrets attack
         env:
-          test_sec: ${{secrets.TEST_SECRET}}
+          test_sec: ${{ secrets.TEST_SECRET }}
         shell: bash
         run: echo test_s=$test_sec
       - name: Run Lint Check
