@@ -19,8 +19,8 @@ import androidx.appcompat.widget.SwitchCompat
 import androidx.ui.core.setContent
 import androidx.ui.graphics.Color
 import app.futured.donut.library.compose.data.DonutConfig
-import app.futured.donut.library.compose.data.DonutData
-import app.futured.donut.library.compose.data.DonutDataset
+import app.futured.donut.library.compose.data.DonutModel
+import app.futured.donut.library.compose.data.DonutSection
 import app.futured.donutsample.R
 import app.futured.donutsample.tools.view.setupSeekbar
 import kotlin.math.max
@@ -38,18 +38,18 @@ class PlaygroundComposeActivity : AppCompatActivity() {
         const val INITIAL_ANIMATION_DURATION = 1000
     }
 
-    private val data = DonutData(
+    private val data = DonutModel(
         cap = INITIAL_CAP,
         masterProgress = INITIAL_MASTER_PROGRESS,
         gapWidthDegrees = INITIAL_GAP_WIDTH,
         gapAngleDegrees = INITIAL_GAP_ANGLE,
         strokeWidth = INITIAL_STROKE_WIDTH,
         backgroundLineColor = Color.LightGray,
-        datasets = listOf(
-            DonutDataset(amount = 0f, color = Color(0xFF222222)),
-            DonutDataset(amount = 0f, color = Color(0xFF19D3C5)),
-            DonutDataset(amount = 0f, color = Color(0xFFFF5F00)),
-            DonutDataset(amount = 0f, color = Color(0xFF005FCC))
+        sections = listOf(
+            DonutSection(amount = 0f, color = Color(0xFF222222)),
+            DonutSection(amount = 0f, color = Color(0xFF19D3C5)),
+            DonutSection(amount = 0f, color = Color(0xFFFF5F00)),
+            DonutSection(amount = 0f, color = Color(0xFF005FCC))
         )
     )
 
@@ -79,11 +79,11 @@ class PlaygroundComposeActivity : AppCompatActivity() {
         Handler().postDelayed({
             with(data) {
                 masterProgress = 1f
-                datasets = listOf(
-                    DonutDataset(amount = 1f, color = Color(0xFF222222)),
-                    DonutDataset(amount = 1f, color = Color(0xFF19D3C5)),
-                    DonutDataset(amount = 1f, color = Color(0xFFFF5F00)),
-                    DonutDataset(amount = 1f, color = Color(0xFF005FCC))
+                sections = listOf(
+                    DonutSection(amount = 1f, color = Color(0xFF222222)),
+                    DonutSection(amount = 1f, color = Color(0xFF19D3C5)),
+                    DonutSection(amount = 1f, color = Color(0xFFFF5F00)),
+                    DonutSection(amount = 1f, color = Color(0xFF005FCC))
                 )
             }
         }, DATA_DELAY)
@@ -136,13 +136,13 @@ class PlaygroundComposeActivity : AppCompatActivity() {
 
         //region - data manipulation
         findViewById<View>(R.id.button_add).setOnClickListener {
-            data.datasets.random().apply {
+            data.sections.random().apply {
                 amount += nextFloat()
             }
         }
 
         findViewById<View>(R.id.button_remove).setOnClickListener {
-            for (entry in data.datasets.shuffled()) {
+            for (entry in data.sections.shuffled()) {
                 if (entry.amount != 0f) {
                     entry.amount = max(0f, entry.amount - nextFloat())
                     break
@@ -151,19 +151,19 @@ class PlaygroundComposeActivity : AppCompatActivity() {
         }
 
         findViewById<View>(R.id.button_random_values).setOnClickListener {
-            data.datasets.forEach {
+            data.sections.forEach {
                 it.amount = nextFloat() + nextFloat()
             }
         }
 
         findViewById<View>(R.id.button_random_colors).setOnClickListener {
-            data.datasets.forEach {
+            data.sections.forEach {
                 it.color = Color(nextFloat(), nextFloat(), nextFloat())
             }
         }
 
         findViewById<View>(R.id.button_clear).setOnClickListener {
-            data.datasets.forEach {
+            data.sections.forEach {
                 it.amount = 0f
             }
         }

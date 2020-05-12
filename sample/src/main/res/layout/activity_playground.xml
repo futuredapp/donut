@@ -51,7 +51,7 @@
             android:textStyle="bold"/>
 
         <TextView
-            android:id="@+id/black_dataset_text"
+            android:id="@+id/black_section_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -63,7 +63,7 @@
             tools:text="1.23"/>
 
         <TextView
-            android:id="@+id/green_dataset_text"
+            android:id="@+id/green_section_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -75,7 +75,7 @@
             tools:text="1.23"/>
 
         <TextView
-            android:id="@+id/orange_dataset_text"
+            android:id="@+id/orange_section_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"

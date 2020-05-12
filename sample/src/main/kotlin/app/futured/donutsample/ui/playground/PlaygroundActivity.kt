@@ -10,8 +10,8 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
-import app.futured.donut.DonutDataset
 import app.futured.donut.DonutProgressView
+import app.futured.donut.DonutSection
 import app.futured.donutsample.R
 import app.futured.donutsample.data.model.BlackCategory
 import app.futured.donutsample.data.model.DataCategory
@@ -54,9 +54,9 @@ class PlaygroundActivity : AppCompatActivity() {
     private val animationEnabledSwitch by lazy { findViewById<SwitchCompat>(R.id.anim_enabled_switch) }
     private val amountCapText by lazy { findViewById<TextView>(R.id.amount_cap_text) }
     private val amountTotalText by lazy { findViewById<TextView>(R.id.amount_total_text) }
-    private val blackDataSetText by lazy { findViewById<TextView>(R.id.black_dataset_text) }
-    private val greenDataSetText by lazy { findViewById<TextView>(R.id.green_dataset_text) }
-    private val orangeDataSetText by lazy { findViewById<TextView>(R.id.orange_dataset_text) }
+    private val blackSectionText by lazy { findViewById<TextView>(R.id.black_section_text) }
+    private val greenSectionText by lazy { findViewById<TextView>(R.id.green_section_text) }
+    private val orangeSectionText by lazy { findViewById<TextView>(R.id.orange_section_text) }
     private val interpolatorRadioGroup by lazy { findViewById<RadioGroup>(R.id.interpolator_radio_group) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -94,25 +94,25 @@ class PlaygroundActivity : AppCompatActivity() {
     }
 
     private fun fillInitialData() {
-        val datasets = listOf(
-            DonutDataset(
+        val sections = listOf(
+            DonutSection(
                 BlackCategory.name,
                 getColorCompat(BlackCategory.colorRes),
                 1f
             ),
-            DonutDataset(
+            DonutSection(
                 GreenCategory.name,
                 getColorCompat(GreenCategory.colorRes),
                 1.2f
             ),
-            DonutDataset(
+            DonutSection(
                 OrangeCategory.name,
                 getColorCompat(OrangeCategory.colorRes),
                 1.4f
             )
         )
 
-        donutProgressView.submitData(datasets)
+        donutProgressView.submitData(sections)
 
         updateIndicators()
     }
@@ -124,9 +124,9 @@ class PlaygroundActivity : AppCompatActivity() {
             donutProgressView.getData().sumByFloat { it.amount }
         )
 
-        updateIndicatorAmount(BlackCategory, blackDataSetText)
-        updateIndicatorAmount(GreenCategory, greenDataSetText)
-        updateIndicatorAmount(OrangeCategory, orangeDataSetText)
+        updateIndicatorAmount(BlackCategory, blackSectionText)
+        updateIndicatorAmount(GreenCategory, greenSectionText)
+        updateIndicatorAmount(OrangeCategory, orangeSectionText)
     }
 
     private fun updateIndicatorAmount(category: DataCategory, textView: TextView) {
@@ -194,7 +194,7 @@ class PlaygroundActivity : AppCompatActivity() {
             }
         )
 
-        // Add random amount to random dataset
+        // Add random amount to random section
         addButton.setOnClickListener {
             val randomCategory = ALL_CATEGORIES.random()
             donutProgressView.addAmount(
@@ -206,23 +206,23 @@ class PlaygroundActivity : AppCompatActivity() {
             updateIndicators()
         }
 
-        // Remove random value from random dataset
+        // Remove random value from random section
         removeButton.setOnClickListener {
-            val existingDatasets = donutProgressView.getData().map { it.name }
-            if (existingDatasets.isNotEmpty()) {
-                donutProgressView.removeAmount(existingDatasets.random(), Random.nextFloat())
+            val existingSections = donutProgressView.getData().map { it.name }
+            if (existingSections.isNotEmpty()) {
+                donutProgressView.removeAmount(existingSections.random(), Random.nextFloat())
                 updateIndicators()
             }
         }
 
         // Randomize data set colors
         randomColorsButton.setOnClickListener {
-            val datasets = donutProgressView.getData().toMutableList()
-            for (i in 0 until datasets.size) {
-                datasets[i] = datasets[i].copy(color = Random.nextInt())
+            val sections = donutProgressView.getData().toMutableList()
+            for (i in 0 until sections.size) {
+                sections[i] = sections[i].copy(color = Random.nextInt())
             }
 
-            donutProgressView.submitData(datasets)
+            donutProgressView.submitData(sections)
         }
 
         // Clear graph
