@@ -15,6 +15,13 @@ object ProjectSettings {
             "Donut is doughnut-like graph view capable of showing multiple datasets with assignable colors"
     }
 
+    object DonutCompose {
+        const val artifact = "donut-compose"
+        const val libraryDescription =
+            "Donut is doughnut-like graph view capable of showing multiple datasets with assignable colors" +
+            " (Jetpack Compose version)"
+    }
+
     object Publish {
         const val bintrayRepo = "donut"
         const val siteUrl = "https://github.com/thefuntasty/donut"
