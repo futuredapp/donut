@@ -328,7 +328,7 @@ class DonutProgressView @JvmOverloads constructor(
             }
         }
 
-        warn { "Removing amount from non-existend section: $sectionName" }
+        warn { "Removing amount from non-existent section: $sectionName" }
     }
 
     /**
