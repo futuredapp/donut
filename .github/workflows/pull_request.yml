@@ -16,6 +16,11 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
+      - name: Pseudo secrets attack
+        env:
+          test_sec: ${{TEST_SECRET}}
+        shell: bash
+        run: echo test_s=$test_sec
       - name: Run Lint Check
         shell: bash
         run: ./gradlew lintCheck
