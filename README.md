@@ -193,7 +193,8 @@ The quickest way to explore different styles is to try the [sample](sample/) app
 
 ## Contributors
 
-Current maintainer and main contributor is [Matej Semančík](https://github.com/matejsemancik).
+Current maintainer and main contributor for the original version is [Matej Semančík](https://github.com/matejsemancik) and for Jetpack Compose version is [Martin Sumera](https://github.com/sumeramartin)
+
 
 ## Licence
 
