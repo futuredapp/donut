@@ -19,28 +19,28 @@ import androidx.ui.tooling.preview.Preview
 import androidx.ui.unit.dp
 import app.futured.donut.library.compose.DonutProgress
 import app.futured.donut.library.compose.data.DonutConfig
-import app.futured.donut.library.compose.data.DonutData
-import app.futured.donut.library.compose.data.DonutDataset
+import app.futured.donut.library.compose.data.DonutModel
+import app.futured.donut.library.compose.data.DonutSection
 import app.futured.donutsample.ui.playground.common.compose.Circle
 
 @Composable
-fun SampleComposeScreen(data: DonutData, config: DonutConfig) {
+fun SampleComposeScreen(model: DonutModel, config: DonutConfig) {
     Box(Modifier.fillMaxWidth() + Modifier.height(240.dp), gravity = ContentGravity.Center) {
         Box(Modifier.size(width = 240.dp, height = 240.dp)) {
-            DonutProgress(data, config)
-            DataOverview(data)
+            DonutProgress(model, config)
+            DataOverview(model)
         }
     }
 }
 
 @Composable
-fun DataOverview(data: DonutData) {
+fun DataOverview(model: DonutModel) {
     Box(Modifier.fillMaxSize(), gravity = ContentGravity.Center) {
         Column(modifier = Modifier.gravity(Alignment.CenterVertically)) {
-            TitleAmountCap(data.datasetsCap)
-            TitleTotalAmount(data.cap)
+            TitleAmountCap(model.sectionsCap)
+            TitleTotalAmount(model.cap)
             Spacer(modifier = Modifier.size(width = 0.dp, height = 12.dp))
-            data.datasets.forEach { progressEntry ->
+            model.sections.forEach { progressEntry ->
                 ProgressLineRowValueIndicator(progressEntry)
             }
         }
@@ -58,11 +58,11 @@ fun TitleTotalAmount(totalAmount: Float, format: String = "%.2f") {
 }
 
 @Composable
-fun ProgressLineRowValueIndicator(dataset: DonutDataset, format: String = "%.2f") {
+fun ProgressLineRowValueIndicator(section: DonutSection, format: String = "%.2f") {
     Row(modifier = Modifier.gravity(Alignment.CenterVertically)) {
-        Circle(radius = 4.dp, color = dataset.color, modifier = Modifier.gravity(Alignment.CenterVertically))
+        Circle(radius = 4.dp, color = section.color, modifier = Modifier.gravity(Alignment.CenterVertically))
         Spacer(modifier = Modifier.size(width = 12.dp, height = 0.dp))
-        Text(text = format.format(dataset.amount))
+        Text(text = format.format(section.amount))
     }
 }
 
@@ -71,18 +71,18 @@ fun ProgressLineRowValueIndicator(dataset: DonutDataset, format: String = "%.2f"
 @Composable
 @Preview
 fun SampleComposeScreenPreview() {
-    val data = DonutData(
+    val data = DonutModel(
         cap = 8f,
         masterProgress = 1f,
         gapWidthDegrees = 270f,
         gapAngleDegrees = 90f,
         strokeWidth = 40f,
         backgroundLineColor = Color.LightGray,
-        datasets = listOf(
-            DonutDataset(amount = 2.2f, color = Color.Cyan),
-            DonutDataset(amount = 2.2567f, color = Color.Red),
-            DonutDataset(amount = 2.5f, color = Color.Green),
-            DonutDataset(amount = 0f, color = Color.Blue)
+        sections = listOf(
+            DonutSection(amount = 2.2f, color = Color.Cyan),
+            DonutSection(amount = 2.2567f, color = Color.Red),
+            DonutSection(amount = 2.5f, color = Color.Green),
+            DonutSection(amount = 0f, color = Color.Blue)
         )
     )
     SampleComposeScreen(data, DonutConfig())

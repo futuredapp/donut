@@ -21,10 +21,10 @@ import app.futured.donut.library.compose.DonutProgress
  * @param backgroundLineColorAnimationBuilder animation builder for background line color change animation
  * @param isCapAnimationEnabled enabled or disable cap animation
  * @param capAnimationBuilder animation builder for cap animation
- * @param isDatasetAmountAnimationEnabled enabled or disable entries progress animations
- * @param datasetAmountAnimationBuilder animation builder for entries progress animations
- * @param isDatasetColorAnimationEnabled enabled or disable entries color change animations
- * @param datasetColorAnimationBuilder animation builder for entries color change animations
+ * @param isSectionAmountAnimationEnabled enabled or disable entries progress animations
+ * @param sectionAmountAnimationBuilder animation builder for entries progress animations
+ * @param isSectionColorAnimationEnabled enabled or disable entries color change animations
+ * @param sectionColorAnimationBuilder animation builder for entries color change animations
  */
 @Model data class DonutConfig(
     var isGapAngleAnimationEnabled: Boolean = true,
@@ -39,10 +39,10 @@ import app.futured.donut.library.compose.DonutProgress
     var backgroundLineColorAnimationBuilder: AnimationBuilder<Color> = getDefaultColorAnimationBuilder(),
     var isCapAnimationEnabled: Boolean = true,
     var capAnimationBuilder: AnimationBuilder<Float> = getDefaultFloatAnimationBuilder(),
-    var isDatasetAmountAnimationEnabled: Boolean = true,
-    var datasetAmountAnimationBuilder: AnimationBuilder<Float> = getDefaultFloatAnimationBuilder(),
-    var isDatasetColorAnimationEnabled: Boolean = true,
-    var datasetColorAnimationBuilder: AnimationBuilder<Color> = getDefaultColorAnimationBuilder()
+    var isSectionAmountAnimationEnabled: Boolean = true,
+    var sectionAmountAnimationBuilder: AnimationBuilder<Float> = getDefaultFloatAnimationBuilder(),
+    var isSectionColorAnimationEnabled: Boolean = true,
+    var sectionColorAnimationBuilder: AnimationBuilder<Color> = getDefaultColorAnimationBuilder()
 ) {
 
     companion object {
@@ -77,10 +77,10 @@ import app.futured.donut.library.compose.DonutProgress
                 backgroundLineColorAnimationBuilder = colorAnimationBuilder,
                 isCapAnimationEnabled = isLayoutAnimationsEnabled,
                 capAnimationBuilder = layoutAnimationBuilder,
-                isDatasetAmountAnimationEnabled = isLayoutAnimationsEnabled,
-                datasetAmountAnimationBuilder = layoutAnimationBuilder,
-                isDatasetColorAnimationEnabled = isColorAnimationEnabled,
-                datasetColorAnimationBuilder = colorAnimationBuilder
+                isSectionAmountAnimationEnabled = isLayoutAnimationsEnabled,
+                sectionAmountAnimationBuilder = layoutAnimationBuilder,
+                isSectionColorAnimationEnabled = isColorAnimationEnabled,
+                sectionColorAnimationBuilder = colorAnimationBuilder
             )
         }
     }
@@ -106,7 +106,7 @@ import app.futured.donut.library.compose.DonutProgress
         isGapWidthAnimationEnabled = isEnabled
         isStrokeWidthAnimationEnabled = isEnabled
         isCapAnimationEnabled = isEnabled
-        isDatasetAmountAnimationEnabled = isEnabled
+        isSectionAmountAnimationEnabled = isEnabled
     }
 
     /**
@@ -116,7 +116,7 @@ import app.futured.donut.library.compose.DonutProgress
      */
     fun setColorAnimationsEnabled(isEnabled: Boolean) {
         isBackgroundLineColorAnimationEnabled = isEnabled
-        isDatasetColorAnimationEnabled = isEnabled
+        isSectionColorAnimationEnabled = isEnabled
     }
 
     /**
@@ -130,7 +130,7 @@ import app.futured.donut.library.compose.DonutProgress
         gapWidthAnimationBuilder = builder
         strokeWidthAnimationBuilder = builder
         capAnimationBuilder = builder
-        datasetAmountAnimationBuilder = builder
+        sectionAmountAnimationBuilder = builder
     }
 
     /**
@@ -140,7 +140,7 @@ import app.futured.donut.library.compose.DonutProgress
      */
     fun setColorAnimationBuilder(builder: AnimationBuilder<Color>) {
         backgroundLineColorAnimationBuilder = builder
-        datasetColorAnimationBuilder = builder
+        sectionColorAnimationBuilder = builder
     }
 }
 
