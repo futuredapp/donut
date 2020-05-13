@@ -8,6 +8,8 @@ jobs:
   release:
     name: Release build
     runs-on: [ubuntu-latest]
+    env:
+      GIT_TAG: ${{github.event.release.name}}
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-ruby@v1
