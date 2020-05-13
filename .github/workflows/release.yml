@@ -22,7 +22,7 @@ jobs:
 #          java-version: 1.8
       - name: Test env variables
         shell: bash
-        run: echo $GIT_TAG
+        run: ./gradlew testTask
 #      - name: Run unit tests
 #        shell: bash
 #        run: ./gradlew --continue testRelease

@@ -38,6 +38,12 @@ tasks {
     register<LintCheck>("lintCheck")
 }
 
+tasks.create("testTask") {
+    doLast {
+        println("Version number: ${ProjectSettings.version}")
+    }
+}
+
 allprojects {
     repositories {
         google()
