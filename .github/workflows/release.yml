@@ -1,16 +1,15 @@
 name: Release build
 
-on: [pull_request]
-#on:
-#  release:
-#    types: [published]
+on:
+  release:
+    types: [published]
 
 jobs:
   release:
     name: Release build
     runs-on: [ubuntu-latest]
     env:
-      GIT_TAG: TEST
+      GIT_TAG: ${{github.event.release.name}}
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-ruby@v1
@@ -20,11 +19,8 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.8
-      - name: Test env variables
+      - name: Run unit tests
         shell: bash
-        run: ./gradlew testTask
-#      - name: Run unit tests
-#        shell: bash
-#        run: ./gradlew --continue testRelease
-#      - name: Upload to Bintray
-#        run: ./gradlew build publish bintrayUpload --stacktrace --no-daemon -PBINTRAY_USER=${{secrets.BINTRAY_USER}} -PBINTRAY_KEY=${{secrets.BINTRAY_KEY}} -PBINTRAY_GPG_KEY=${{secrets.BINTRAY_GPG_KEY}}
+        run: ./gradlew --continue testRelease
+      - name: Upload to Bintray
+        run: ./gradlew build publish bintrayUpload --stacktrace --no-daemon -PBINTRAY_USER=${{secrets.BINTRAY_USER}} -PBINTRAY_KEY=${{secrets.BINTRAY_KEY}} -PBINTRAY_GPG_KEY=${{secrets.BINTRAY_GPG_KEY}}
