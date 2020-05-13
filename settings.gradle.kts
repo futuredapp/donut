@@ -1,3 +1,3 @@
 rootProject.buildFileName = "build.gradle.kts"
 
-include(":library", ":libraryCompose", ":sample")
+include(":library", ":library-compose", ":sample")
