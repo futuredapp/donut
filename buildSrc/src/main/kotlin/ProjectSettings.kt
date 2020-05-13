@@ -7,7 +7,7 @@ object ProjectSettings {
     /**
      * this version will be used only for local builds, jitpack will automatically provide TAG version
      */
-    val version = System.getenv("BITRISE_GIT_TAG") ?: "0.0.1-TEST"
+    val version = System.getenv("GIT_TAG") ?: "0.0.1-TEST"
 
     object Donut {
         const val artifact = "donut"
