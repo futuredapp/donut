@@ -10,7 +10,7 @@ jobs:
     name: Release build
     runs-on: [ubuntu-latest]
     env:
-      GIT_TAG: ${{github.event.pull_request.name}}
+      GIT_TAG: TEST
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-ruby@v1
