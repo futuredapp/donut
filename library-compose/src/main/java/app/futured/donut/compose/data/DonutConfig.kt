@@ -1,10 +1,10 @@
-package app.futured.donut.library.compose.data
+package app.futured.donut.compose.data
 
 import androidx.animation.AnimationBuilder
 import androidx.animation.TweenBuilder
 import androidx.compose.Model
 import androidx.ui.graphics.Color
-import app.futured.donut.library.compose.DonutProgress
+import app.futured.donut.compose.DonutProgress
 
 /**
  * Configuration class for [DonutProgress]

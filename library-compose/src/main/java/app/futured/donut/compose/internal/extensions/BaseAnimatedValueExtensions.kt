@@ -1,4 +1,4 @@
-package app.futured.donut.library.compose.internal.extensions
+package app.futured.donut.compose.internal.extensions
 
 import androidx.animation.AnimationBuilder
 import androidx.animation.BaseAnimatedValue
