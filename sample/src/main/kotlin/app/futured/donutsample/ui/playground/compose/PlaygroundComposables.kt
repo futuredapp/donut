@@ -17,10 +17,10 @@ import androidx.ui.layout.height
 import androidx.ui.layout.size
 import androidx.ui.tooling.preview.Preview
 import androidx.ui.unit.dp
-import app.futured.donut.library.compose.DonutProgress
-import app.futured.donut.library.compose.data.DonutConfig
-import app.futured.donut.library.compose.data.DonutModel
-import app.futured.donut.library.compose.data.DonutSection
+import app.futured.donut.compose.DonutProgress
+import app.futured.donut.compose.data.DonutConfig
+import app.futured.donut.compose.data.DonutModel
+import app.futured.donut.compose.data.DonutSection
 import app.futured.donutsample.ui.playground.common.compose.Circle
 
 @Composable

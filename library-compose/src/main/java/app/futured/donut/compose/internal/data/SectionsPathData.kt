@@ -1,6 +1,6 @@
-package app.futured.donut.library.compose.internal.data
+package app.futured.donut.compose.internal.data
 
-import app.futured.donut.library.compose.data.DonutSection
+import app.futured.donut.compose.data.DonutSection
 
 internal data class SectionsPathData(
     val startAngle: Float,

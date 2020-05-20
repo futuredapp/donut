@@ -18,9 +18,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
 import androidx.ui.core.setContent
 import androidx.ui.graphics.Color
-import app.futured.donut.library.compose.data.DonutConfig
-import app.futured.donut.library.compose.data.DonutModel
-import app.futured.donut.library.compose.data.DonutSection
+import app.futured.donut.compose.data.DonutConfig
+import app.futured.donut.compose.data.DonutModel
+import app.futured.donut.compose.data.DonutSection
 import app.futured.donutsample.R
 import app.futured.donutsample.tools.view.setupSeekbar
 import kotlin.math.max

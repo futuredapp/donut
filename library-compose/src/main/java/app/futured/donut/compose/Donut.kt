@@ -1,4 +1,4 @@
-package app.futured.donut.library.compose
+package app.futured.donut.compose
 
 import androidx.compose.Composable
 import androidx.compose.remember
@@ -16,13 +16,13 @@ import androidx.ui.layout.fillMaxSize
 import androidx.ui.unit.PxSize
 import androidx.ui.unit.center
 import androidx.ui.unit.min
-import app.futured.donut.library.compose.data.DonutConfig
-import app.futured.donut.library.compose.data.DonutModel
-import app.futured.donut.library.compose.internal.data.DonutPathData
-import app.futured.donut.library.compose.internal.data.DonutPathDataEntry
-import app.futured.donut.library.compose.internal.data.DonutProgressValues
-import app.futured.donut.library.compose.internal.data.SectionsPathData
-import app.futured.donut.library.compose.internal.extensions.animateOrSnapDistinctValues
+import app.futured.donut.compose.data.DonutConfig
+import app.futured.donut.compose.data.DonutModel
+import app.futured.donut.compose.internal.data.DonutPathData
+import app.futured.donut.compose.internal.data.DonutPathDataEntry
+import app.futured.donut.compose.internal.data.DonutProgressValues
+import app.futured.donut.compose.internal.data.SectionsPathData
+import app.futured.donut.compose.internal.extensions.animateOrSnapDistinctValues
 import kotlin.math.max
 
 /**

@@ -1,4 +1,4 @@
-package app.futured.donut.library.compose.internal
+package app.futured.donut.compose.internal
 
 import androidx.animation.AnimatedValue
 import androidx.animation.AnimationVector4D

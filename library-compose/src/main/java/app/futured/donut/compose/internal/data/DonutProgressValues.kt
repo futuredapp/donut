@@ -1,7 +1,7 @@
-package app.futured.donut.library.compose.internal.data
+package app.futured.donut.compose.internal.data
 
 import androidx.animation.AnimatedFloat
-import app.futured.donut.library.compose.internal.AnimatedColor
+import app.futured.donut.compose.internal.AnimatedColor
 
 internal data class DonutProgressValues(
     var animatedGapAngle: AnimatedFloat,

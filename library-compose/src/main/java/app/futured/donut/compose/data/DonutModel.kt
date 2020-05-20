@@ -1,9 +1,9 @@
-package app.futured.donut.library.compose.data
+package app.futured.donut.compose.data
 
 import androidx.compose.Model
 import androidx.ui.graphics.Color
-import app.futured.donut.library.compose.DonutProgress
-import app.futured.donut.library.compose.internal.extensions.sumByFloat
+import app.futured.donut.compose.DonutProgress
+import app.futured.donut.compose.internal.extensions.sumByFloat
 
 /**
  * Wrapper for all necessary data values used by [DonutProgress] to draw its content.

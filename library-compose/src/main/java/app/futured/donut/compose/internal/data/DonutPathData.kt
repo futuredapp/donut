@@ -1,4 +1,4 @@
-package app.futured.donut.library.compose.internal.data
+package app.futured.donut.compose.internal.data
 
 internal data class DonutPathData(
     val masterPathData: DonutPathDataEntry,

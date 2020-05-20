@@ -1,4 +1,4 @@
-package app.futured.donut.library.compose.internal.extensions
+package app.futured.donut.compose.internal.extensions
 
 internal inline fun <T> Iterable<T>.sumByFloat(selector: (T) -> Float): Float {
     var sum = 0f

@@ -1,4 +1,4 @@
-package app.futured.donut.library.compose.data
+package app.futured.donut.compose.data
 
 import androidx.compose.Model
 import androidx.ui.graphics.Color
