@@ -24,7 +24,7 @@ class DonutProgressView @JvmOverloads constructor(
     private val attrs: AttributeSet? = null,
     private val defStyleAttr: Int = 0,
     private val defStyleRes: Int = 0
-) : View(context, attrs, defStyleAttr, defStyleRes) {
+) : View(context, attrs, defStyleAttr) {
 
     companion object {
         private const val TAG = "DonutProgressView"
