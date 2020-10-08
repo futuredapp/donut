@@ -22,9 +22,8 @@ import app.futured.donut.extensions.sumByFloat
 class DonutProgressView @JvmOverloads constructor(
     context: Context,
     private val attrs: AttributeSet? = null,
-    private val defStyleAttr: Int = 0,
-    private val defStyleRes: Int = 0
-) : View(context, attrs, defStyleAttr, defStyleRes) {
+    private val defStyleAttr: Int = 0
+) : View(context, attrs, defStyleAttr) {
 
     companion object {
         private const val TAG = "DonutProgressView"
@@ -168,7 +167,7 @@ class DonutProgressView @JvmOverloads constructor(
             attrs,
             R.styleable.DonutProgressView,
             defStyleAttr,
-            defStyleRes
+            0
         ).use {
             strokeWidth = it.getDimensionPixelSize(
                 R.styleable.DonutProgressView_donut_strokeWidth,
