@@ -5,6 +5,7 @@ import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Paint
 import android.util.AttributeSet
 import android.util.Log
 import android.util.TypedValue
@@ -35,6 +36,9 @@ class DonutProgressView @JvmOverloads constructor(
         private const val DEFAULT_GAP_ANGLE = 90f
         private const val DEFAULT_CAP = 1f
         private val DEFAULT_BG_COLOR_RES = R.color.grey
+
+        private const val PAINT_CAP_ROUND_TEXT = "round"
+        private const val PAINT_CAP_BUTT_TEXT = "butt"
 
         private const val DEFAULT_ANIM_ENABLED = true
         private val DEFAULT_INTERPOLATOR = DecelerateInterpolator(1.5f)
@@ -79,6 +83,18 @@ class DonutProgressView @JvmOverloads constructor(
             bgLine.mLineStrokeWidth = value
             lines.forEach { it.mLineStrokeWidth = value }
             updateLinesRadius()
+            invalidate()
+        }
+
+    /**
+     * Stroke cap of all lines.
+     */
+    var strokeCap = Paint.Cap.ROUND
+        set(value) {
+            field = value
+
+            bgLine.mLineStrokeCap = value
+            lines.forEach { it.mLineStrokeCap = value }
             invalidate()
         }
 
@@ -152,6 +168,7 @@ class DonutProgressView @JvmOverloads constructor(
         radius = radius,
         lineColor = bgLineColor,
         lineStrokeWidth = strokeWidth,
+        lineStrokeCap = strokeCap,
         masterProgress = masterProgress,
         length = 1f,
         gapWidthDegrees = gapWidthDegrees,
@@ -174,6 +191,19 @@ class DonutProgressView @JvmOverloads constructor(
                 R.styleable.DonutProgressView_donut_strokeWidth,
                 dpToPx(DEFAULT_STROKE_WIDTH_DP).toInt()
             ).toFloat()
+
+            val strokeCapString = it.getString(
+                R.styleable.DonutProgressView_donut_strokeCap
+            ) ?: PAINT_CAP_ROUND_TEXT
+            strokeCap = when (strokeCapString) {
+                PAINT_CAP_ROUND_TEXT -> Paint.Cap.ROUND
+                PAINT_CAP_BUTT_TEXT -> Paint.Cap.BUTT
+                else -> error(
+                    "Available options for donut_strokeCap attribute are " +
+                    "'$PAINT_CAP_BUTT_TEXT' or '$PAINT_CAP_ROUND_TEXT' " +
+                    "your option was '$strokeCapString'"
+                )
+            }
 
             bgLineColor =
                 it.getColor(
@@ -239,6 +269,7 @@ class DonutProgressView @JvmOverloads constructor(
                             radius = radius,
                             lineColor = newLineColor,
                             lineStrokeWidth = strokeWidth,
+                            lineStrokeCap = strokeCap,
                             masterProgress = masterProgress,
                             length = 0f,
                             gapWidthDegrees = gapWidthDegrees,

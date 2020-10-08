@@ -14,6 +14,7 @@ internal class DonutProgressLine(
     radius: Float,
     lineColor: Int,
     lineStrokeWidth: Float,
+    lineStrokeCap: Paint.Cap,
     masterProgress: Float,
     length: Float,
     gapWidthDegrees: Float,
@@ -26,7 +27,7 @@ internal class DonutProgressLine(
 
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.STROKE
-        strokeCap = Paint.Cap.ROUND
+        strokeCap = lineStrokeCap
         strokeWidth = mLineStrokeWidth
         color = mLineColor
     }
@@ -50,6 +51,12 @@ internal class DonutProgressLine(
         set(value) {
             field = value
             paint.strokeWidth = value
+        }
+
+    var mLineStrokeCap: Paint.Cap = Paint.Cap.ROUND
+        set(value) {
+            field = value
+            paint.strokeCap = value
         }
 
     var mMasterProgress: Float = 0.0f
@@ -82,6 +89,7 @@ internal class DonutProgressLine(
         this.mRadius = radius
         this.mLineColor = lineColor
         this.mLineStrokeWidth = lineStrokeWidth
+        this.mLineStrokeCap = lineStrokeCap
         this.mMasterProgress = masterProgress
         this.mLength = length
         this.mGapWidthDegrees = gapWidthDegrees
