@@ -1,6 +1,7 @@
 package app.futured.donutsample.ui.playground
 
 import android.animation.ValueAnimator
+import android.graphics.Paint
 import android.os.Bundle
 import android.os.Handler
 import android.view.animation.AnimationUtils
@@ -58,6 +59,7 @@ class PlaygroundActivity : AppCompatActivity() {
     private val greenSectionText by lazy { findViewById<TextView>(R.id.green_section_text) }
     private val orangeSectionText by lazy { findViewById<TextView>(R.id.orange_section_text) }
     private val interpolatorRadioGroup by lazy { findViewById<RadioGroup>(R.id.interpolator_radio_group) }
+    private val strokeCapRadioGroup by lazy { findViewById<RadioGroup>(R.id.stroke_caps_radio_group) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -262,6 +264,14 @@ class PlaygroundActivity : AppCompatActivity() {
                     donutProgressView.animationInterpolator = interpolators[i]
                     break
                 }
+            }
+        }
+
+        strokeCapRadioGroup.setOnCheckedChangeListener { _, checkedId ->
+            donutProgressView.strokeCap = when (checkedId) {
+                R.id.stroke_cap_round -> Paint.Cap.ROUND
+                R.id.stroke_cap_butt -> Paint.Cap.BUTT
+                else -> error("Unexpected id: $checkedId")
             }
         }
 
