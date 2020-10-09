@@ -321,21 +321,21 @@
 
             </HorizontalScrollView>
 
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginTop="8dp"
-				android:text="@string/animation_stroke_caps"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/animation_stroke_caps"/>
 
-			<HorizontalScrollView
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-				<RadioGroup
-					android:id="@+id/stroke_caps_radio_group"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:orientation="horizontal">
+                <RadioGroup
+                    android:id="@+id/stroke_caps_radio_group"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
                     <androidx.appcompat.widget.AppCompatRadioButton
                         android:id="@+id/stroke_cap_round"
@@ -345,15 +345,15 @@
                         android:checked="true"
                         android:text="@string/stroke_cap_round"/>
 
-					<androidx.appcompat.widget.AppCompatRadioButton
-						android:id="@+id/stroke_cap_butt"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:text="@string/stroke_cap_butt"/>
+                    <androidx.appcompat.widget.AppCompatRadioButton
+                        android:id="@+id/stroke_cap_butt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/stroke_cap_butt"/>
 
-				</RadioGroup>
+                </RadioGroup>
 
-			</HorizontalScrollView>
+            </HorizontalScrollView>
 
         </LinearLayout>
 
