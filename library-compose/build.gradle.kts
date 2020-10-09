@@ -42,9 +42,7 @@ android {
     }
 
     packagingOptions {
-        val newExcludes = getExcludes()
-        newExcludes.remove("/META-INF/*.kotlin_module")
-        excludes = newExcludes
+        excludes -= "/META-INF/*.kotlin_module"
     }
 }
 

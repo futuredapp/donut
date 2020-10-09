@@ -12,7 +12,7 @@ android {
     compileSdkVersion(ProjectSettings.targetSdk)
 
     defaultConfig {
-        minSdkVersion(ProjectSettings.minSdk)
+        minSdkVersion(ProjectSettings.minSdkLibrary)
         targetSdkVersion(ProjectSettings.targetSdk)
     }
 
