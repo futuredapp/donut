@@ -2,7 +2,7 @@
 <resources>
     <declare-styleable name="DonutProgressView">
         <attr name="donut_strokeWidth" format="dimension"/>
-		<attr name="donut_strokeCap" format="string"/>
+        <attr name="donut_strokeCap" format="string"/>
         <attr name="donut_bgLineColor" format="color"/>
         <attr name="donut_gapWidth" format="float"/>
         <attr name="donut_gapAngle" format="float"/>
