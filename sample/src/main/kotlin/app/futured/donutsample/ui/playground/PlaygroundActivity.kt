@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
+import app.futured.donut.DonutDirection
 import app.futured.donut.DonutProgressView
 import app.futured.donut.DonutSection
 import app.futured.donutsample.R
@@ -58,6 +59,7 @@ class PlaygroundActivity : AppCompatActivity() {
     private val greenSectionText by lazy { findViewById<TextView>(R.id.green_section_text) }
     private val orangeSectionText by lazy { findViewById<TextView>(R.id.orange_section_text) }
     private val interpolatorRadioGroup by lazy { findViewById<RadioGroup>(R.id.interpolator_radio_group) }
+    private val directionSwitch by lazy { findViewById<SwitchCompat>(R.id.direction_switch) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -179,6 +181,18 @@ class PlaygroundActivity : AppCompatActivity() {
             onProgressChanged = { donutProgressView.strokeWidth = it.toFloat() }
         )
 
+        directionSwitch.isChecked = donutProgressView.direction == DonutDirection.ANTICLOCKWISE
+        directionSwitch.setOnCheckedChangeListener { _, isChecked ->
+            val newDirection = if (isChecked) {
+                DonutDirection.ANTICLOCKWISE
+            } else {
+                DonutDirection.CLOCKWISE
+            }
+            donutProgressView.direction = newDirection
+            updateDirectionSwitchText()
+        }
+        updateDirectionSwitchText()
+
         // endregion
 
         // region Data
@@ -266,5 +280,13 @@ class PlaygroundActivity : AppCompatActivity() {
         }
 
         // endregion
+    }
+
+    private fun updateDirectionSwitchText() {
+        val directionString = when (donutProgressView.direction) {
+            DonutDirection.CLOCKWISE -> resources.getString(R.string.direction_clockwise)
+            DonutDirection.ANTICLOCKWISE -> resources.getString(R.string.direction_anticlockwise)
+        }
+        directionSwitch.text = resources.getString(R.string.direction, directionString)
     }
 }

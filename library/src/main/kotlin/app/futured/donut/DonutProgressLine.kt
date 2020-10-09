@@ -17,7 +17,8 @@ internal class DonutProgressLine(
     masterProgress: Float,
     length: Float,
     gapWidthDegrees: Float,
-    gapAngleDegrees: Float
+    gapAngleDegrees: Float,
+    direction: DonutDirection
 ) {
 
     companion object {
@@ -30,8 +31,6 @@ internal class DonutProgressLine(
         strokeWidth = mLineStrokeWidth
         color = mLineColor
     }
-
-    private var path: Path = createPath()
 
     var mRadius: Float = 0.0f
         set(value) {
@@ -78,6 +77,15 @@ internal class DonutProgressLine(
             updatePathEffect()
         }
 
+    var mDirection = DonutDirection.CLOCKWISE
+        set(value) {
+            field = value
+            updatePath()
+            updatePathEffect()
+        }
+
+    private var path: Path = createPath()
+
     init {
         this.mRadius = radius
         this.mLineColor = lineColor
@@ -86,6 +94,7 @@ internal class DonutProgressLine(
         this.mLength = length
         this.mGapWidthDegrees = gapWidthDegrees
         this.mGapAngleDegrees = gapAngleDegrees
+        this.mDirection = direction
     }
 
     private fun createPath(): Path {
@@ -93,8 +102,14 @@ internal class DonutProgressLine(
 
         val offset = mGapAngleDegrees.toRadians()
 
-        val startAngle = 0.0 + (mGapWidthDegrees / 2f).toRadians()
-        val endAngle = Math.PI * 2.0 - (mGapWidthDegrees / 2f).toRadians()
+        val startAngle = when (mDirection) {
+            DonutDirection.CLOCKWISE -> 0.0 + (mGapWidthDegrees / 2f).toRadians()
+            DonutDirection.ANTICLOCKWISE -> Math.PI * 2.0 - (mGapWidthDegrees / 2f).toRadians()
+        }
+        val endAngle = when (mDirection) {
+            DonutDirection.CLOCKWISE -> Math.PI * 2.0 - (mGapWidthDegrees / 2f).toRadians()
+            DonutDirection.ANTICLOCKWISE -> 0.0 + (mGapWidthDegrees / 2f).toRadians()
+        }
         val angleStep = (endAngle - startAngle) / SIDES
 
         path.moveTo(
