@@ -36,9 +36,6 @@ class DonutProgressView @JvmOverloads constructor(
         private val DEFAULT_DIRECTION = DonutDirection.CLOCKWISE
         private val DEFAULT_BG_COLOR_RES = R.color.grey
 
-        private const val PAINT_CAP_ROUND_TEXT = "round"
-        private const val PAINT_CAP_BUTT_TEXT = "butt"
-
         private const val DEFAULT_ANIM_ENABLED = true
         private val DEFAULT_INTERPOLATOR = DecelerateInterpolator(1.5f)
         private const val DEFAULT_ANIM_DURATION_MS = 1000
