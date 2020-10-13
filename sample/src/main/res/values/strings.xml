@@ -15,6 +15,9 @@
     <string name="animation_enabled_colors">Animate color changes</string>
     <string name="animation_duration">Animation duration: %d ms</string>
     <string name="animation_interpolators">Interpolators</string>
+    <string name="direction">Direction: %1$s</string>
+    <string name="direction_clockwise">Clockwise</string>
+    <string name="direction_anticlockwise">Anticlockwise</string>
     <string name="animation_stroke_caps">Stroke caps</string>
 
     <string name="interpolator_decel">Decelerate</string>

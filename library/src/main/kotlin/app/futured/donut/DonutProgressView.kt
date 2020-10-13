@@ -23,9 +23,8 @@ import app.futured.donut.extensions.sumByFloat
 class DonutProgressView @JvmOverloads constructor(
     context: Context,
     private val attrs: AttributeSet? = null,
-    private val defStyleAttr: Int = 0,
-    private val defStyleRes: Int = 0
-) : View(context, attrs, defStyleAttr, defStyleRes) {
+    private val defStyleAttr: Int = 0
+) : View(context, attrs, defStyleAttr) {
 
     companion object {
         private const val TAG = "DonutProgressView"
@@ -35,6 +34,7 @@ class DonutProgressView @JvmOverloads constructor(
         private const val DEFAULT_GAP_WIDTH = 45f
         private const val DEFAULT_GAP_ANGLE = 90f
         private const val DEFAULT_CAP = 1f
+        private val DEFAULT_DIRECTION = DonutDirection.CLOCKWISE
         private val DEFAULT_BG_COLOR_RES = R.color.grey
 
         private const val PAINT_CAP_ROUND_TEXT = "round"
@@ -144,6 +144,18 @@ class DonutProgressView @JvmOverloads constructor(
         }
 
     /**
+     * Direction at which view will animate it's progress lines.
+     */
+    var direction: DonutDirection = DEFAULT_DIRECTION
+        set(value) {
+            field = value
+
+            bgLine.mDirection = value
+            lines.forEach { it.mDirection = value }
+            invalidate()
+        }
+
+    /**
      * If true, view will animate changes when new data is submitted.
      * If false, state change will happen instantly.
      */
@@ -172,7 +184,8 @@ class DonutProgressView @JvmOverloads constructor(
         masterProgress = masterProgress,
         length = 1f,
         gapWidthDegrees = gapWidthDegrees,
-        gapAngleDegrees = gapAngleDegrees
+        gapAngleDegrees = gapAngleDegrees,
+        direction = direction
     )
 
     init {
@@ -185,7 +198,7 @@ class DonutProgressView @JvmOverloads constructor(
             attrs,
             R.styleable.DonutProgressView,
             defStyleAttr,
-            defStyleRes
+            0
         ).use {
             strokeWidth = it.getDimensionPixelSize(
                 R.styleable.DonutProgressView_donut_strokeWidth,
@@ -218,6 +231,8 @@ class DonutProgressView @JvmOverloads constructor(
                 it.getFloat(R.styleable.DonutProgressView_donut_gapWidth, DEFAULT_GAP_WIDTH)
             gapAngleDegrees =
                 it.getFloat(R.styleable.DonutProgressView_donut_gapAngle, DEFAULT_GAP_ANGLE)
+
+            direction = DonutDirection.values()[it.getInt(R.styleable.DonutProgressView_donut_direction, 0)]
 
             animateChanges = it.getBoolean(
                 R.styleable.DonutProgressView_donut_animateChanges,
@@ -273,7 +288,8 @@ class DonutProgressView @JvmOverloads constructor(
                             masterProgress = masterProgress,
                             length = 0f,
                             gapWidthDegrees = gapWidthDegrees,
-                            gapAngleDegrees = gapAngleDegrees
+                            gapAngleDegrees = gapAngleDegrees,
+                            direction = direction
                         )
                     )
                 } else {
@@ -316,7 +332,7 @@ class DonutProgressView @JvmOverloads constructor(
         }
             ?: warn {
                 "Adding amount to non-existent section: $sectionName. " +
-                        "Please specify color, if you want to have section created automatically."
+                    "Please specify color, if you want to have section created automatically."
             }
     }
 

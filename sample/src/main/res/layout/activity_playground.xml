@@ -16,6 +16,7 @@
         app:donut_animationInterpolator="@android:interpolator/decelerate_quint"
         app:donut_bgLineColor="@color/cloud"
         app:donut_cap="5"
+        app:donut_direction="anticlockwise"
         app:donut_gapAngle="270"
         app:donut_gapWidth="60"
         app:donut_strokeWidth="14dp"
@@ -174,6 +175,13 @@
                 android:max="100"
                 android:padding="8dp"
                 tools:progress="40"/>
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/direction_switch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/direction"/>
 
             <TextView
                 android:layout_width="match_parent"
