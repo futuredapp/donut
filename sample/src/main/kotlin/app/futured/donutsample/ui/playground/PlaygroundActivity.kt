@@ -1,7 +1,6 @@
 package app.futured.donutsample.ui.playground
 
 import android.animation.ValueAnimator
-import android.graphics.Paint
 import android.os.Bundle
 import android.os.Handler
 import android.view.animation.AnimationUtils
@@ -14,6 +13,7 @@ import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import app.futured.donut.DonutDirection
 import app.futured.donut.DonutProgressView
 import app.futured.donut.DonutSection
+import app.futured.donut.DonutStrokeCap
 import app.futured.donutsample.R
 import app.futured.donutsample.data.model.BlackCategory
 import app.futured.donutsample.data.model.DataCategory
@@ -283,8 +283,8 @@ class PlaygroundActivity : AppCompatActivity() {
 
         strokeCapRadioGroup.setOnCheckedChangeListener { _, checkedId ->
             donutProgressView.strokeCap = when (checkedId) {
-                R.id.stroke_cap_round -> Paint.Cap.ROUND
-                R.id.stroke_cap_butt -> Paint.Cap.BUTT
+                R.id.stroke_cap_round -> DonutStrokeCap.ROUND
+                R.id.stroke_cap_butt -> DonutStrokeCap.BUTT
                 else -> error("Unexpected id: $checkedId")
             }
         }

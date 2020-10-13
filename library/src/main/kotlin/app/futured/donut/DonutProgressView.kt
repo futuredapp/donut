@@ -5,7 +5,6 @@ import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Paint
 import android.util.AttributeSet
 import android.util.Log
 import android.util.TypedValue
@@ -89,7 +88,7 @@ class DonutProgressView @JvmOverloads constructor(
     /**
      * Stroke cap of all lines.
      */
-    var strokeCap = Paint.Cap.ROUND
+    var strokeCap = DonutStrokeCap.ROUND
         set(value) {
             field = value
 
@@ -205,18 +204,9 @@ class DonutProgressView @JvmOverloads constructor(
                 dpToPx(DEFAULT_STROKE_WIDTH_DP).toInt()
             ).toFloat()
 
-            val strokeCapString = it.getString(
-                R.styleable.DonutProgressView_donut_strokeCap
-            ) ?: PAINT_CAP_ROUND_TEXT
-            strokeCap = when (strokeCapString) {
-                PAINT_CAP_ROUND_TEXT -> Paint.Cap.ROUND
-                PAINT_CAP_BUTT_TEXT -> Paint.Cap.BUTT
-                else -> error(
-                    "Available options for donut_strokeCap attribute are " +
-                    "'$PAINT_CAP_BUTT_TEXT' or '$PAINT_CAP_ROUND_TEXT' " +
-                    "your option was '$strokeCapString'"
-                )
-            }
+            val strokeCapInt = it.getInt(R.styleable.DonutProgressView_donut_strokeCap, DonutStrokeCap.ROUND.index)
+            val strokeCapNullable = DonutStrokeCap.values().find { enum -> enum.index == strokeCapInt }
+            strokeCap = strokeCapNullable ?: error("Unexpected value $strokeCapInt")
 
             bgLineColor =
                 it.getColor(
