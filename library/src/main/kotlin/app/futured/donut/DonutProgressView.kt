@@ -83,6 +83,18 @@ class DonutProgressView @JvmOverloads constructor(
         }
 
     /**
+     * Stroke cap of all lines.
+     */
+    var strokeCap = DonutStrokeCap.ROUND
+        set(value) {
+            field = value
+
+            bgLine.mLineStrokeCap = value
+            lines.forEach { it.mLineStrokeCap = value }
+            invalidate()
+        }
+
+    /**
      * Maximum value of sum of all entries in view, after which
      * all lines start to resize proportionally to amounts in their entry categories.
      */
@@ -164,6 +176,7 @@ class DonutProgressView @JvmOverloads constructor(
         radius = radius,
         lineColor = bgLineColor,
         lineStrokeWidth = strokeWidth,
+        lineStrokeCap = strokeCap,
         masterProgress = masterProgress,
         length = 1f,
         gapWidthDegrees = gapWidthDegrees,
@@ -187,6 +200,10 @@ class DonutProgressView @JvmOverloads constructor(
                 R.styleable.DonutProgressView_donut_strokeWidth,
                 dpToPx(DEFAULT_STROKE_WIDTH_DP).toInt()
             ).toFloat()
+
+            val strokeCapInt = it.getInt(R.styleable.DonutProgressView_donut_strokeCap, DonutStrokeCap.ROUND.index)
+            val strokeCapNullable = DonutStrokeCap.values().find { enum -> enum.index == strokeCapInt }
+            strokeCap = strokeCapNullable ?: error("Unexpected value $strokeCapInt")
 
             bgLineColor =
                 it.getColor(
@@ -254,6 +271,7 @@ class DonutProgressView @JvmOverloads constructor(
                             radius = radius,
                             lineColor = newLineColor,
                             lineStrokeWidth = strokeWidth,
+                            lineStrokeCap = strokeCap,
                             masterProgress = masterProgress,
                             length = 0f,
                             gapWidthDegrees = gapWidthDegrees,

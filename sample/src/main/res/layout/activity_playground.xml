@@ -20,6 +20,7 @@
         app:donut_gapAngle="270"
         app:donut_gapWidth="60"
         app:donut_strokeWidth="14dp"
+        app:donut_strokeCap="round"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
@@ -323,6 +324,40 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:text="@string/interpolator_bounce"/>
+
+                </RadioGroup>
+
+            </HorizontalScrollView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/animation_stroke_caps"/>
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RadioGroup
+                    android:id="@+id/stroke_caps_radio_group"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatRadioButton
+                        android:id="@+id/stroke_cap_round"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:checked="true"
+                        android:text="@string/stroke_cap_round"/>
+
+                    <androidx.appcompat.widget.AppCompatRadioButton
+                        android:id="@+id/stroke_cap_butt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/stroke_cap_butt"/>
 
                 </RadioGroup>
 

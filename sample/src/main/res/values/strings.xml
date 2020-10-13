@@ -18,12 +18,16 @@
     <string name="direction">Direction: %1$s</string>
     <string name="direction_clockwise">Clockwise</string>
     <string name="direction_anticlockwise">Anticlockwise</string>
+    <string name="animation_stroke_caps">Stroke caps</string>
 
     <string name="interpolator_decel">Decelerate</string>
     <string name="interpolator_accel">Accelerate</string>
     <string name="interpolator_accel_decel">AccelerateDecelerate</string>
     <string name="interpolator_linear">Linear</string>
     <string name="interpolator_bounce">Bounce</string>
+
+    <string name="stroke_cap_butt">Butt</string>
+    <string name="stroke_cap_round">Round</string>
 
     <string name="animation_builder_fast_out_slow_in">FastOutSlowIn</string>
     <string name="animation_builder_linear_out_slow_in">LinearOutSlowIn</string>

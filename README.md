@@ -148,6 +148,7 @@ The view allows you to configure various properties to let you create a unique s
 |---|---|---|
 | `donut_cap`| `1.0f` | View's cap property |
 | `donut_strokeWidth` | `12dp` | Width of background and section lines in dp |
+| `donut_strokeCap` | `round` | The paint cap used for all lines. Can be either 'round' or 'butt' |
 | `donut_bgLineColor`| `#e7e8e9` | Color of background line |
 | `donut_gapWidth` | `45°` | Width of the line gap in degrees |
 | `donut_gapAngle` | `90°` | Position of the line gap around the view in degrees |
