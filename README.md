@@ -5,6 +5,7 @@
 [![Download](https://api.bintray.com/packages/thefuntastyops/donut/donut/images/download.svg) ](https://bintray.com/thefuntastyops/donut/donut/_latestVersion)
 [![Build Status](https://github.com/futuredapp/donut/workflows/master/badge.svg)](https://github.com/futuredapp/donut/actions)
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Donut-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/8015)
+[![Android Weekly](https://androidweekly.net/issues/issue-449/badge)](https://androidweekly.net/issues/issue-449)
 ![License](https://img.shields.io/github/license/futuredapp/donut?color=black)
 ![Jetpack Compose](https://img.shields.io/badge/Jetpack%20Compose-Ready-green)
 
