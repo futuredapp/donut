@@ -3,10 +3,7 @@ import org.jetbrains.kotlin.config.KotlinCompilerVersion
 plugins {
     id("com.android.library")
     id("kotlin-android")
-}
-apply {
-    plugin("kotlin-android")
-    plugin("kotlin-android-extensions")
+    id("kotlin-android-extensions")
 }
 
 group = ProjectSettings.group
@@ -57,11 +54,3 @@ dependencies {
     implementation(Deps.JetpackCompose.animation)
     implementation(Deps.JetpackCompose.tooling)
 }
-
-project.apply {
-    extensions.add("artifact", ProjectSettings.DonutCompose.artifact)
-    extensions.add("libraryName", ProjectSettings.DonutCompose.artifact)
-    extensions.add("libraryDescription", ProjectSettings.DonutCompose.libraryDescription)
-}
-
-apply("../publish.script.gradle")
