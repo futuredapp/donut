@@ -4,7 +4,8 @@ object Deps {
     object Plugins {
         const val detekt = "io.gitlab.arturbosch.detekt"
         const val ktlint = "org.jlleitschuh.gradle.ktlint"
-        const val dokka = "org.jetbrains.dokka:dokka-android-gradle-plugin:${Versions.dokka}"
+        const val mavenPublish = "com.vanniktech:gradle-maven-publish-plugin:${Versions.mavenPublish}"
+        const val dokka = "org.jetbrains.dokka:dokka-gradle-plugin:${Versions.dokka}"
     }
 
     object Kotlin {
