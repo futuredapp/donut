@@ -21,7 +21,7 @@ jobs:
         run: ./gradlew lintCheck
       - name: Run unit tests
         shell: bash
-        run: ./gradlew --continue testRelease
+        run: ./gradlew --continue build testRelease
       - name: Danger action
         uses: MeilCli/danger-action@v2
         continue-on-error: true

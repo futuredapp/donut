@@ -1,0 +1,29 @@
+name: Publish release
+
+on:
+  release:
+    types: [ published ]
+
+jobs:
+  release:
+    name: Release build
+    runs-on: [ ubuntu-latest ]
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-ruby@v1
+        with:
+          ruby-version: '2.6'
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.8
+      - name: Build & run unit tests
+        shell: bash
+        run: ./gradlew --continue build testRelease
+      - name: Publish release
+        run: ./gradlew publish --no-daemon --no-parallel --stacktrace -PVERSION_NAME=${{github.event.release.name}}
+        evn:
+          ORG_GRADLE_PROJECT_mavenCentralRepositoryUsername: ${{ secrets.MAVEN_CENTRAL_REPOSITORY_USERNAME }}
+          ORG_GRADLE_PROJECT_mavenCentralRepositoryPassword: ${{ secrets.MAVEN_CENTRAL_REPOSITORY_PASSWORD }}
+          ORG_GRADLE_PROJECT_SIGNING_PRIVATE_KEY: ${{ secrets.GPG_SIGNING_PRIVATE_KEY }}
+          ORG_GRADLE_PROJECT_SIGNING_PASSWORD: ${{ secrets.GPG_SIGNING_PASSWORD }}

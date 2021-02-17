@@ -9,8 +9,8 @@ object Versions {
     const val detekt = "1.4.0"
     const val ktlint = "8.2.0"
     const val ktlintExtension = "0.34.2"
-    const val bintray = "1.8.4"
-    const val dokka = "0.9.18"
+    const val mavenPublish = "0.14.2"
+    const val dokka = "1.4.20"
 
     // androidx
     const val androidx = "1.1.0"

@@ -10,21 +10,8 @@ buildscript {
     dependencies {
         classpath(Deps.gradlePlugin)
         classpath(kotlin(Deps.Kotlin.gradlePlugin, Versions.kotlin))
-        classpath(Deps.Plugins.bintray)
+        classpath(Deps.Plugins.mavenPublish)
         classpath(Deps.Plugins.dokka)
-    }
-
-    extra.apply {
-        set("bintrayRepo", ProjectSettings.Publish.bintrayRepo)
-        set("publishedGroupId", ProjectSettings.group)
-        set("siteUrl", ProjectSettings.Publish.siteUrl)
-        set("gitUrl", ProjectSettings.Publish.gitUrl)
-        set("developerId", ProjectSettings.Publish.developerId)
-        set("developerName", ProjectSettings.Publish.developerName)
-        set("developerEmail", ProjectSettings.Publish.developerEmail)
-        set("licenseName", ProjectSettings.Publish.licenseName)
-        set("licenseUrl", ProjectSettings.Publish.licenseUrl)
-        set("allLicenses", ProjectSettings.Publish.allLicenses)
     }
 }
 
@@ -32,6 +19,8 @@ plugins {
     idea
     id(Deps.Plugins.detekt) version Versions.detekt
     id(Deps.Plugins.ktlint) version Versions.ktlint
+    signing
+    publishing
 }
 
 tasks {
@@ -62,4 +51,21 @@ detekt {
     version = Versions.detekt
     input = files(rootDir)
     config = files("detekt.yml")
+}
+
+project.subprojects {
+    plugins.whenPluginAdded {
+        if (this is SigningPlugin) {
+            extensions.findByType<SigningExtension>()?.apply {
+                val hasKey = project.hasProperty("SIGNING_PRIVATE_KEY")
+                val hasPassword = project.hasProperty("SIGNING_PASSWORD")
+
+                if (hasKey && hasPassword) {
+                    val key = project.properties["SIGNING_PRIVATE_KEY"].toString()
+                    val password = project.properties["SIGNING_PASSWORD"].toString()
+                    useInMemoryPgpKeys(key, password)
+                }
+            }
+        }
+    }
 }

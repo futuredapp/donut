@@ -13,6 +13,7 @@ android {
         applicationId = ProjectSettings.applicationId
         minSdkVersion(ProjectSettings.minSdk)
         targetSdkVersion(ProjectSettings.targetSdk)
+        versionCode = 1
     }
 
     sourceSets {
