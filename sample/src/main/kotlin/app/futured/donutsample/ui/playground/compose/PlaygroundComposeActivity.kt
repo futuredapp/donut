@@ -3,8 +3,18 @@ package app.futured.donutsample.ui.playground.compose
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
+import android.widget.RadioGroup
+import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.CubicBezierEasing
+import androidx.compose.animation.core.FastOutLinearInEasing
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.snap
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -14,6 +24,7 @@ import app.futured.donut.compose.data.DonutConfig
 import app.futured.donut.compose.data.DonutModel
 import app.futured.donut.compose.data.DonutSection
 import app.futured.donutsample.R
+import app.futured.donutsample.tools.extensions.checkedButtonIndex
 import app.futured.donutsample.tools.view.setupSeekbar
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlin.random.Random.Default.nextFloat
@@ -70,6 +81,7 @@ class PlaygroundComposeActivity : AppCompatActivity() {
         }
 
         initControls()
+        updateAnimationSpecs() // Syncs initial animation settings from controls to ComposeView
         changeDonutDataWithDelay()
     }
 
@@ -182,82 +194,66 @@ class PlaygroundComposeActivity : AppCompatActivity() {
         }
         //endregion
 
-        // TODO
         //region - animations
-//        findViewById<SwitchCompat>(R.id.anim_enabled_switch).apply {
-//            isChecked = true
-//            setOnCheckedChangeListener { _, isChecked ->
-//                config.setLayoutAnimationsEnabled(isChecked)
-//            }
-//        }
-//
-//        findViewById<SwitchCompat>(R.id.anim_colors_enabled_switch).apply {
-//            isChecked = true
-//            setOnCheckedChangeListener { _, isChecked ->
-//                config.setColorAnimationsEnabled(isChecked)
-//            }
-//        }
-//
-//        setupSeekbar(
-//            seekBar = findViewById(R.id.anim_duration_seekbar),
-//            titleTextView = findViewById(R.id.anim_duration_text),
-//            initProgress = INITIAL_ANIMATION_DURATION,
-//            getTitleText = { getString(R.string.animation_duration, it) },
-//            onProgressChanged = { updateAnimationBuilders() }
-//        )
-//
-//        findViewById<RadioGroup>(R.id.interpolator_radio_group).setOnCheckedChangeListener { _, _ ->
-//            updateAnimationBuilders()
-//        }
+        setupSeekbar(
+            seekBar = findViewById(R.id.anim_duration_seekbar),
+            titleTextView = findViewById(R.id.anim_duration_text),
+            initProgress = INITIAL_ANIMATION_DURATION,
+            getTitleText = { getString(R.string.animation_duration, it) },
+            onProgressChanged = { updateAnimationSpecs() }
+        )
+
+        findViewById<RadioGroup>(R.id.layout_anim_spec_radio_group).setOnCheckedChangeListener { _, _ ->
+            updateAnimationSpecs()
+        }
+
+        findViewById<RadioGroup>(R.id.color_anim_spec_radio_group).setOnCheckedChangeListener { _, _ ->
+            updateAnimationSpecs()
+        }
         //endregion
     }
 
-    // TODO
-//    private fun updateAnimationBuilders() {
-//        val radioGroup = findViewById<RadioGroup>(R.id.interpolator_radio_group)
-//        for (index in 0 until radioGroup.childCount) {
-//            if (radioGroup.getChildAt(index).id == radioGroup.checkedRadioButtonId) {
-//                val progress = findViewById<SeekBar>(R.id.anim_duration_seekbar).progress
-//                updateAnimationBuilders(progress, index)
-//                break
-//            }
-//        }
-//    }
-//
-//    private fun updateAnimationBuilders(progress: Int, index: Int) {
-//        val animationBuilders = listOf(
-//            PhysicsBuilder<Float>().apply {
-//                dampingRatio = Spring.DampingRatioMediumBouncy
-//                stiffness = Spring.StiffnessLow
-//                displacementThreshold = 0.0001f
-//            },
-//            TweenBuilder<Float>().apply {
-//                easing = FastOutSlowInEasing
-//            },
-//            TweenBuilder<Float>().apply {
-//                easing = LinearOutSlowInEasing
-//            },
-//            TweenBuilder<Float>().apply {
-//                easing = FastOutLinearInEasing
-//            },
-//            TweenBuilder<Float>().apply {
-//                easing = LinearEasing
-//            },
-//            customAnimationBuilder
-//        )
-//
-//        val builders = animationBuilders.map { builder ->
-//            if (builder is TweenBuilder) {
-//                builder.duration = progress
-//            }
-//            builder
-//        }
-//
-//        val builder = builders[index]
-//        findViewById<SeekBar>(R.id.anim_duration_seekbar).isEnabled = builder !is PhysicsBuilder
-//
-//        config.setLayoutAnimationBuilder(builder)
-//    }
+    private fun updateAnimationSpecs() {
+        val animationDurationMs = findViewById<SeekBar>(R.id.anim_duration_seekbar).progress
+        val layoutAnimSpec = findViewById<RadioGroup>(R.id.layout_anim_spec_radio_group).let {
+            getLayoutAnimationSpec(index = it.checkedButtonIndex(), animDurationMs = animationDurationMs)
+        }
+        val colorAnimSpec = findViewById<RadioGroup>(R.id.color_anim_spec_radio_group).let {
+            getColorAnimationSpec(index = it.checkedButtonIndex(), animDurationMs = animationDurationMs)
+        }
+
+        mutateConfig { donutConfig ->
+            donutConfig
+                .copyWithLayoutAnimationsSpec(layoutAnimSpec)
+                .copyWithColorAnimationsSpec(colorAnimSpec)
+        }
+    }
+
+    private fun getLayoutAnimationSpec(index: Int, animDurationMs: Int): AnimationSpec<Float> {
+        val specs = listOf<AnimationSpec<Float>>(
+            snap(),
+            tween(animDurationMs, easing = LinearEasing),
+            spring(Spring.DampingRatioMediumBouncy, Spring.StiffnessLow),
+            tween(animDurationMs, easing = FastOutSlowInEasing),
+            tween(animDurationMs, easing = LinearOutSlowInEasing),
+            tween(animDurationMs, easing = FastOutLinearInEasing)
+        )
+
+        return specs[index]
+    }
+
+    private fun getColorAnimationSpec(index: Int, animDurationMs: Int): AnimationSpec<Color> {
+        val specs = listOf<AnimationSpec<Color>>(
+            snap(),
+            tween(animDurationMs, easing = LinearEasing),
+            spring(Spring.DampingRatioMediumBouncy, Spring.StiffnessLow),
+            tween(animDurationMs, easing = FastOutSlowInEasing),
+            tween(animDurationMs, easing = LinearOutSlowInEasing),
+            tween(animDurationMs, easing = FastOutLinearInEasing)
+        )
+
+        return specs[index]
+    }
 
     private fun mutateData(mapper: (data: DonutModel) -> DonutModel) {
         data.value = mapper(data.value)

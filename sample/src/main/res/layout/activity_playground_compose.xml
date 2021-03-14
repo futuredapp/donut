@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,12 +10,12 @@
         android:id="@+id/donut_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:layout_marginStart="40dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -185,20 +184,6 @@
                 android:textSize="18sp"
                 android:textStyle="bold"/>
 
-            <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/anim_enabled_switch"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/animation_enabled_layouts"/>
-
-            <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/anim_colors_enabled_switch"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/animation_enabled_colors"/>
-
             <TextView
                 android:id="@+id/anim_duration_text"
                 android:layout_width="wrap_content"
@@ -216,55 +201,111 @@
                 android:thumbTint="@color/process_black"
                 tools:progress="5"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/anim_spec_layout"/>
+
             <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:fadeScrollbars="false">
 
                 <RadioGroup
-                    android:id="@+id/interpolator_radio_group"
+                    android:id="@+id/layout_anim_spec_radio_group"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:checkedButton="@+id/animation_builder_default"
+                    android:checkedButton="@+id/default_checked_for_layout"
                     android:orientation="horizontal">
 
                     <androidx.appcompat.widget.AppCompatRadioButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:text="@string/animation_builder_spring"/>
+                        android:text="@string/anim_spec_snap"/>
 
                     <androidx.appcompat.widget.AppCompatRadioButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/animation_builder_fast_out_slow_in"/>
+                        android:text="@string/anim_spec_linear"/>
+
+                    <androidx.appcompat.widget.AppCompatRadioButton
+                        android:id="@+id/default_checked_for_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/anim_spec_spring"/>
 
                     <androidx.appcompat.widget.AppCompatRadioButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:text="@string/animation_builder_linear_out_slow_in"/>
+                        android:text="@string/anim_spec_fast_out_slow_in"/>
 
                     <androidx.appcompat.widget.AppCompatRadioButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:text="@string/animation_builder_fast_out_linear_in"/>
+                        android:text="@string/anim_spec_linear_out_slow_in"/>
 
                     <androidx.appcompat.widget.AppCompatRadioButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:text="@string/animation_builder_linear"/>
+                        android:text="@string/anim_spec_fast_out_linear_in"/>
+
+                </RadioGroup>
+
+            </HorizontalScrollView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/anim_spec_color"/>
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:fadeScrollbars="false">
+
+                <RadioGroup
+                    android:id="@+id/color_anim_spec_radio_group"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:checkedButton="@+id/default_checked_for_color"
+                    android:orientation="horizontal">
 
                     <androidx.appcompat.widget.AppCompatRadioButton
-                        android:id="@+id/animation_builder_default"
+                        android:id="@+id/default_checked_for_color"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:text="@string/animation_builder_custom"/>
+                        android:text="@string/anim_spec_snap"/>
 
+                    <androidx.appcompat.widget.AppCompatRadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/anim_spec_linear"/>
+
+                    <androidx.appcompat.widget.AppCompatRadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/anim_spec_spring"/>
+
+                    <androidx.appcompat.widget.AppCompatRadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/anim_spec_fast_out_slow_in"/>
+
+                    <androidx.appcompat.widget.AppCompatRadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/anim_spec_linear_out_slow_in"/>
+
+                    <androidx.appcompat.widget.AppCompatRadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/anim_spec_fast_out_linear_in"/>
 
                 </RadioGroup>
 
