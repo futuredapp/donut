@@ -1,7 +1,6 @@
 package app.futured.donut.compose.data
 
-import androidx.compose.Model
-import androidx.ui.graphics.Color
+import androidx.compose.ui.graphics.Color
 
 /**
  * Data class representing the single section of the donut containing amount and color.
@@ -10,7 +9,7 @@ import androidx.ui.graphics.Color
  * then this section will take 25% of the whole donut.
  * @param color color of this single section
  */
-@Model data class DonutSection(
-    var amount: Float,
-    var color: Color
+data class DonutSection(
+    val amount: Float,
+    val color: Color
 )

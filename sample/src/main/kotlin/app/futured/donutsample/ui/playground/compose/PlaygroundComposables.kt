@@ -1,22 +1,13 @@
 package app.futured.donutsample.ui.playground.compose
 
-import androidx.compose.Composable
-import androidx.ui.core.Alignment
-import androidx.ui.core.Modifier
-import androidx.ui.foundation.Box
-import androidx.ui.foundation.ContentGravity
-import androidx.ui.foundation.Text
-import androidx.ui.graphics.Color
-import androidx.ui.layout.Column
-import androidx.ui.layout.Row
-import androidx.ui.layout.RowScope.gravity
-import androidx.ui.layout.Spacer
-import androidx.ui.layout.fillMaxSize
-import androidx.ui.layout.fillMaxWidth
-import androidx.ui.layout.height
-import androidx.ui.layout.size
-import androidx.ui.tooling.preview.Preview
-import androidx.ui.unit.dp
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import app.futured.donut.compose.DonutProgress
 import app.futured.donut.compose.data.DonutConfig
 import app.futured.donut.compose.data.DonutModel
@@ -25,9 +16,16 @@ import app.futured.donutsample.ui.playground.common.compose.Circle
 
 @Composable
 fun SampleComposeScreen(model: DonutModel, config: DonutConfig) {
-    Box(Modifier.fillMaxWidth() + Modifier.height(240.dp), gravity = ContentGravity.Center) {
-        Box(Modifier.size(width = 240.dp, height = 240.dp)) {
-            DonutProgress(model, config)
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(240.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Box(
+            modifier = Modifier.size(width = 240.dp, height = 240.dp)
+        ) {
+            DonutProgress(model, modifier = Modifier.fillMaxSize(), config = config)
             DataOverview(model)
         }
     }
@@ -35,8 +33,8 @@ fun SampleComposeScreen(model: DonutModel, config: DonutConfig) {
 
 @Composable
 fun DataOverview(model: DonutModel) {
-    Box(Modifier.fillMaxSize(), gravity = ContentGravity.Center) {
-        Column(modifier = Modifier.gravity(Alignment.CenterVertically)) {
+    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        Column(verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
             TitleAmountCap(model.sectionsCap)
             TitleTotalAmount(model.cap)
             Spacer(modifier = Modifier.size(width = 0.dp, height = 12.dp))
@@ -49,19 +47,19 @@ fun DataOverview(model: DonutModel) {
 
 @Composable
 fun TitleAmountCap(amountCap: Float, format: String = "%.2f") {
-    Text("Amount cap: ${format.format(amountCap)}", modifier = Modifier.gravity(Alignment.CenterVertically))
+    Text("Amount cap: ${format.format(amountCap)}")
 }
 
 @Composable
 fun TitleTotalAmount(totalAmount: Float, format: String = "%.2f") {
-    Text("Total amount: ${format.format(totalAmount)}", modifier = Modifier.gravity(Alignment.CenterVertically))
+    Text("Total amount: ${format.format(totalAmount)}")
 }
 
 @Composable
 fun ProgressLineRowValueIndicator(section: DonutSection, format: String = "%.2f") {
-    Row(modifier = Modifier.gravity(Alignment.CenterVertically)) {
-        Circle(radius = 4.dp, color = section.color, modifier = Modifier.gravity(Alignment.CenterVertically))
-        Spacer(modifier = Modifier.size(width = 12.dp, height = 0.dp))
+    Row(horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
+        Circle(radius = 4.dp, color = section.color)
+        Spacer(modifier = Modifier.width(width = 12.dp))
         Text(text = format.format(section.amount))
     }
 }
@@ -74,7 +72,7 @@ fun SampleComposeScreenPreview() {
     val data = DonutModel(
         cap = 8f,
         masterProgress = 1f,
-        gapWidthDegrees = 270f,
+        gapWidthDegrees = 0f,
         gapAngleDegrees = 90f,
         strokeWidth = 40f,
         backgroundLineColor = Color.LightGray,
@@ -85,5 +83,5 @@ fun SampleComposeScreenPreview() {
             DonutSection(amount = 0f, color = Color.Blue)
         )
     )
-    SampleComposeScreen(data, DonutConfig())
+    SampleComposeScreen(data, DonutConfig.create())
 }

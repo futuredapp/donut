@@ -1,23 +1,19 @@
 package app.futured.donutsample.ui.playground.common.compose
 
-import androidx.compose.Composable
-import androidx.compose.remember
-import androidx.ui.core.Modifier
-import androidx.ui.core.drawBehind
-import androidx.ui.foundation.Box
-import androidx.ui.graphics.Color
-import androidx.ui.graphics.Paint
-import androidx.ui.layout.size
-import androidx.ui.unit.Dp
-import androidx.ui.unit.center
-import androidx.ui.unit.toOffset
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.size
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.center
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
 
 @Composable
 fun Circle(radius: Dp, color: Color, modifier: Modifier = Modifier) {
-    val paint = remember { Paint() }.apply {
-        this.color = color
-    }
-    Box(modifier = modifier + Modifier.size(radius, radius) + Modifier.drawBehind {
-        drawCircle(size.center().toOffset(), radius.toPx().value, paint)
-    })
+    Box(modifier = modifier then Modifier
+        .size(radius, radius)
+        .drawBehind {
+            drawCircle(color, radius.toPx(), size.center)
+        })
 }

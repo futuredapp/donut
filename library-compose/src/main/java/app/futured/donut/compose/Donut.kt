@@ -1,28 +1,27 @@
 package app.futured.donut.compose
 
-import androidx.compose.Composable
-import androidx.compose.remember
-import androidx.ui.animation.animatedColor
-import androidx.ui.animation.animatedFloat
-import androidx.ui.core.Modifier
-import androidx.ui.foundation.Canvas
-import androidx.ui.geometry.Offset
-import androidx.ui.geometry.Rect
-import androidx.ui.graphics.Canvas
-import androidx.ui.graphics.Paint
-import androidx.ui.graphics.PaintingStyle
-import androidx.ui.graphics.StrokeCap
-import androidx.ui.layout.fillMaxSize
-import androidx.ui.unit.PxSize
-import androidx.ui.unit.center
-import androidx.ui.unit.min
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.layout.size
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import app.futured.donut.compose.data.DonutConfig
 import app.futured.donut.compose.data.DonutModel
+import app.futured.donut.compose.data.DonutSection
 import app.futured.donut.compose.internal.data.DonutPathData
 import app.futured.donut.compose.internal.data.DonutPathDataEntry
 import app.futured.donut.compose.internal.data.DonutProgressValues
 import app.futured.donut.compose.internal.data.SectionsPathData
-import app.futured.donut.compose.internal.extensions.animateOrSnapDistinctValues
 import kotlin.math.max
 
 /**
@@ -32,27 +31,58 @@ import kotlin.math.max
  * @param model data used to draw the content of the Donut
  * @param config configuration used to define animations setup of the Donut
  */
-@Composable fun DonutProgress(model: DonutModel, config: DonutConfig = DonutConfig(), modifier: Modifier = Modifier.fillMaxSize()) {
+@Composable
+fun DonutProgress(model: DonutModel, modifier: Modifier = Modifier, config: DonutConfig = DonutConfig.create()) {
     assertSectionsSizeUnchanged(model)
 
     val adjustedData = adjustData(model)
-    val donutProgressValues = createDonutProgressValues(adjustedData)
-    animateOrSnapDistinctValues(adjustedData, config, donutProgressValues)
-
+    val donutProgressValues = createDonutProgressValues(adjustedData, config)
     DrawDonut(adjustedData, donutProgressValues, modifier)
 }
 
-@Composable private fun createDonutProgressValues(model: DonutModel): DonutProgressValues {
+@Composable
+private fun createDonutProgressValues(model: DonutModel, donutConfig: DonutConfig): DonutProgressValues {
     val pathData = calculatePathData(model)
-    val animatedGapAngle = animatedFloat(model.gapAngleDegrees)
-    val animatedMasterProgress = animatedFloat(model.masterProgress)
-    val animatedGapWidthDegrees = animatedFloat(model.gapWidthDegrees)
-    val animatedStrokeWidth = animatedFloat(model.strokeWidth)
-    val animatedBackgroundLineColor = animatedColor(model.backgroundLineColor)
-    val animatedCap = animatedFloat(model.cap)
-    val animatedProgressStartAngles = model.sections.mapIndexed { index, _ -> animatedFloat(pathData[index].startAngle) }
-    val animatedProgressSweepAngles = model.sections.mapIndexed { index, _ -> animatedFloat(pathData[index].sweepAngle) }
-    val animatedProgressColors = model.sections.map { animatedColor(it.color) }
+
+    val animatedGapAngle = animateFloatAsState(
+        targetValue = model.gapAngleDegrees,
+        animationSpec = donutConfig.gapAngleAnimationSpec
+    )
+    val animatedMasterProgress = animateFloatAsState(
+        targetValue = model.masterProgress,
+        animationSpec = donutConfig.masterProgressAnimationSpec
+    )
+    val animatedGapWidthDegrees = animateFloatAsState(
+        targetValue = model.gapWidthDegrees,
+        animationSpec = donutConfig.gapWidthAnimationSpec
+    )
+    val animatedStrokeWidth = animateFloatAsState(
+        targetValue = model.strokeWidth,
+        animationSpec = donutConfig.strokeWidthAnimationSpec
+    )
+    val animatedBackgroundLineColor = animateColorAsState(
+        targetValue = model.backgroundLineColor,
+        animationSpec = donutConfig.backgroundLineColorAnimationSpec
+    )
+    val animatedCap = animateFloatAsState(targetValue = model.cap, animationSpec = donutConfig.capAnimationSpec)
+    val animatedProgressStartAngles = model.sections.mapIndexed { index, _ ->
+        animateFloatAsState(
+            targetValue = pathData[index].startAngle,
+            animationSpec = donutConfig.sectionAmountAnimationSpec
+        )
+    }
+    val animatedProgressSweepAngles = model.sections.mapIndexed { index, _ ->
+        animateFloatAsState(
+            targetValue = pathData[index].sweepAngle,
+            animationSpec = donutConfig.sectionAmountAnimationSpec
+        )
+    }
+    val animatedProgressColors = model.sections.map {
+        animateColorAsState(
+            targetValue = it.color,
+            animationSpec = donutConfig.sectionColorAnimationSpec
+        )
+    }
 
     return DonutProgressValues(
         animatedGapAngle = animatedGapAngle,
@@ -68,7 +98,8 @@ import kotlin.math.max
     )
 }
 
-@Composable private fun DrawDonut(model: DonutModel, donutProgressValues: DonutProgressValues, modifier: Modifier) {
+@Composable
+private fun DrawDonut(model: DonutModel, donutProgressValues: DonutProgressValues, modifier: Modifier) {
     val masterProgress = donutProgressValues.animatedMasterProgress.value
     val gapAngleDegrees = donutProgressValues.animatedGapAngle.value
     val gapWidthDegrees = donutProgressValues.animatedGapWidthDegrees.value
@@ -77,8 +108,13 @@ import kotlin.math.max
     val wholeDonutAngle = 360f - gapWidthDegrees
     val masterSegmentAngle = wholeDonutAngle * masterProgress
     val startAngle = gapAngleDegrees + gapWidthDegrees / 2
+    val strokeCap = StrokeCap.Round // TODO StrokeCap feature
 
-    val masterPathData = DonutPathDataEntry(backgroundLineColor, startAngle, masterSegmentAngle)
+    val masterPathData = DonutPathDataEntry(
+        color = backgroundLineColor,
+        startAngle = startAngle,
+        sweepAngle = masterSegmentAngle
+    )
     val entriesPathData = mutableListOf<DonutPathDataEntry>().apply {
         model.sections.forEachIndexed { index, _ ->
             this += DonutPathDataEntry(
@@ -90,89 +126,25 @@ import kotlin.math.max
     }
     val donutPathData = DonutPathData(masterPathData, entriesPathData)
 
-    val paint = getMemoizedPaint(donutProgressValues.animatedStrokeWidth.value)
-    Canvas(modifier = modifier, onCanvas = {
-        drawDonutSegment(size, paint, donutPathData.masterPathData)
+    Canvas(modifier = modifier, onDraw = {
+        drawDonutSegment(donutProgressValues.animatedStrokeWidth.value, strokeCap, donutPathData.masterPathData)
         donutPathData.entriesPathData.forEach { pathData ->
-            drawDonutSegment(size, paint, pathData)
+            drawDonutSegment(donutProgressValues.animatedStrokeWidth.value, strokeCap, pathData)
         }
     })
 }
 
-@Composable private fun getMemoizedPaint(strokeWidth: Float): Paint {
-    return remember {
-        Paint().apply {
-            strokeCap = StrokeCap.round
-            style = PaintingStyle.stroke
-        }
-    }.apply {
-        this.strokeWidth = strokeWidth
-    }
-}
-
-@Composable private fun assertSectionsSizeUnchanged(model: DonutModel) {
+// TODO remove this limitation
+@Composable
+private fun assertSectionsSizeUnchanged(model: DonutModel) {
     val initialSectionsCount = remember { model.sections.size }
     check(model.sections.size <= initialSectionsCount) {
         "Adding or removing sections is not supported." +
-        "Instead of adding new sections dynamically add empty sections during initialization and " +
-        "instead of removing existing sections dynamically set sections value to zero."
+                "Instead of adding new sections dynamically add empty sections during initialization and " +
+                "instead of removing existing sections dynamically set sections value to zero."
     }
 }
 
-private fun animateOrSnapDistinctValues(model: DonutModel, config: DonutConfig, donutProgressValues: DonutProgressValues) {
-    donutProgressValues.animatedGapAngle.animateOrSnapDistinctValues(
-        newValue = model.gapAngleDegrees,
-        isAnimationEnabled = config.isGapAngleAnimationEnabled,
-        animationBuilder = config.gapAngleAnimationBuilder
-    )
-    donutProgressValues.animatedMasterProgress.animateOrSnapDistinctValues(
-        newValue = model.masterProgress,
-        isAnimationEnabled = config.isMasterProgressAnimationEnabled,
-        animationBuilder = config.masterProgressAnimationBuilder
-    )
-    donutProgressValues.animatedGapWidthDegrees.animateOrSnapDistinctValues(
-        newValue = model.gapWidthDegrees,
-        isAnimationEnabled = config.isGapWidthAnimationEnabled,
-        animationBuilder = config.gapWidthAnimationBuilder
-    )
-    donutProgressValues.animatedStrokeWidth.animateOrSnapDistinctValues(
-        newValue = model.strokeWidth,
-        isAnimationEnabled = config.isStrokeWidthAnimationEnabled,
-        animationBuilder = config.strokeWidthAnimationBuilder
-    )
-    donutProgressValues.animatedStrokeWidth.animateOrSnapDistinctValues(
-        newValue = model.strokeWidth,
-        isAnimationEnabled = config.isStrokeWidthAnimationEnabled,
-        animationBuilder = config.strokeWidthAnimationBuilder
-    )
-    donutProgressValues.animatedBackgroundLineColor.animateOrSnapDistinctValues(
-        newValue = model.backgroundLineColor,
-        isAnimationEnabled = config.isBackgroundLineColorAnimationEnabled,
-        animationBuilder = config.backgroundLineColorAnimationBuilder
-    )
-    donutProgressValues.animatedCap.animateOrSnapDistinctValues(
-        newValue = model.cap,
-        isAnimationEnabled = config.isCapAnimationEnabled,
-        animationBuilder = config.capAnimationBuilder
-    )
-    donutProgressValues.pathData.forEachIndexed { index, donutPathDataEntry ->
-        donutProgressValues.animatedColors[index].animateOrSnapDistinctValues(
-            newValue = donutPathDataEntry.color,
-            isAnimationEnabled = config.isSectionColorAnimationEnabled,
-            animationBuilder = config.sectionColorAnimationBuilder
-        )
-        donutProgressValues.animatedSweepAngles[index].animateOrSnapDistinctValues(
-            newValue = donutPathDataEntry.sweepAngle,
-            isAnimationEnabled = config.isSectionAmountAnimationEnabled,
-            animationBuilder = config.sectionAmountAnimationBuilder
-        )
-        donutProgressValues.animatedStartAngles[index].animateOrSnapDistinctValues(
-            newValue = donutPathDataEntry.startAngle,
-            isAnimationEnabled = config.isSectionAmountAnimationEnabled,
-            animationBuilder = config.sectionAmountAnimationBuilder
-        )
-    }
-}
 
 private fun adjustData(model: DonutModel) = model.copy(
     gapAngleDegrees = model.gapAngleDegrees.coerceIn(0f, 360f),
@@ -222,11 +194,27 @@ private fun createPathDataForSections(data: SectionsPathData): List<DonutPathDat
     return entriesPathData.reversed()
 }
 
-private fun Canvas.drawDonutSegment(parentSize: PxSize, paint: Paint, data: DonutPathDataEntry) {
-    val maxSize = min(parentSize.height, parentSize.width).value
-    val radius = maxSize / 2 - paint.strokeWidth / 2
-    val center = Offset(parentSize.center().x.value, parentSize.center().y.value)
-    val rect = Rect.fromCircle(center, radius)
-    paint.color = data.color
-    drawArc(rect, data.startAngle, data.sweepAngle, false, paint)
+private fun DrawScope.drawDonutSegment(
+    strokeWidth: Float,
+    strokeCap: StrokeCap,
+    data: DonutPathDataEntry
+) {
+    drawArc(
+        color = data.color,
+        startAngle = data.startAngle,
+        sweepAngle = data.sweepAngle,
+        useCenter = false,
+        topLeft = Offset.Zero + Offset(
+            x = strokeWidth / 2f,
+            y = strokeWidth / 2f
+        ),
+        size = Size(
+            size.width - strokeWidth,
+            size.height - strokeWidth
+        ),
+        style = Stroke(
+            width = strokeWidth,
+            cap = strokeCap
+        )
+    )
 }

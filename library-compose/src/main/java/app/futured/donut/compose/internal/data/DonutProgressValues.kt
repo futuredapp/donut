@@ -1,17 +1,17 @@
 package app.futured.donut.compose.internal.data
 
-import androidx.animation.AnimatedFloat
-import app.futured.donut.compose.internal.AnimatedColor
+import androidx.compose.runtime.State
+import androidx.compose.ui.graphics.Color
 
 internal data class DonutProgressValues(
-    var animatedGapAngle: AnimatedFloat,
-    var animatedMasterProgress: AnimatedFloat,
-    var animatedGapWidthDegrees: AnimatedFloat,
-    var animatedStrokeWidth: AnimatedFloat,
-    var animatedBackgroundLineColor: AnimatedColor,
-    var animatedCap: AnimatedFloat,
-    val animatedStartAngles: List<AnimatedFloat>,
-    val animatedSweepAngles: List<AnimatedFloat>,
-    val animatedColors: List<AnimatedColor>,
+    val animatedGapAngle: State<Float>,
+    val animatedMasterProgress: State<Float>,
+    val animatedGapWidthDegrees: State<Float>,
+    val animatedStrokeWidth: State<Float>,
+    val animatedBackgroundLineColor: State<Color>,
+    val animatedCap: State<Float>,
+    val animatedStartAngles: List<State<Float>>,
+    val animatedSweepAngles: List<State<Float>>,
+    val animatedColors: List<State<Color>>,
     val pathData: List<DonutPathDataEntry>
 )
