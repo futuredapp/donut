@@ -2,6 +2,7 @@ package app.futured.donutsample.ui.playground.compose
 
 import android.os.Bundle
 import android.os.Handler
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.tween
@@ -15,6 +16,7 @@ import app.futured.donut.compose.data.DonutSection
 import app.futured.donutsample.R
 import app.futured.donutsample.tools.view.setupSeekbar
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlin.random.Random.Default.nextFloat
 
 class PlaygroundComposeActivity : AppCompatActivity() {
 
@@ -138,40 +140,46 @@ class PlaygroundComposeActivity : AppCompatActivity() {
         )
         //endregion
 
-        // TODO
         //region - data manipulation
-//        findViewById<View>(R.id.button_add).setOnClickListener {
-//            data.sections.random().apply {
-//                amount += nextFloat()
-//            }
-//        }
-//
-//        findViewById<View>(R.id.button_remove).setOnClickListener {
-//            for (entry in data.sections.shuffled()) {
-//                if (entry.amount != 0f) {
-//                    entry.amount = max(0f, entry.amount - nextFloat())
-//                    break
-//                }
-//            }
-//        }
-//
-//        findViewById<View>(R.id.button_random_values).setOnClickListener {
-//            data.sections.forEach {
-//                it.amount = nextFloat() + nextFloat()
-//            }
-//        }
-//
-//        findViewById<View>(R.id.button_random_colors).setOnClickListener {
-//            data.sections.forEach {
-//                it.color = Color(nextFloat(), nextFloat(), nextFloat())
-//            }
-//        }
-//
-//        findViewById<View>(R.id.button_clear).setOnClickListener {
-//            data.sections.forEach {
-//                it.amount = 0f
-//            }
-//        }
+        findViewById<View>(R.id.button_add).setOnClickListener {
+            mutateData { data ->
+                data.copy(sections = data.sections.map { section -> section.copy(amount = section.amount + nextFloat()) })
+            }
+        }
+
+        findViewById<View>(R.id.button_remove).setOnClickListener {
+            mutateData { data ->
+                data.copy(sections = data.sections.map { section ->
+                    section.copy(
+                        amount = (section.amount - nextFloat()).coerceAtLeast(minimumValue = 0f)
+                    )
+                })
+            }
+        }
+
+        findViewById<View>(R.id.button_random_values).setOnClickListener {
+            mutateData { data ->
+                data.copy(sections = data.sections.map { section ->
+                    section.copy(amount = nextFloat() + nextFloat())
+                })
+            }
+        }
+
+        findViewById<View>(R.id.button_random_colors).setOnClickListener {
+            mutateData { data ->
+                data.copy(sections = data.sections.map { section ->
+                    section.copy(color = Color(nextFloat(), nextFloat(), nextFloat()))
+                })
+            }
+        }
+
+        findViewById<View>(R.id.button_clear).setOnClickListener {
+            mutateData { data ->
+                data.copy(sections = data.sections.map { section ->
+                    section.copy(amount = 0f)
+                })
+            }
+        }
         //endregion
 
         // TODO
