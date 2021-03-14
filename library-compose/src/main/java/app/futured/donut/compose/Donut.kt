@@ -3,21 +3,16 @@ package app.futured.donut.compose
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import app.futured.donut.compose.data.DonutConfig
 import app.futured.donut.compose.data.DonutModel
-import app.futured.donut.compose.data.DonutSection
 import app.futured.donut.compose.internal.data.DonutPathData
 import app.futured.donut.compose.internal.data.DonutPathDataEntry
 import app.futured.donut.compose.internal.data.DonutProgressValues
@@ -140,8 +135,8 @@ private fun assertSectionsSizeUnchanged(model: DonutModel) {
     val initialSectionsCount = remember { model.sections.size }
     check(model.sections.size <= initialSectionsCount) {
         "Adding or removing sections is not supported." +
-                "Instead of adding new sections dynamically add empty sections during initialization and " +
-                "instead of removing existing sections dynamically set sections value to zero."
+            "Instead of adding new sections dynamically add empty sections during initialization and " +
+            "instead of removing existing sections dynamically set sections value to zero."
     }
 }
 
