@@ -3,7 +3,7 @@ object Versions {
     const val gradle = "7.0.0-alpha12"
 
     // kotlin
-    const val kotlin = "1.4.31"
+    const val kotlin = "1.4.32"
 
     // plugins
     const val detekt = "1.4.0"
@@ -18,5 +18,5 @@ object Versions {
     const val ktx = "1.1.0"
 
     // Jetpack Compose
-    const val jetpackCompose = "1.0.0-beta03"
+    const val jetpackCompose = "1.0.0-beta04"
 }
