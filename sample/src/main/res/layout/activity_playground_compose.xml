@@ -232,8 +232,8 @@
                         android:text="@string/anim_spec_linear"/>
 
                     <androidx.appcompat.widget.AppCompatRadioButton
-                        android:id="@+id/default_checked_for_layout"
                         android:layout_width="wrap_content"
+                        android:id="@+id/default_checked_for_layout"
                         android:layout_height="wrap_content"
                         android:text="@string/anim_spec_spring"/>
 
@@ -277,7 +277,6 @@
                     android:orientation="horizontal">
 
                     <androidx.appcompat.widget.AppCompatRadioButton
-                        android:id="@+id/default_checked_for_color"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/anim_spec_snap"/>
@@ -288,11 +287,7 @@
                         android:text="@string/anim_spec_linear"/>
 
                     <androidx.appcompat.widget.AppCompatRadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/anim_spec_spring"/>
-
-                    <androidx.appcompat.widget.AppCompatRadioButton
+                        android:id="@+id/default_checked_for_color"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/anim_spec_fast_out_slow_in"/>

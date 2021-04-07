@@ -246,7 +246,6 @@ class PlaygroundComposeActivity : AppCompatActivity() {
         val specs = listOf<AnimationSpec<Color>>(
             snap(),
             tween(animDurationMs, easing = LinearEasing),
-            spring(Spring.DampingRatioMediumBouncy, Spring.StiffnessLow),
             tween(animDurationMs, easing = FastOutSlowInEasing),
             tween(animDurationMs, easing = LinearOutSlowInEasing),
             tween(animDurationMs, easing = FastOutLinearInEasing)
