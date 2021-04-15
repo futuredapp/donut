@@ -162,7 +162,7 @@ In addition to these XML attributes, the view features `masterProgress` property
 
 #### Jetpack Compose version
 
-This library is implemented as a standalone module also for Jetpack Compose. It has the same features as the original implementation, but it supports a wider variety of animations.
+This library is implemented as a standalone module also for Jetpack Compose. It has (almost) the same features as the original implementation, but it supports a wider variety of animations.
 
 ```kotlin
 @Composable
@@ -183,8 +183,7 @@ fun Sample() {
             )
         ),
         config = DonutConfig(
-            isGapAngleAnimationEnabled = true,
-            gapAngleAnimationBuilder = TweenBuilder()
+            gapAngleAnimationSpec = spring()
             // ...
         )
     )

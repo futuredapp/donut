@@ -14,17 +14,18 @@ object Deps {
     }
 
     object AndroidX {
-        const val appcompat = "androidx.appcompat:appcompat:${Versions.androidx}"
+        const val appcompat = "androidx.appcompat:appcompat:${Versions.appCompat}"
         const val constraintLayout = "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
         const val ktx = "androidx.core:core-ktx:${Versions.ktx}"
     }
 
-    object JetpackCompose {
-        const val framework = "androidx.ui:ui-framework:${Versions.jetpackCompose}"
-        const val foundation = "androidx.ui:ui-foundation:${Versions.jetpackCompose}"
-        const val layout = "androidx.ui:ui-layout:${Versions.jetpackCompose}"
-        const val material = "androidx.ui:ui-material:${Versions.jetpackCompose}"
-        const val animation = "androidx.ui:ui-animation:${Versions.jetpackCompose}"
-        const val tooling = "androidx.ui:ui-tooling:${Versions.jetpackCompose}"
+    object Compose {
+        const val runtime = "androidx.compose.runtime:runtime:${Versions.jetpackCompose}"
+        const val foundation = "androidx.compose.foundation:foundation:${Versions.jetpackCompose}"
+        const val animation = "androidx.compose.animation:animation:${Versions.jetpackCompose}"
+        const val layout = "androidx.compose.foundation:foundation-layout:${Versions.jetpackCompose}"
+        const val material = "androidx.compose.material:material:${Versions.jetpackCompose}"
+        const val ui = "androidx.compose.ui:ui:${Versions.jetpackCompose}"
+        const val tooling = "androidx.compose.ui:ui-tooling:${Versions.jetpackCompose}"
     }
 }

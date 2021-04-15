@@ -3,7 +3,6 @@ import org.jetbrains.kotlin.config.KotlinCompilerVersion
 plugins {
     id("com.android.library")
     id("kotlin-android")
-    id("kotlin-android-extensions")
     id("com.vanniktech.maven.publish")
 }
 
@@ -11,16 +10,12 @@ android {
     compileSdkVersion(ProjectSettings.targetSdk)
 
     defaultConfig {
-        minSdkVersion(ProjectSettings.minSdk)
+        minSdkVersion(ProjectSettings.minSdkLibraryCompose)
         targetSdkVersion(ProjectSettings.targetSdk)
     }
 
     sourceSets {
         getByName("main").java.srcDir("src/main/kotlin")
-    }
-
-    buildFeatures {
-        compose = true
     }
 
     compileOptions {
@@ -32,8 +27,13 @@ android {
         jvmTarget = "1.8"
     }
 
+    buildFeatures {
+        compose = true
+    }
+
     composeOptions {
         kotlinCompilerExtensionVersion = Versions.jetpackCompose
+        kotlinCompilerVersion = Versions.kotlin
     }
 
     packagingOptions {
@@ -45,10 +45,11 @@ dependencies {
     implementation(kotlin(Deps.Kotlin.stdlib, KotlinCompilerVersion.VERSION))
     implementation(Deps.AndroidX.ktx)
     implementation(Deps.AndroidX.appcompat)
-    implementation(Deps.JetpackCompose.framework)
-    implementation(Deps.JetpackCompose.foundation)
-    implementation(Deps.JetpackCompose.layout)
-    implementation(Deps.JetpackCompose.material)
-    implementation(Deps.JetpackCompose.animation)
-    implementation(Deps.JetpackCompose.tooling)
+
+    implementation(Deps.Compose.runtime)
+    implementation(Deps.Compose.foundation)
+    implementation(Deps.Compose.layout)
+    implementation(Deps.Compose.animation)
+    implementation(Deps.Compose.ui)
+    implementation(Deps.Compose.tooling)
 }

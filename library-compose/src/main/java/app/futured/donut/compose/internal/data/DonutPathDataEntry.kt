@@ -1,6 +1,6 @@
 package app.futured.donut.compose.internal.data
 
-import androidx.ui.graphics.Color
+import androidx.compose.ui.graphics.Color
 
 internal data class DonutPathDataEntry(
     val color: Color,

@@ -11,8 +11,6 @@
     <string name="float_2f">%.2f</string>
     <string name="animations">Animations</string>
     <string name="animation_enabled">Animate changes</string>
-    <string name="animation_enabled_layouts">Animate layout changes</string>
-    <string name="animation_enabled_colors">Animate color changes</string>
     <string name="animation_duration">Animation duration: %d ms</string>
     <string name="animation_interpolators">Interpolators</string>
     <string name="direction">Direction: %1$s</string>
@@ -29,12 +27,15 @@
     <string name="stroke_cap_butt">Butt</string>
     <string name="stroke_cap_round">Round</string>
 
-    <string name="animation_builder_fast_out_slow_in">FastOutSlowIn</string>
-    <string name="animation_builder_linear_out_slow_in">LinearOutSlowIn</string>
-    <string name="animation_builder_fast_out_linear_in">FastOutLinearIn</string>
-    <string name="animation_builder_linear">Linear</string>
-    <string name="animation_builder_spring">Spring</string>
-    <string name="animation_builder_custom">Custom</string>
+    <string name="anim_spec_layout">Layout animation spec</string>
+    <string name="anim_spec_color">Color animation spec</string>
+
+    <string name="anim_spec_snap">Snap (No animation)</string>
+    <string name="anim_spec_linear">Linear</string>
+    <string name="anim_spec_spring">Spring</string>
+    <string name="anim_spec_fast_out_slow_in">FastOutSlowIn</string>
+    <string name="anim_spec_linear_out_slow_in">LinearOutSlowIn</string>
+    <string name="anim_spec_fast_out_linear_in">FastOutLinearIn</string>
 
     <string name="button_add">+ random</string>
     <string name="button_remove">- random</string>

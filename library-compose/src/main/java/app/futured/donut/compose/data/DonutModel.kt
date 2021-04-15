@@ -1,7 +1,6 @@
 package app.futured.donut.compose.data
 
-import androidx.compose.Model
-import androidx.ui.graphics.Color
+import androidx.compose.ui.graphics.Color
 import app.futured.donut.compose.DonutProgress
 import app.futured.donut.compose.internal.extensions.sumByFloat
 
@@ -22,14 +21,14 @@ import app.futured.donut.compose.internal.extensions.sumByFloat
  * since adding or removing of the new section is not supported yet. If the size of this list is changed then
  * an exception will be thrown.
  */
-@Model data class DonutModel(
-    var cap: Float,
-    var masterProgress: Float = 1f,
-    var gapWidthDegrees: Float = 90f,
-    var gapAngleDegrees: Float = 90f,
-    var strokeWidth: Float = 30f,
-    var backgroundLineColor: Color = Color.LightGray,
-    var sections: List<DonutSection>
+data class DonutModel(
+    val cap: Float,
+    val masterProgress: Float = 1f,
+    val gapWidthDegrees: Float = 90f,
+    val gapAngleDegrees: Float = 90f,
+    val strokeWidth: Float = 30f,
+    val backgroundLineColor: Color = Color.LightGray,
+    val sections: List<DonutSection>
 ) {
 
     /**
