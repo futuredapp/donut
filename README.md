@@ -2,7 +2,7 @@
 
 # Donut
 
-[![Download](https://api.bintray.com/packages/thefuntastyops/donut/donut/images/download.svg) ](https://bintray.com/thefuntastyops/donut/donut/_latestVersion)
+[![Download](https://img.shields.io/maven-central/v/app.futured.donut/donut)](https://search.maven.org/search?q=app.futured.donut)
 [![Build Status](https://github.com/futuredapp/donut/workflows/master/badge.svg)](https://github.com/futuredapp/donut/actions)
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Donut-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/8015)
 [![Android Weekly](https://androidweekly.net/issues/issue-449/badge)](https://androidweekly.net/issues/issue-449)
