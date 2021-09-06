@@ -17,10 +17,10 @@ Donut is an Android library which helps you to easily create beautiful doughnut-
 
 ```groovy
 dependencies {
-    implementation("app.futured.donut:library:$version")
+    implementation("app.futured.donut:donut:$version")
 
     // If you want to use Jetpack Compose version then use only this one dependency
-    implementation("app.futured.donut:library-compose:$version")
+    implementation("app.futured.donut:donut-compose:$version")
 }
 ```
 
