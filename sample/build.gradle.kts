@@ -6,12 +6,12 @@ plugins {
 }
 
 android {
-    compileSdkVersion(ProjectSettings.targetSdk)
+    compileSdk = ProjectSettings.targetSdk
 
     defaultConfig {
         applicationId = ProjectSettings.applicationId
-        minSdkVersion(ProjectSettings.minSdk)
-        targetSdkVersion(ProjectSettings.targetSdk)
+        minSdk = ProjectSettings.minSdkSample
+        targetSdk = ProjectSettings.targetSdk
         versionCode = 1
     }
 

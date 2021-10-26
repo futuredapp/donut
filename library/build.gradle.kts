@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    compileSdkVersion(ProjectSettings.targetSdk)
+    compileSdk = ProjectSettings.targetSdk
 
     defaultConfig {
-        minSdkVersion(ProjectSettings.minSdkLibrary)
-        targetSdkVersion(ProjectSettings.targetSdk)
+        minSdk = ProjectSettings.minSdkLibrary
+        targetSdk = ProjectSettings.targetSdk
     }
 
     sourceSets {
