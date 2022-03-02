@@ -1,5 +1,18 @@
 # Donut Releases #
 
+## Version 2.2.1
+_2022-03-02_
+
+### Compose version
+- Bump Compose to 1.1.1
+- Bump Kotlin to 1.6.10
+
+## Version 2.2.0
+_2021-10-26_
+
+### Compose version
+- Bump Compose from beta to stable 1.0.4 and Kotlin to 1.5.31
+
 ## Version 2.1.0
 _2020-12-14_
 
