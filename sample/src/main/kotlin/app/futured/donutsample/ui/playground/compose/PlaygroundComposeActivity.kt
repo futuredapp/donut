@@ -90,10 +90,10 @@ class PlaygroundComposeActivity : AppCompatActivity() {
             data.value = data.value.copy(
                 masterProgress = 1f,
                 sections = listOf(
-                    DonutSection(amount = 1f, color = Color(0xFF222222)),
+                    DonutSection(amount = 0.5f, color = Color(0xFF222222)),
                     DonutSection(amount = 1f, color = Color(0xFF19D3C5)),
-                    DonutSection(amount = 1f, color = Color(0xFFFF5F00)),
-                    DonutSection(amount = 1f, color = Color(0xFF005FCC))
+                    DonutSection(amount = 1.5f, color = Color(0xFFFF5F00)),
+                    DonutSection(amount = 2f, color = Color(0xFF005FCC))
                 )
             )
         }, DATA_DELAY)
