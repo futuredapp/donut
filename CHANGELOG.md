@@ -1,5 +1,11 @@
 # Donut Releases #
 
+## Version 2.2.2
+_2022-04-16_
+
+### Compose version
+- Fix for a bug that was causing colors not being correctly assigned to their corresponding values. ([Issue](https://github.com/futuredapp/donut/pull/56), [Merge Request](https://github.com/futuredapp/donut/pull/84))
+
 ## Version 2.2.1
 _2022-03-02_
 
