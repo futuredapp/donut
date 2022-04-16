@@ -186,7 +186,7 @@ private fun createPathDataForSections(data: SectionsPathData): List<DonutPathDat
         angleAccumulator += entryAngle
     }
 
-    return entriesPathData.reversed()
+    return entriesPathData
 }
 
 private fun DrawScope.drawDonutSegment(
