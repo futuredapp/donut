@@ -33,8 +33,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.jetpackCompose
-        kotlinCompilerVersion = Versions.kotlin
+        kotlinCompilerExtensionVersion = Versions.jetpackComposeCompiler
     }
 }
 

@@ -25,6 +25,7 @@ plugins {
 
 tasks {
     register<LintCheck>("lintCheck")
+    register<app.futured.donut.DependencyUpdates>("dependencyUpdates")
 }
 
 allprojects {
@@ -43,7 +44,10 @@ subprojects {
         ignoreFailures.set(true)
         android.set(true)
         outputToConsole.set(true)
-        reporters.set(setOf(ReporterType.PLAIN, ReporterType.CHECKSTYLE))
+        reporters {
+            reporter(ReporterType.PLAIN)
+            reporter(ReporterType.CHECKSTYLE)
+        }
     }
 }
 
