@@ -1,4 +1,5 @@
 package app.futured.donut
+
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 
 abstract class DependencyUpdates : DependencyUpdatesTask() {
