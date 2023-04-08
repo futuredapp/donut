@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: set up JDK
-        uses: actions/setup-java@v2
+        uses: ruby/setup-java@v2
         with:
           distribution: 'zulu'
           java-version: '11'
@@ -21,7 +21,7 @@ jobs:
       - name: Build & publish snapshot
         run: ./gradlew publish --no-daemon --no-parallel --stacktrace
         env:
-          ORG_GRADLE_PROJECT_mavenCentralRepositoryUsername: ${{ secrets.MAVEN_CENTRAL_REPOSITORY_USERNAME }}
-          ORG_GRADLE_PROJECT_mavenCentralRepositoryPassword: ${{ secrets.MAVEN_CENTRAL_REPOSITORY_PASSWORD }}
+          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_CENTRAL_REPOSITORY_USERNAME }}
+          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_CENTRAL_REPOSITORY_PASSWORD }}
           ORG_GRADLE_PROJECT_SIGNING_PRIVATE_KEY: ${{ secrets.GPG_SIGNING_PRIVATE_KEY }}
           ORG_GRADLE_PROJECT_SIGNING_PASSWORD: ${{ secrets.GPG_SIGNING_PASSWORD }}

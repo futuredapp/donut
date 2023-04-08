@@ -32,12 +32,13 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.jetpackCompose
-        kotlinCompilerVersion = Versions.kotlin
+        kotlinCompilerExtensionVersion = Versions.jetpackComposeCompiler
     }
 
     packagingOptions {
-        excludes -= "/META-INF/*.kotlin_module"
+        resources {
+            excludes -= "/META-INF/*.kotlin_module"
+        }
     }
 }
 
@@ -46,7 +47,6 @@ dependencies {
     implementation(Deps.AndroidX.ktx)
     implementation(Deps.AndroidX.appcompat)
 
-    implementation(Deps.Compose.runtime)
     implementation(Deps.Compose.foundation)
     implementation(Deps.Compose.layout)
     implementation(Deps.Compose.animation)

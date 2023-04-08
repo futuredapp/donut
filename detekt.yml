@@ -78,10 +78,6 @@ exceptions:
   TooGenericExceptionThrown:
     active: true
 
-formatting:
-  active: false
-  autoCorrect: false
-
 naming:
   active: true
   ClassNaming:
@@ -223,7 +219,7 @@ style:
     active: true
   UnnecessaryAbstractClass:
     active: true
-    excludeAnnotatedClasses: "dagger.Module,android.arch.persistence.room.Dao"
+    ignoreAnnotated: ["dagger.Module,android.arch.persistence.room.Dao"]
   UnnecessaryApply:
     active: false # wait for fix
   UnnecessaryInheritance:
