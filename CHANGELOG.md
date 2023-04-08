@@ -1,5 +1,9 @@
 # Donut Releases #
 
+## Version 2.2.3
+### Compose version
+- Bump Compose to 1.4.1
+
 ## Version 2.2.2
 _2022-04-16_
 
