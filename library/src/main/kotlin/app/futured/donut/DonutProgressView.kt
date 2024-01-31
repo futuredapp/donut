@@ -260,7 +260,7 @@ class DonutProgressView @JvmOverloads constructor(
         assertDataConsistency(sections)
 
         sections
-            .filter { it.amount >= 0f }
+            .filter { it.amount > 0f }
             .forEach { section ->
                 val newLineColor = section.color
                 if (hasEntriesForSection(section.name).not()) {
