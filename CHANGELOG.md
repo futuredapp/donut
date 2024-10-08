@@ -1,5 +1,8 @@
 # Donut Releases #
 
+## Version 2.2.4
+- Don't draw sections if amount is 0 (https://github.com/futuredapp/donut/pull/96)
+
 ## Version 2.2.3
 ### Compose version
 - Bump Compose to 1.4.1
