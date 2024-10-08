@@ -260,7 +260,7 @@ class DonutProgressView @JvmOverloads constructor(
         assertDataConsistency(sections)
 
         sections
-            .filter { it.amount > 0f }
+            .filter { it.amount >= 0f }
             .forEach { section ->
                 val newLineColor = section.color
                 if (hasEntriesForSection(section.name).not()) {
@@ -487,7 +487,7 @@ class DonutProgressView @JvmOverloads constructor(
         canvas.translate(centerX, centerY)
 
         bgLine.draw(canvas)
-        lines.forEach { it.draw(canvas) }
+        lines.filter { it.mLength > 0f } .forEach { it.draw(canvas) }
     }
 
     private fun dpToPx(dp: Float) = TypedValue.applyDimension(
