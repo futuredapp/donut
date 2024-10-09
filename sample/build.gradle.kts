@@ -6,6 +6,7 @@ plugins {
 }
 
 android {
+    namespace = "app.futured.donutsample"
     compileSdk = ProjectSettings.targetSdk
 
     defaultConfig {
@@ -20,12 +21,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
-
-    kotlinOptions {
-        jvmTarget = "1.8"
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 
     buildFeatures {
@@ -45,6 +42,8 @@ dependencies {
     implementation(Deps.AndroidX.ktx)
     implementation(Deps.AndroidX.appcompat)
     implementation(Deps.AndroidX.constraintLayout)
+
+    implementation(platform("androidx.compose:compose-bom:2024.09.03"))
 
     implementation(Deps.Compose.runtime)
     implementation(Deps.Compose.foundation)

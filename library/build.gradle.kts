@@ -7,6 +7,7 @@ plugins {
 }
 
 android {
+    namespace = "app.futured.donut"
     compileSdk = ProjectSettings.targetSdk
 
     defaultConfig {
@@ -16,6 +17,11 @@ android {
 
     sourceSets {
         getByName("main").java.srcDir("src/main/kotlin")
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 }
 

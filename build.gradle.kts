@@ -4,7 +4,7 @@ import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 buildscript {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
 
     dependencies {
@@ -31,7 +31,6 @@ tasks {
 allprojects {
     repositories {
         google()
-        jcenter()
         mavenCentral()
     }
 }
