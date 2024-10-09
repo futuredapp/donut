@@ -43,6 +43,8 @@ dependencies {
     implementation(Deps.AndroidX.appcompat)
     implementation(Deps.AndroidX.constraintLayout)
 
+    implementation(platform("androidx.compose:compose-bom:2024.09.03"))
+
     implementation(Deps.Compose.runtime)
     implementation(Deps.Compose.foundation)
     implementation(Deps.Compose.layout)

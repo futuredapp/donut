@@ -20,12 +20,12 @@ object Deps {
     }
 
     object Compose {
-        const val runtime = "androidx.compose.runtime:runtime:${Versions.jetpackCompose}"
-        const val foundation = "androidx.compose.foundation:foundation:${Versions.jetpackCompose}"
-        const val animation = "androidx.compose.animation:animation:${Versions.jetpackCompose}"
-        const val layout = "androidx.compose.foundation:foundation-layout:${Versions.jetpackCompose}"
-        const val material = "androidx.compose.material:material:${Versions.jetpackCompose}"
-        const val ui = "androidx.compose.ui:ui:${Versions.jetpackCompose}"
-        const val tooling = "androidx.compose.ui:ui-tooling:${Versions.jetpackCompose}"
+        const val runtime = "androidx.compose.runtime:runtime"
+        const val foundation = "androidx.compose.foundation:foundation"
+        const val animation = "androidx.compose.animation:animation"
+        const val layout = "androidx.compose.foundation:foundation-layout"
+        const val material = "androidx.compose.material:material"
+        const val ui = "androidx.compose.ui:ui"
+        const val tooling = "androidx.compose.ui:ui-tooling"
     }
 }

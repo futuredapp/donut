@@ -43,6 +43,7 @@ dependencies {
     implementation(kotlin(Deps.Kotlin.stdlib, KotlinCompilerVersion.VERSION))
     implementation(Deps.AndroidX.ktx)
     implementation(Deps.AndroidX.appcompat)
+    implementation(platform("androidx.compose:compose-bom:2024.09.03"))
 
     implementation(Deps.Compose.foundation)
     implementation(Deps.Compose.layout)

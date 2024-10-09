@@ -13,9 +13,9 @@ object Versions {
     const val dokka = "1.6.10"
 
     // androidx
-    const val appCompat = "1.4.2"
+    const val appCompat = "1.7.0"
     const val constraintLayout = "2.1.4"
-    const val ktx = "1.8.0"
+    const val ktx = "1.13.1"
 
     // Jetpack Compose
     const val jetpackCompose = "1.4.1"
