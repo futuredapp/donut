@@ -24,6 +24,26 @@ dependencies {
 }
 ```
 
+### Snapshot installation
+
+Snapshots are build from each commit to master branch.
+
+Add new Maven repo in `settings.gradle.kts`:
+
+```kotlin
+dependencyResolutionManagement {
+    repositories {
+        // ...
+        maven(url = "https://oss.sonatype.org/content/repositories/snapshots")
+    }
+}
+```
+
+Snapshots are grouped based on major version of library, so for version 2.x, use:
+```kotlin
+implementation("app.futured.donut:donut-compose:2.X.X-SNAPSHOT")
+```
+
 ## Features
 
 `DonutProgressView` is a configurable doughnut-like chart view capable of displaying multiple sections with assignable colors. It supports animations and features a gap at the top, which makes it look like a gauge (or tasty bitten-off donut - that's why the name).
