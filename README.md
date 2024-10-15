@@ -3,7 +3,7 @@
 # Donut
 
 [![Download](https://img.shields.io/maven-central/v/app.futured.donut/donut)](https://search.maven.org/search?q=app.futured.donut)
-[![Build Status](https://github.com/futuredapp/donut/workflows/master/badge.svg)](https://github.com/futuredapp/donut/actions)
+[![Publish snapshot](https://github.com/futuredapp/donut/actions/workflows/publish_snapshot.yml/badge.svg)](https://github.com/futuredapp/donut/actions/workflows/publish_snapshot.yml)
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Donut-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/8015)
 [![Android Weekly](https://androidweekly.net/issues/issue-449/badge)](https://androidweekly.net/issues/issue-449)
 ![License](https://img.shields.io/github/license/futuredapp/donut?color=black)
@@ -218,8 +218,7 @@ The quickest way to explore different styles is to try the [sample](sample/) app
 
 ## Contributors
 
-Current maintainer and main contributor for the original version is [Matej Semančík](https://github.com/matejsemancik) and for Jetpack Compose version is [Martin Sumera](https://github.com/sumeramartin)
-
+Current maintainer and main contributor for the original version is [Matej Semančík](https://github.com/matejsemancik) and for Jetpack Compose version is [Martin Sumera](https://github.com/sumeramartin). Check the [PUBLISHING.md](PUBLISHING.md) document for releasing and publishing guidelines.
 
 ## Licence
 
