@@ -103,7 +103,7 @@ private fun DrawDonut(model: DonutModel, donutProgressValues: DonutProgressValue
     val wholeDonutAngle = 360f - gapWidthDegrees
     val masterSegmentAngle = wholeDonutAngle * masterProgress
     val startAngle = gapAngleDegrees + gapWidthDegrees / 2
-    val strokeCap = StrokeCap.Round // TODO StrokeCap feature
+    val strokeCap = model.strokeCap
 
     val masterPathData = DonutPathDataEntry(
         color = backgroundLineColor,
