@@ -1,6 +1,7 @@
 package app.futured.donut.compose.data
 
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
 import app.futured.donut.compose.DonutProgress
 import app.futured.donut.compose.internal.extensions.sumByFloat
 
@@ -16,6 +17,7 @@ import app.futured.donut.compose.internal.extensions.sumByFloat
  * @param gapAngleDegrees The angle in degrees, at which the gap will be displayed. Eg. when set to 90° then donut
  * will be rotated by 90° clockwise.
  * @param strokeWidth Stroke width of all lines in pixels.
+ * @param strokeCap Stroke cap of all lines
  * @param backgroundLineColor The color of the donut background line.
  * @param sections The data used to define each section of the donut. This data should keep the same size
  * since adding or removing of the new section is not supported yet. If the size of this list is changed then
@@ -27,6 +29,7 @@ data class DonutModel(
     val gapWidthDegrees: Float = 90f,
     val gapAngleDegrees: Float = 90f,
     val strokeWidth: Float = 30f,
+    val strokeCap: StrokeCap = StrokeCap.Round,
     val backgroundLineColor: Color = Color.LightGray,
     val sections: List<DonutSection>
 ) {

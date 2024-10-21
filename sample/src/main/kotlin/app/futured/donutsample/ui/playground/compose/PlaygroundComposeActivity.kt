@@ -19,6 +19,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.platform.ComposeView
 import app.futured.donut.compose.data.DonutConfig
 import app.futured.donut.compose.data.DonutModel
@@ -211,6 +212,14 @@ class PlaygroundComposeActivity : AppCompatActivity() {
             updateAnimationSpecs()
         }
         //endregion
+
+        findViewById<RadioGroup>(R.id.stroke_caps_radio_group).setOnCheckedChangeListener { _, checkedId ->
+            mutateData { data -> data.copy(strokeCap = when (checkedId) {
+                R.id.stroke_cap_round -> StrokeCap.Round
+                R.id.stroke_cap_butt -> StrokeCap.Butt
+                else -> error("Unexpected id: $checkedId")
+            }) }
+        }
     }
 
     private fun updateAnimationSpecs() {

@@ -306,6 +306,8 @@
 
             </HorizontalScrollView>
 
+            <include layout="@layout/pick_stroke_cap" />
+
         </LinearLayout>
 
     </ScrollView>
