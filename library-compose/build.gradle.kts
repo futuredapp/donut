@@ -40,6 +40,7 @@ android {
             excludes -= "/META-INF/*.kotlin_module"
         }
     }
+    namespace = "app.futured.donut.compose"
 }
 
 dependencies {

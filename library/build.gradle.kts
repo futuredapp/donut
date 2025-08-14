@@ -17,6 +17,7 @@ android {
     sourceSets {
         getByName("main").java.srcDir("src/main/kotlin")
     }
+    namespace = "app.futured.donut"
 }
 
 dependencies {

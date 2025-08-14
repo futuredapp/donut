@@ -35,6 +35,7 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = Versions.jetpackComposeCompiler
     }
+    namespace = "app.futured.donutsample"
 }
 
 dependencies {
