@@ -1,3 +1,4 @@
+@Deprecated("Use version catalog instead")
 object Deps {
     const val gradlePlugin = "com.android.tools.build:gradle:${Versions.gradle}"
 

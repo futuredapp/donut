@@ -1,0 +1,61 @@
+[versions]
+# gradle
+gradle = "7.4.2"
+
+# kotlin
+kotlin = "1.8.0"
+
+# plugins
+detekt = "1.20.0"
+ktlint = "10.3.0"
+ktlintExtension = "0.34.2"
+mavenPublish = "0.21.0"
+dokka = "1.6.10"
+gradleVersions = "0.33.0"
+
+# androidx
+appCompat = "1.4.2"
+constraintLayout = "2.1.4"
+ktx = "1.8.0"
+
+# Jetpack Compose
+jetpackCompose = "1.4.1"
+jetpackComposeCompiler = "1.4.1"
+
+[libraries]
+# Gradle Plugin
+gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
+
+# Kotlin
+kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk7", version.ref = "kotlin" }
+
+# Plugins
+detekt = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
+ktlint = { module = "org.jlleitschuh.gradle.ktlint:org.jlleitschuh.gradle.ktlint.gradle.plugin", version.ref = "ktlint" }
+maven-publish = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "mavenPublish" }
+dokka = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokka" }
+gradle-versions = { module = "com.github.ben-manes:gradle-versions-plugin", version.ref = "gradleVersions" }
+
+# AndroidX
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appCompat" }
+androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintLayout" }
+androidx-ktx = { module = "androidx.core:core-ktx", version.ref = "ktx" }
+
+# Compose
+compose-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "jetpackCompose" }
+compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "jetpackCompose" }
+compose-animation = { module = "androidx.compose.animation:animation", version.ref = "jetpackCompose" }
+compose-layout = { module = "androidx.compose.foundation:foundation-layout", version.ref = "jetpackCompose" }
+compose-material = { module = "androidx.compose.material:material", version.ref = "jetpackCompose" }
+compose-ui = { module = "androidx.compose.ui:ui", version.ref = "jetpackCompose" }
+compose-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "jetpackCompose" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "gradle" }
+android-library = { id = "com.android.library", version.ref = "gradle" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
+maven-publish = { id = "com.vanniktech.maven.publish" }
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" } 

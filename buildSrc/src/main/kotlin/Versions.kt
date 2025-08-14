@@ -1,3 +1,4 @@
+@Deprecated("Use version catalog instead")
 object Versions {
     // gradle
     const val gradle = "7.4.2"
