@@ -1,60 +1,21 @@
-import app.futured.donut.LintCheck
-import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
-
-buildscript {
-    repositories {
-        google()
-        jcenter()
-    }
-
-    dependencies {
-        classpath(Deps.gradlePlugin)
-        classpath(kotlin(Deps.Kotlin.gradlePlugin, Versions.kotlin))
-        classpath(Deps.Plugins.mavenPublish)
-        classpath(Deps.Plugins.dokka)
-    }
-}
+import io.gitlab.arturbosch.detekt.report.ReportMergeTask
+import org.gradle.kotlin.dsl.register
 
 plugins {
-    idea
-    id(Deps.Plugins.detekt) version Versions.detekt
-    id(Deps.Plugins.ktlint) version Versions.ktlint
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.android.library) apply false
+    alias(libs.plugins.kotlin.android) apply false
+    alias(libs.plugins.kotlin.compose) apply false
+    alias(libs.plugins.maven.publish) apply false
+    alias(libs.plugins.detekt)
     signing
     publishing
 }
 
-tasks {
-    register<LintCheck>("lintCheck")
-    register<app.futured.donut.DependencyUpdates>("dependencyUpdates")
-}
-
-allprojects {
-    repositories {
-        google()
-        jcenter()
-        mavenCentral()
-    }
-}
-
-subprojects {
-    apply(plugin = Deps.Plugins.ktlint)
-
-    ktlint {
-        version.set(Versions.ktlintExtension)
-        ignoreFailures.set(true)
-        android.set(true)
-        outputToConsole.set(true)
-        reporters {
-            reporter(ReporterType.PLAIN)
-            reporter(ReporterType.CHECKSTYLE)
-        }
-    }
-}
-
-detekt {
-    version = Versions.detekt
-    input = files(rootDir)
-    config = files("detekt.yml")
+tasks.register<app.futured.donut.LintCheckTask>("lintCheck")
+tasks.register<app.futured.donut.DependencyUpdates>("dependencyUpdates")
+tasks.register<ReportMergeTask>("detektReportMerge") {
+    output.set(rootProject.layout.buildDirectory.file("reports/detekt/merged.xml"))
 }
 
 project.subprojects {

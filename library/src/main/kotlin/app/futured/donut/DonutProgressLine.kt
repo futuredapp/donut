@@ -26,6 +26,18 @@ internal class DonutProgressLine(
         const val SIDES = 64
     }
 
+    var mLineStrokeWidth: Float = 0.0f
+        set(value) {
+            field = value
+            paint.strokeWidth = value
+        }
+
+    var mLineColor: Int = 0
+        set(value) {
+            field = value
+            paint.color = value
+        }
+
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.STROKE
         strokeCap = lineStrokeCap.cap
@@ -38,18 +50,6 @@ internal class DonutProgressLine(
             field = value
             updatePath()
             updatePathEffect()
-        }
-
-    var mLineColor: Int = 0
-        set(value) {
-            field = value
-            paint.color = value
-        }
-
-    var mLineStrokeWidth: Float = 0.0f
-        set(value) {
-            field = value
-            paint.strokeWidth = value
         }
 
     var mLineStrokeCap: DonutStrokeCap = DonutStrokeCap.ROUND

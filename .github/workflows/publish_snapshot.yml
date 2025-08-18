@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: set up JDK
-        uses: actions/setup-java@v2
+        uses: actions/setup-kotlin@v2
         with:
           distribution: 'zulu'
           java-version: '11'

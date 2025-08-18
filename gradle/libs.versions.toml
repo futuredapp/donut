@@ -1,61 +1,73 @@
 [versions]
-# gradle
-gradle = "7.4.2"
+agp = "8.11.1"
+kotlin = "2.2.10"
+ksp = "2.2.0-2.0.2" # Must be compatible with: `kotlin`
 
-# kotlin
-kotlin = "1.8.0"
+# Gradle plugins
+ktlintGradlePlugin = "13.0.0"
+ktlint = "1.7.1"
+detektGradlePlugin = "1.23.8"
+mavenPublish = "0.34.0"
+gradleVersions = "0.50.0"
 
-# plugins
-detekt = "1.20.0"
-ktlint = "10.3.0"
-ktlintExtension = "0.34.2"
-mavenPublish = "0.21.0"
-dokka = "1.6.10"
-gradleVersions = "0.33.0"
+# AndroidX
+appCompat = "1.7.1"
+constraintLayout = "2.2.1"
+ktx = "1.17.0"
 
-# androidx
-appCompat = "1.4.2"
-constraintLayout = "2.1.4"
-ktx = "1.8.0"
-
-# Jetpack Compose
-jetpackCompose = "1.4.1"
-jetpackComposeCompiler = "1.4.1"
+# Compose
+androidxComposeBom = "2025.08.00"
 
 [libraries]
-# Gradle Plugin
-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
 
-# Kotlin
-kotlin-gradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
-kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk7", version.ref = "kotlin" }
-
-# Plugins
-detekt = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
-ktlint = { module = "org.jlleitschuh.gradle.ktlint:org.jlleitschuh.gradle.ktlint.gradle.plugin", version.ref = "ktlint" }
-maven-publish = { module = "com.vanniktech:gradle-maven-publish-plugin", version.ref = "mavenPublish" }
-dokka = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokka" }
+# Gradle plugins
+gradlePlugin-kotlin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+gradlePlugin-ktlint = { group = "org.jlleitschuh.gradle", name = "ktlint-gradle", version.ref = "ktlintGradlePlugin" }
+gradlePlugin-detekt = { group = "io.gitlab.arturbosch.detekt", name = "detekt-gradle-plugin", version.ref = "detektGradlePlugin" }
+gradlePlugin-ksp = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 gradle-versions = { module = "com.github.ben-manes:gradle-versions-plugin", version.ref = "gradleVersions" }
 
 # AndroidX
-androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appCompat" }
 androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintLayout" }
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appCompat" }
 androidx-ktx = { module = "androidx.core:core-ktx", version.ref = "ktx" }
 
 # Compose
-compose-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "jetpackCompose" }
-compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "jetpackCompose" }
-compose-animation = { module = "androidx.compose.animation:animation", version.ref = "jetpackCompose" }
-compose-layout = { module = "androidx.compose.foundation:foundation-layout", version.ref = "jetpackCompose" }
-compose-material = { module = "androidx.compose.material:material", version.ref = "jetpackCompose" }
-compose-ui = { module = "androidx.compose.ui:ui", version.ref = "jetpackCompose" }
-compose-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "jetpackCompose" }
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidxComposeBom" }
+androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation" }
+androidx-compose-ui = { group = "androidx.compose.ui", name = "ui" }
+androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+androidx-compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+androidx-compose-material2 = { group = "androidx.compose.material", name = "material" }
+## androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
+androidx-compose-animation = { group = "androidx.compose.animation", name = "animation" }
+androidx-compose-layout = { group = "androidx.compose.foundation", name = "foundation-layout" }
+androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime" }
 
 [plugins]
-android-application = { id = "com.android.application", version.ref = "gradle" }
-android-library = { id = "com.android.library", version.ref = "gradle" }
+# Build plugins
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
-ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
-maven-publish = { id = "com.vanniktech.maven.publish" }
-dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" } 
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+
+# Quality plugins
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detektGradlePlugin" }
+
+# Publishing plugins
+maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "mavenPublish" }
+
+# Precompiled script plugins
+conventions-lint = { id = "conventions-lint" }
+
+[bundles]
+compose = [
+    "androidx-compose-runtime",
+    "androidx-compose-foundation",
+    "androidx-compose-ui",
+    "androidx-compose-ui-tooling",
+    "androidx-compose-ui-tooling-preview",
+    "androidx-compose-material2",
+    "androidx-compose-animation",
+    "androidx-compose-layout"
+]
