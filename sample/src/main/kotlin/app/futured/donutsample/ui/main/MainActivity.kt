@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import app.futured.donutsample.R
 import app.futured.donutsample.ui.playground.PlaygroundActivity
 import app.futured.donutsample.ui.playground.compose.PlaygroundComposeActivity
+import app.futured.donutsample.ui.helloworld.HelloWorldActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,6 +21,10 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<View>(R.id.compose_sample_button).setOnClickListener {
             startActivity(Intent(this, PlaygroundComposeActivity::class.java))
+        }
+
+        findViewById<View>(R.id.helloworld_sample_button).setOnClickListener {
+            startActivity(Intent(this, HelloWorldActivity::class.java))
         }
     }
 }

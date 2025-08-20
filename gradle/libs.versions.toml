@@ -19,6 +19,9 @@ material = "1.12.0"
 # Compose
 androidxComposeBom = "2025.08.00"
 
+# Compose Multiplatform
+composeMultiplatform = "1.6.10"
+
 [libraries]
 
 # Gradle plugins
@@ -46,12 +49,23 @@ androidx-compose-animation = { group = "androidx.compose.animation", name = "ani
 androidx-compose-layout = { group = "androidx.compose.foundation", name = "foundation-layout" }
 androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime" }
 
+# Compose Multiplatform
+compose-mpp-runtime = { group = "org.jetbrains.compose.runtime", name = "runtime", version.ref = "composeMultiplatform" }
+compose-mpp-ui = { group = "org.jetbrains.compose.ui", name = "ui", version.ref = "composeMultiplatform" }
+compose-mpp-foundation = { group = "org.jetbrains.compose.foundation", name = "foundation", version.ref = "composeMultiplatform" }
+compose-mpp-animation = { group = "org.jetbrains.compose.animation", name = "animation", version.ref = "composeMultiplatform" }
+compose-mpp-material3 = { group = "org.jetbrains.compose.material3", name = "material3", version.ref = "composeMultiplatform" }
+
 [plugins]
 # Build plugins
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+
+# Compose Multiplatform
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
 
 # Quality plugins
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detektGradlePlugin" }
@@ -72,4 +86,12 @@ compose = [
     "androidx-compose-material2",
     "androidx-compose-animation",
     "androidx-compose-layout"
+]
+
+compose-mpp = [
+    "compose-mpp-runtime",
+    "compose-mpp-ui",
+    "compose-mpp-foundation",
+    "compose-mpp-animation",
+    "compose-mpp-material3",
 ]
