@@ -3,6 +3,7 @@ package app.futured.donutsample.ui.playground
 import android.animation.ValueAnimator
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.view.animation.AnimationUtils
 import android.widget.RadioGroup
 import android.widget.SeekBar
@@ -70,7 +71,7 @@ class PlaygroundActivity : AppCompatActivity() {
         updateIndicators()
         setupDonut()
         initControls()
-        Handler().postDelayed({
+        Handler(Looper.getMainLooper()).postDelayed({
             fillInitialData()
             runInitialAnimation()
         }, 800)

@@ -2,6 +2,7 @@ package app.futured.donutsample.ui.playground.compose
 
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.widget.RadioGroup
 import android.widget.SeekBar
@@ -87,7 +88,7 @@ class PlaygroundComposeActivity : AppCompatActivity() {
     }
 
     private fun changeDonutDataWithDelay() {
-        Handler().postDelayed({
+        Handler(Looper.getMainLooper()).postDelayed({
             data.value = data.value.copy(
                 masterProgress = 1f,
                 sections = listOf(

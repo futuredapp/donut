@@ -1,0 +1,40 @@
+<lint>
+    <issue id="ObsoleteSdkInt" severity="error"/>
+    <issue id="PrivateResource" severity="error"/>
+    <issue id="GradleDynamicVersion" severity="error" />
+    <issue id="CheckResult" severity="error" />
+    <issue id="SimpleDateFormat" severity="error" />  <!-- Use DateFormat correctly with locale -->
+    <issue id="RtlEnabled" severity="error" />
+    <issue id="Registered" severity="error" /> <!-- Class is not registered in the manifest -->
+    <issue id="InnerclassSeparator" severity="error" /> <!-- Inner classes should use $ rather than . -->
+    <issue id="CommitPrefEdits" severity="error" /> <!-- Missing commit() on SharedPreference editor -->
+    <issue id="HardcodedText" severity="error" />
+    <issue id="UnusedAttribute" severity="error" /> <!-- XML attribute unused on older versions -->
+    <issue id="IconLocation" severity="error" /> <!-- Image defined in density-independent drawable folder -->
+    <issue id="GoogleAppIndexingWarning" severity="ignore"/>
+
+    <!-- Version changes are beyond our control, so don't warn. The IDE will still mark these. -->
+    <issue id="GradleDependency" severity="ignore" />
+
+    <!-- Translations are added incrementally -->
+    <issue id="MissingTranslation" severity="ignore" />
+    <issue id="TypographyDashes" severity="ignore" />
+    <issue id="Typos" severity="ignore" />
+
+    <issue id="UnusedIds" severity="ignore"/>  <!-- does not catch uses of view IDs by Kotlin android extensions -->
+
+    <!-- Set Lint check to ignore some warnings in generated sources -->
+    <issue id="RestrictedApi">
+        <ignore path="build" />
+    </issue>
+    <issue id="UnusedResources">
+        <!-- Some dependencies & gradle plugins generate resources that we don't use -->
+        <ignore path="build" />
+    </issue>
+
+    <!-- Compose lints -->
+    <issue id="ComposeModifierMissing" severity="warning" />
+    <issue id="ComposeViewModelForwarding" severity="warning" />
+    <issue id="ComposeParameterOrder" severity="warning" />
+    <issue id="ComposeCompositionLocalUsage"/>
+</lint>

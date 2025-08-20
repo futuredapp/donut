@@ -1,245 +1,69 @@
 build:
-  maxIssues: 100
+  maxIssues: 50
+  excludeCorrectable: false
+  weights:
+  # complexity: 2
+  # LongParameterList: 1
+  # style: 1
+  # comments: 1
 
-complexity:
-  active: true
-  ComplexCondition:
-    active: true
-  ComplexMethod:
-    active: true
-    threshold: 20
-    ignoreSimpleWhenEntries: true
-  LargeClass:
-    threshold: 250
-    active: true
-  TooManyFunctions:
-    active: true
-    thresholdInFiles: 30
-    thresholdInClasses: 30
-    thresholdInInterfaces: 30
-    thresholdInObjects: 25
-  LongParameterList:
-    active: true
-  NestedBlockDepth:
-    active: true
-    threshold: 4
-  StringLiteralDuplication:
-    active: true
-
-empty-blocks:
-  active: true
-  EmptyCatchBlock:
-    active: true
-  EmptyClassBlock:
-    active: true
-  EmptyDefaultConstructor:
-    active: true
-  EmptyDoWhileBlock:
-    active: true
-  EmptyElseBlock:
-    active: true
-  EmptyFinallyBlock:
-    active: true
-  EmptyForBlock:
-    active: true
-  EmptyFunctionBlock:
-    active: true
-  EmptyIfBlock:
-    active: true
-  EmptyInitBlock:
-    active: true
-  EmptyKtFile:
-    active: true
-  EmptySecondaryConstructor:
-    active: true
-  EmptyWhenBlock:
-    active: true
-  EmptyWhileBlock:
-    active: true
-
-exceptions:
-  active: true
-  ExceptionRaisedInUnexpectedLocation:
-    active: true
-  InstanceOfCheckForException:
-    active: true
-  ReturnFromFinally:
-    active: true
-  TooGenericExceptionCaught:
-    active: false
-  SwallowedException:
-    active: true
-  ThrowingExceptionFromFinally:
-    active: true
-  ThrowingExceptionsWithoutMessageOrCause:
-    active: true
-  ThrowingNewInstanceOfSameException:
-    active: true
-  TooGenericExceptionThrown:
-    active: true
+config:
+  validation: true
+  warningsAsErrors: false
+  checkExhaustiveness: false
+  # when writing own rules with new properties, exclude the property path e.g.: 'my_rule_set,.*>.*>[my_property]'
+  excludes: ''
 
 naming:
   active: true
-  ClassNaming:
-    active: true
-  ConstructorParameterNaming:
-    active: true
-  EnumNaming:
-    active: true
-  ForbiddenClassName:
-    active: true
-  FunctionMaxLength:
-    active: true
-    maximumFunctionNameLength: 35
-  FunctionMinLength:
-    active: true
+  MatchingDeclarationName:
+    active: false
   FunctionNaming:
     active: true
-    functionPattern: '^([a-zA-Z$][a-zA-Z$0-9]*)|(`.*`)$'
-  FunctionParameterNaming:
-    active: true
-  MatchingDeclarationName:
-    active: true
-  MemberNameEqualsClassName:
-    active: true
-  ObjectPropertyNaming:
-    active: true
-  PackageNaming:
-    active: true
+    excludes: ['**/test/**', '**/androidTest/**', '**/commonTest/**', '**/jvmTest/**', '**/androidUnitTest/**', '**/androidInstrumentedTest/**', '**/jsTest/**', '**/iosTest/**']
+    functionPattern: '[a-z][a-zA-Z0-9]*'
+    excludeClassPattern: '$^'
+    ignoreAnnotated:
+      - Composable
+      - Previe
   TopLevelPropertyNaming:
-    active: true
-  VariableMaxLength:
-    active: true
-  VariableMinLength:
-    active: true
-  VariableNaming:
-    active: true
-
-performance:
-  ArrayPrimitive:
-    active: true
-  ForEachOnRange:
-    active: true
-  SpreadOperator:
-    active: true
-  UnnecessaryTemporaryInstantiation:
-    active: true
-
-potential-bugs:
-  active: true
-  DuplicateCaseInWhenExpression:
-    active: true
-  EqualsAlwaysReturnsTrueOrFalse:
-    active: true
-  EqualsWithHashCodeExist:
-    active: true
-  ExplicitGarbageCollectionCall:
-    active: true
-  InvalidRange:
-    active: true
-  IteratorHasNextCallsNextMethod:
-    active: true
-  IteratorNotThrowingNoSuchElementException:
-    active: true
-  UnconditionalJumpStatementInLoop:
-    active: true
-  UnreachableCode:
-    active: true
-  UnsafeCallOnNullableType:
-    active: true
-  UnsafeCast:
-    active: true
-  UselessPostfixExpression:
-    active: true
-  WrongEqualsTypeParameter:
-    active: true
+    constantPattern: '[A-Za-z][_A-Za-z0-9]*'
 
 style:
   active: true
-  MaxLineLength:
-    active: false
-  CollapsibleIfStatements:
+  UnusedPrivateProperty:
     active: true
-  DataClassContainsFunctions:
-    active: false
-  EqualsNullCall:
-    active: true
-  ExplicitItLambdaParameter:
-    active: true
-  ExpressionBodySyntax:
-    active: true
-  ForbiddenComment:
-    active: true
-  ForbiddenImport:
-    active: true
-  ForbiddenVoid:
-    active: true
-  FunctionOnlyReturningConstant:
-    active: true
-  LoopWithTooManyJumpStatements:
-    active: true
-  MagicNumber:
-    active: false
-  MandatoryBracesIfStatements:
-    active: true
-  MayBeConst:
-    active: true
-  ModifierOrder:
-    active: true
-  NestedClassesVisibility:
-    active: false
-  NewLineAtEndOfFile:
-    active: true
-  NoTabs:
-    active: true
-  OptionalAbstractKeyword:
-    active: true
-  OptionalUnit:
-    active: true
-  OptionalWhenBraces:
-    active: true
-  PreferToOverPairSyntax:
-    active: false
-  ProtectedMemberInFinalClass:
-    active: true
-  RedundantVisibilityModifierRule:
-    active: true
-  ReturnCount:
-    active: true
-    max: 4
-  SafeCast:
-    active: true
-  SerialVersionUIDInSerializableClass:
-    active: true
-  SpacingBetweenPackageAndImports:
-    active: true
-  ThrowsCount:
-    active: true
-  TrailingWhitespace:
-    active: true
-  UnnecessaryAbstractClass:
-    active: true
-    ignoreAnnotated: ["dagger.Module,android.arch.persistence.room.Dao"]
-  UnnecessaryApply:
-    active: false # wait for fix
-  UnnecessaryInheritance:
-    active: true
-  UnnecessaryLet:
-    active: true
-  UnnecessaryParentheses:
-    active: true
-  UntilInsteadOfRangeTo:
-    active: true
-  UnusedImports:
-    active: false
+    allowedNames: '_|ignored|expected|serialVersionUID|commonMain|iosMain|androidMain|commonTest|iosTest|androidTest|debug|enterprise|release'
   UnusedPrivateMember:
     active: true
-  UseDataClass:
+    ignoreAnnotated:
+      - Composable
+      - Preview
+  MaxLineLength:
     active: true
-  UtilityClassWithPublicConstructor:
+    maxLineLength: 140 # Keep aligned with .editorconfig file to prevent false positives
+  MagicNumber:
     active: true
-  VarCouldBeVal:
+    ignoreAnnotated:
+      - Preview
+  DestructuringDeclarationWithTooManyEntries:
     active: true
-  WildcardImport:
+    ignoreAnnotated:
+      - Composable
+
+complexity:
+  LongParameterList:
     active: true
-    excludeImports: 'kotlinx.android.synthetic.*'
+    ignoreAnnotated:
+      - Composable
+  TooManyFunctions:
+    active: true
+    thresholdInInterfaces: 25
+    thresholdInClasses: 25
+    thresholdInFiles: 20
+    thresholdInObjects: 20
+  LongMethod:
+    active: true
+    ignoreAnnotated:
+      - Composable
+      - Preview
