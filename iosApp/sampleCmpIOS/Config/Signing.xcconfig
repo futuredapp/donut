@@ -1,0 +1,5 @@
+PRODUCT_BUNDLE_IDENTIFIER = com.example.donut.samplecmp
+DEVELOPMENT_TEAM =
+PROVISIONING_PROFILE_SPECIFIER =
+
+#include? "Signing.local.xcconfig"

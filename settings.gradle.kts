@@ -22,5 +22,6 @@ include(":library")
 include(":library-compose")
 include(":library-compose-multiplatform")
 include(":sample")
+include(":sample-cmp")
 
 includeBuild("convention-plugins")

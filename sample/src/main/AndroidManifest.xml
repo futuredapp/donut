@@ -31,9 +31,7 @@
             android:name=".ui.playground.compose.PlaygroundComposeActivity"
             android:exported="false"/>
 
-        <activity 
-            android:name=".ui.helloworld.HelloWorldActivity"
-            android:exported="false"/>
+
     </application>
 
 </manifest>

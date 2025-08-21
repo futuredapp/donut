@@ -18,6 +18,7 @@ material = "1.12.0"
 
 # Compose
 androidxComposeBom = "2025.08.00"
+androidxActivity = "1.9.3"
 
 # Compose Multiplatform
 composeMultiplatform = "1.6.10"
@@ -48,6 +49,7 @@ androidx-compose-material2 = { group = "androidx.compose.material", name = "mate
 androidx-compose-animation = { group = "androidx.compose.animation", name = "animation" }
 androidx-compose-layout = { group = "androidx.compose.foundation", name = "foundation-layout" }
 androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivity" }
 
 # Compose Multiplatform
 compose-mpp-runtime = { group = "org.jetbrains.compose.runtime", name = "runtime", version.ref = "composeMultiplatform" }

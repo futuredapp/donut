@@ -10,7 +10,6 @@ plugins {
 kotlin {
     jvmToolchain(ProjectSettings.Kotlin.JvmToolchainVersion)
 
-    // Android target
     androidTarget {
         compilations.all {
             compileTaskProvider.configure {
@@ -21,7 +20,6 @@ kotlin {
         }
     }
 
-    // iOS target
     listOf(
         iosX64(),
         iosArm64(),

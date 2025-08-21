@@ -29,7 +29,6 @@ android {
 dependencies {
     implementation(project(":library"))
     implementation(project(":library-compose"))
-    implementation(project(":library-compose-multiplatform"))
 
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.bundles.compose)
