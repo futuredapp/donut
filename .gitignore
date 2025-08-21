@@ -9,4 +9,6 @@
 /captures
 .externalNativeBuild
 .kotlin
-iosApp/DonutSampleIOS/Config/Signing.local.xcconfig
+iosApp/**/Signing.local.xcconfig
+**/xcuserdata/
+**/*.xcuserstate
