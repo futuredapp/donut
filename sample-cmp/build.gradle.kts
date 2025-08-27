@@ -18,8 +18,9 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(project(":library-compose-multiplatform"))
+                implementation(project(":library-compose"))
                 implementation(libs.bundles.compose.mpp)
+                implementation(compose.components.resources)
             }
         }
 
@@ -43,7 +44,7 @@ android {
     compileSdk = ProjectSettings.targetSdk
 
     defaultConfig {
-        applicationId = "${ProjectSettings.applicationId}.cmp"
+        applicationId = "${ProjectSettings.applicationId}.sample.cmp"
         minSdk = ProjectSettings.minSdkSample
         targetSdk = ProjectSettings.targetSdk
         versionCode = 1

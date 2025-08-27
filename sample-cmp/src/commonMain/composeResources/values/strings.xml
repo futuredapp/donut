@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">Donut Sample CMP</string>
+    <string name="seekbars">Seekbars</string>
+    <string name="data_manipulation">Data Manipulation</string>
+    <string name="animations">Animations</string>
+    <string name="layout_animation_type">Layout Animation Type</string>
+    <string name="color_animation_type">Color Animation Type</string>
+    <string name="gap_width">Gap width: %1$s°</string>
+    <string name="gap_angle">Gap angle: %1$s°</string>
+    <string name="stroke_width">Stroke width: %1$s px</string>
+    <string name="master_progress">Master progress: %1$s%</string>
+    <string name="amount_cap">Amount cap: %1$s</string>
+    <string name="animation_duration">Animation duration: %1$s ms</string>
+    <string name="anim_spec_layout">Layout animation spec</string>
+    <string name="anim_spec_color">Color animation spec</string>
+    <string name="anim_spec_snap">Snap (No animation)</string>
+    <string name="anim_spec_linear">Linear</string>
+    <string name="anim_spec_spring">Spring</string>
+    <string name="anim_spec_fast_out_slow_in">FastOutSlowIn</string>
+    <string name="anim_spec_linear_out_slow_in">LinearOutSlowIn</string>
+    <string name="anim_spec_fast_out_linear_in">FastOutLinearIn</string>
+    <string name="button_add">+ random</string>
+    <string name="button_remove">- random</string>
+    <string name="button_random_values">Random values</string>
+    <string name="button_random_colors">Random colors</string>
+    <string name="button_clear">Clear</string>
+    <string name="stroke_caps">Stroke Caps</string>
+    <string name="stroke_cap_butt">Butt</string>
+    <string name="stroke_cap_round">Round</string>
+</resources>
