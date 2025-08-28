@@ -7,7 +7,6 @@ import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.TweenSpec
 import androidx.compose.animation.core.snap
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
@@ -383,13 +382,14 @@ private fun Controls(
 
         // Animation duration
         val config = dataProvider.config.collectAsState()
-        val animationDurationValue by remember {
-            derivedStateOf {
-                when (val layoutSpec = config.value.gapAngleAnimationSpec) {
-                    is TweenSpec -> layoutSpec.durationMillis
-                    else -> PlaygroundScreenData.INITIAL_ANIMATION_DURATION
-                }
-            }
+        val (animationDurationValue, setAnimationDurationValue) = remember {
+            mutableStateOf(PlaygroundScreenData.INITIAL_ANIMATION_DURATION)
+        }
+        val (selectedAnimationOption, onAnimationOptionSelected) = remember {
+            mutableStateOf(LayoutAnimationSpecs.LINEAR)
+        }
+        val (selectedColorAnimationOption, onColorAnimationOptionSelected) = remember {
+            mutableStateOf(ColorAnimationSpecs.LINEAR)
         }
 
         SliderControl(
@@ -397,22 +397,33 @@ private fun Controls(
             value = animationDurationValue.toFloat(),
             onValueChange = { newValue ->
                 val newDuration = newValue.toInt()
+                setAnimationDurationValue(newDuration)
                 dataProvider.mutateConfig { currentConfig ->
                     currentConfig.copyWithLayoutAnimationsSpec(
-                        LayoutAnimationSpecs.LINEAR.getLayoutAnimationSpec(newDuration)
+                        selectedAnimationOption.getLayoutAnimationSpec(newDuration)
                     ).copyWithColorAnimationsSpec(
-                        ColorAnimationSpecs.LINEAR.getColorAnimationSpec(newDuration)
+                        selectedColorAnimationOption.getColorAnimationSpec(newDuration)
                     )
                 }
             },
-            valueRange = 0f..3000f
+            valueRange = 0f..3000f,
         )
 
         // Layout animation type
-        LayoutAnimationSpecsSelection(dataProvider = dataProvider, animDurationMs = animationDurationValue)
+        LayoutAnimationSpecsSelection(
+            dataProvider = dataProvider,
+            animDurationMs = animationDurationValue,
+            selectedOption = selectedAnimationOption,
+            onOptionSelected = onAnimationOptionSelected,
+        )
 
         // Color animation type
-        ColorAnimationSpecsSelection(dataProvider = dataProvider, animDurationMs = animationDurationValue)
+        ColorAnimationSpecsSelection(
+            dataProvider = dataProvider,
+            animDurationMs = animationDurationValue,
+            selectedOption = selectedColorAnimationOption,
+            onOptionSelected = onColorAnimationOptionSelected,
+        )
     }
 }
 
@@ -453,7 +464,9 @@ private fun StrokeCapsSpecsSelection(
 private fun LayoutAnimationSpecsSelection(
     modifier: Modifier = Modifier,
     dataProvider: IPlaygroundScreenData,
-    animDurationMs: Int
+    animDurationMs: Int,
+    selectedOption: LayoutAnimationSpecs,
+    onOptionSelected: (LayoutAnimationSpecs) -> Unit,
 ) {
     val radioOptions = remember {
         listOf(
@@ -464,9 +477,6 @@ private fun LayoutAnimationSpecsSelection(
             LayoutAnimationSpecs.LINEAR_OUT_SLOW_IN,
             LayoutAnimationSpecs.FAST_OUT_LINEAR_IN,
         )
-    }
-    val (selectedOption, onOptionSelected) = remember {
-        mutableStateOf(LayoutAnimationSpecs.LINEAR)
     }
 
     RadioButtonGroup(
@@ -488,7 +498,9 @@ private fun LayoutAnimationSpecsSelection(
 private fun ColorAnimationSpecsSelection(
     modifier: Modifier = Modifier,
     dataProvider: IPlaygroundScreenData,
-    animDurationMs: Int
+    animDurationMs: Int,
+    selectedOption: ColorAnimationSpecs,
+    onOptionSelected: (ColorAnimationSpecs) -> Unit,
 ) {
     val radioOptions = remember {
         listOf(
@@ -498,9 +510,6 @@ private fun ColorAnimationSpecsSelection(
             ColorAnimationSpecs.LINEAR_OUT_SLOW_IN,
             ColorAnimationSpecs.FAST_OUT_LINEAR_IN,
         )
-    }
-    val (selectedOption, onOptionSelected) = remember {
-        mutableStateOf(ColorAnimationSpecs.LINEAR)
     }
 
     RadioButtonGroup(
