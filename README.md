@@ -288,7 +288,8 @@ The quickest way to explore different styles and configurations is to try the sa
 
 - **[sample-cmp](sample-cmp/)** - **Recommended**: A Compose Multiplatform app that runs on both Android and iOS
   - **Android**: Run directly from Android Studio
-  - **iOS**: Open the [iOS project](iosApp/) in Xcode and run on iOS devices or simulators
+  - **iOS**: Open the [iOS project](iosApp/) in Xcode, fix signing errors regarding develompment team ID, and run on iOS devices or simulators
+    - *btw: you can add your team id in [Signing.local.xcconfig.example](iosApp/sampleCmpIOS/Config/Signing.local.xcconfig.example)*
   - Features an interactive playground with buttons and sliders to experiment with different configurations
 - **[sample](sample/)** - Legacy Android-only sample app with the original View-based implementation
 
