@@ -17,28 +17,9 @@ Donut is a Compose Multiplatform library for creating beautiful doughnut-like ch
 
 #### Kotlin Multiplatform Project
 
-`module/build.gradle.kts`:
-
-```kotlin
-kotlin {
-    sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation("app.futured.donut:donut-compose:$version")
-            }
-        }
-    }
-}
-```
-
-#### Using Version Catalogs (TOML)
-
 `gradle/libs.versions.toml`:
 
 ```toml
-[versions]
-donut = "2.4.0"
-
 [libraries]
 donut-compose = { group = "app.futured.donut", name = "donut-compose", version.ref = "donut" }
 ```
