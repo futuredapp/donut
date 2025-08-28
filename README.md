@@ -31,6 +31,32 @@ kotlin {
 }
 ```
 
+#### Using Version Catalogs (TOML)
+
+`gradle/libs.versions.toml`:
+
+```toml
+[versions]
+donut = "2.4.0"
+
+[libraries]
+donut-compose = { group = "app.futured.donut", name = "donut-compose", version.ref = "donut" }
+```
+
+`module/build.gradle.kts`:
+
+```kotlin
+kotlin {
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                implementation(libs.donut.compose)
+            }
+        }
+    }
+}
+```
+
 ### Legacy View-based (Android only)
 
 `module/build.gradle`:
