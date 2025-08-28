@@ -12,7 +12,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".ui.main.MainActivity"
+            android:name=".ui.playground.PlaygroundActivity"
             android:exported="true"
             tools:ignore="LockedOrientationActivity">
             <intent-filter>
@@ -22,15 +22,6 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
-        <activity 
-            android:name=".ui.playground.PlaygroundActivity"
-            android:exported="false"/>
-
-        <activity 
-            android:name=".ui.playground.compose.PlaygroundComposeActivity"
-            android:exported="false"/>
-
 
     </application>
 

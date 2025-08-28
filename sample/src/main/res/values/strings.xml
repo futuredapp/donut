@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Donut Sample</string>
+    <string name="app_name">Donut View Sample</string>
     <string name="graph_style">Graph style</string>
     <string name="gap_width">Gap width: %d°</string>
     <string name="gap_angle">Gap angle: %d°</string>
@@ -44,6 +44,5 @@
     <string name="button_clear">Clear</string>
 
     <string name="navigate_to_android_view">Android View Sample</string>
-    <string name="navigate_to_compose_view">Jetpack Compose Sample</string>
 
 </resources>
