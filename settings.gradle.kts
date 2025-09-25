@@ -20,7 +20,6 @@ rootProject.buildFileName = "build.gradle.kts"
 
 include(":library")
 include(":library-compose")
-include(":sample")
 include(":sample-cmp")
 
 includeBuild("convention-plugins")

@@ -1,4 +1,4 @@
-package app.futured.donutsample.ui.playground
+package app.futured.donut.sample.cmp
 
 import android.animation.ValueAnimator
 import android.os.Bundle
@@ -15,19 +15,18 @@ import app.futured.donut.DonutDirection
 import app.futured.donut.DonutProgressView
 import app.futured.donut.DonutSection
 import app.futured.donut.DonutStrokeCap
-import app.futured.donutsample.R
-import app.futured.donutsample.data.model.BlackCategory
-import app.futured.donutsample.data.model.DataCategory
-import app.futured.donutsample.data.model.GreenCategory
-import app.futured.donutsample.data.model.OrangeCategory
-import app.futured.donutsample.tools.extensions.getColorCompat
-import app.futured.donutsample.tools.extensions.gone
-import app.futured.donutsample.tools.extensions.sumByFloat
-import app.futured.donutsample.tools.extensions.visible
-import app.futured.donutsample.tools.view.setupSeekbar
+import app.futured.donut.sample.cmp.model.BlackCategory
+import app.futured.donut.sample.cmp.model.DataCategory
+import app.futured.donut.sample.cmp.model.GreenCategory
+import app.futured.donut.sample.cmp.model.OrangeCategory
+import app.futured.donut.sample.cmp.tools.extensions.getColorCompat
+import app.futured.donut.sample.cmp.tools.extensions.gone
+import app.futured.donut.sample.cmp.tools.extensions.sumByFloat
+import app.futured.donut.sample.cmp.tools.extensions.visible
+import app.futured.donut.sample.cmp.tools.view.setupSeekbar
 import kotlin.random.Random
 
-class PlaygroundActivity : AppCompatActivity() {
+class ViewsSampleActivity : AppCompatActivity() {
 
     companion object {
         private val ALL_CATEGORIES = listOf(
@@ -216,7 +215,7 @@ class PlaygroundActivity : AppCompatActivity() {
             val randomCategory = ALL_CATEGORIES.random()
             donutProgressView.addAmount(
                 randomCategory.name,
-                Random.nextFloat(),
+                Random.Default.nextFloat(),
                 getColorCompat(randomCategory.colorRes)
             )
 
@@ -227,7 +226,7 @@ class PlaygroundActivity : AppCompatActivity() {
         removeButton.setOnClickListener {
             val existingSections = donutProgressView.getData().map { it.name }
             if (existingSections.isNotEmpty()) {
-                donutProgressView.removeAmount(existingSections.random(), Random.nextFloat())
+                donutProgressView.removeAmount(existingSections.random(), Random.Default.nextFloat())
                 updateIndicators()
             }
         }
@@ -236,7 +235,7 @@ class PlaygroundActivity : AppCompatActivity() {
         randomColorsButton.setOnClickListener {
             val sections = donutProgressView.getData().toMutableList()
             for (i in 0 until sections.size) {
-                sections[i] = sections[i].copy(color = Random.nextInt())
+                sections[i] = sections[i].copy(color = Random.Default.nextInt())
             }
 
             donutProgressView.submitData(sections)

@@ -29,4 +29,4 @@ report_checkstyle 'build/reports/detekt/detekt.xml'
 
 # Ktlint checkstyle
 report_checkstyle_for_directory 'library/build/reports/ktlint'
-report_checkstyle_for_directory 'sample/build/reports/ktlint'
+report_checkstyle_for_directory 'sample-cmp/build/reports/ktlint'

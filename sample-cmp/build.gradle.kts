@@ -30,6 +30,15 @@ kotlin {
 
         val androidMain by getting {
             dependencies {
+                implementation(project(":library"))
+
+                implementation(project.dependencies.platform(libs.androidx.compose.bom))
+                implementation(libs.bundles.compose)
+
+                implementation(libs.androidx.appcompat)
+                implementation(libs.androidx.constraintlayout)
+                implementation(libs.material)
+
                 implementation(libs.androidx.activity.compose)
                 implementation(libs.androidx.compose.ui.tooling.preview)
             }

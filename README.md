@@ -289,16 +289,17 @@ fun Sample() {
 
 In addition to these XML attributes, the view features `masterProgress` property (`0f to 1f`) that can be changed programmatically. It controls percentual progress of all lines, including the background line, which allows you to get creative with startup animations, etc.
 
-#### Sample apps
+#### Sample app
 
-The quickest way to explore different styles and configurations is to try the sample apps:
+The quickest way to explore different styles and configurations is to try the unified sample app:
 
-- **[sample-cmp](sample-cmp/)** - **Recommended**: A Compose Multiplatform app that runs on both Android and iOS
+- **[sample-cmp](sample-cmp/)** - **Compose Multiplatform app with both implementations**
   - **Android**: Run directly from Android Studio
-  - **iOS**: Open the [iOS project](iosApp/) in Xcode, fix signing errors regarding develompment team ID, and run on iOS devices or simulators
+    - Choose between **Compose Multiplatform** (modern cross-platform) or **Legacy Views** (traditional Android) implementations
+    - Features an interactive playground with buttons and sliders to experiment with different configurations
+  - **iOS**: Open the [iOS project](iosApp/) in Xcode, fix signing errors regarding development team ID, and run on iOS devices or simulators
     - *btw: you can add your team ID in [Signing.local.xcconfig.example](iosApp/sampleCmpIOS/Config/Signing.local.xcconfig.example). Remove `.example` from the filename and your `project.pbxproj` won't change.*
-  - Features an interactive playground with buttons and sliders to experiment with different configurations
-- **[sample](sample/)** - Legacy Android-only sample app with the original View-based implementation
+    - iOS version shows the Compose Multiplatform implementation
 
 ![Playground](imgs/playground.gif)
 

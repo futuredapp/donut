@@ -1,4 +1,4 @@
-package app.futured.donutsample.tools.extensions
+package app.futured.donut.sample.cmp.tools.extensions
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat

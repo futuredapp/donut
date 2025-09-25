@@ -1,7 +1,7 @@
-package app.futured.donutsample.data.model
+package app.futured.donut.sample.cmp.model
 
 import androidx.annotation.ColorRes
-import app.futured.donutsample.R
+import app.futured.donut.sample.cmp.R
 
 sealed class DataCategory(val name: String, @ColorRes val colorRes: Int)
 
