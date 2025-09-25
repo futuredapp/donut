@@ -21,27 +21,10 @@ kotlin {
         }
     }
 
-    listOf(
-        iosX64(),
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach {
-        it.binaries.framework {
-            baseName = "DonutCompose"
-            isStatic = true
-        }
-    }
-
     sourceSets {
         val commonMain by getting {
             dependencies {
                 implementation(libs.bundles.compose.mpp)
-            }
-        }
-
-        val commonTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
             }
         }
     }
