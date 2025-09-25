@@ -50,13 +50,6 @@ androidx-compose-layout = { group = "androidx.compose.foundation", name = "found
 androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivity" }
 
-# Compose Multiplatform
-compose-mpp-runtime = { group = "org.jetbrains.compose.runtime", name = "runtime", version.ref = "composeMultiplatform" }
-compose-mpp-ui = { group = "org.jetbrains.compose.ui", name = "ui", version.ref = "composeMultiplatform" }
-compose-mpp-foundation = { group = "org.jetbrains.compose.foundation", name = "foundation", version.ref = "composeMultiplatform" }
-compose-mpp-animation = { group = "org.jetbrains.compose.animation", name = "animation", version.ref = "composeMultiplatform" }
-compose-mpp-material3 = { group = "org.jetbrains.compose.material3", name = "material3", version.ref = "composeMultiplatform" }
-
 [plugins]
 # Build plugins
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -87,12 +80,4 @@ compose = [
     "androidx-compose-material2",
     "androidx-compose-animation",
     "androidx-compose-layout"
-]
-
-compose-mpp = [
-    "compose-mpp-runtime",
-    "compose-mpp-ui",
-    "compose-mpp-foundation",
-    "compose-mpp-animation",
-    "compose-mpp-material3",
 ]

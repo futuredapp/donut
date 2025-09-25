@@ -24,7 +24,11 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(libs.bundles.compose.mpp)
+                implementation(compose.runtime)
+                implementation(compose.ui)
+                implementation(compose.foundation)
+                implementation(compose.animation)
+                implementation(compose.material3)
             }
         }
     }
