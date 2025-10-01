@@ -1,8 +1,8 @@
-package app.futured.donutsample.tools.view
+package app.futured.donut.sample.cmp.tools.view
 
 import android.widget.SeekBar
 import android.widget.TextView
-import app.futured.donutsample.tools.extensions.doOnProgressChange
+import app.futured.donut.sample.cmp.tools.extensions.doOnProgressChange
 
 fun setupSeekbar(
     seekBar: SeekBar,
