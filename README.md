@@ -7,20 +7,44 @@
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Donut-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/8015)
 [![Android Weekly](https://androidweekly.net/issues/issue-449/badge)](https://androidweekly.net/issues/issue-449)
 ![License](https://img.shields.io/github/license/futuredapp/donut?color=black)
-![Jetpack Compose](https://img.shields.io/badge/Jetpack%20Compose-Ready-green)
+![Jetpack Compose](https://img.shields.io/badge/Compose%20Multiplatform-Ready-green)
 
-Donut is an Android library which helps you to easily create beautiful doughnut-like charts.
+Donut is a Compose Multiplatform library for creating beautiful doughnut-like charts. It also contains a legacy View-based implementation for Android only.
 
 ## Installation
+
+### Compose Multiplatform
+
+#### Kotlin Multiplatform Project
+
+`gradle/libs.versions.toml`:
+
+```toml
+[libraries]
+donut-compose = { group = "app.futured.donut", name = "donut-compose", version.ref = "donut" }
+```
+
+`module/build.gradle.kts`:
+
+```kotlin
+kotlin {
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                implementation(libs.donut.compose)
+            }
+        }
+    }
+}
+```
+
+### Legacy View-based (Android only)
 
 `module/build.gradle`:
 
 ```groovy
 dependencies {
     implementation("app.futured.donut:donut:$version")
-
-    // If you want to use Jetpack Compose version then use only this one dependency
-    implementation("app.futured.donut:donut-compose:$version")
 }
 ```
 
@@ -46,13 +70,54 @@ implementation("app.futured.donut:donut-compose:2.X.X-SNAPSHOT")
 
 ## Features
 
-`DonutProgressView` is a configurable doughnut-like chart view capable of displaying multiple sections with assignable colors. It supports animations and features a gap at the top, which makes it look like a gauge (or tasty bitten-off donut - that's why the name).
+Donut provides configurable doughnut-like charts capable of displaying multiple sections with assignable colors. It supports animations and features a gap at the top, which makes it look like a gauge (or tasty bitten-off donut - that's why the name).
 
 ![Header](imgs/readme-header.png)
 
-The view automatically scales it's sections proportionally to their values once it gets filled up. This allows you to show your users their daily progresses, reached goals, etc.
+The charts automatically scale their sections proportionally to their values once they get filled up. This allows you to show your users their daily progresses, reached goals, etc.
 
 ## Usage
+
+### Compose Multiplatform
+
+```kotlin
+@Composable
+fun Sample() {
+    DonutProgress(
+        model = DonutModel(
+            cap = 2.2f,
+            masterProgress = 1f,
+            gapWidthDegrees = 25f,
+            gapAngleDegrees = 270f,
+            strokeWidth = 40f,
+            backgroundLineColor = Color(0xFFE7E8E9),
+            sections = listOf(
+                DonutSection(amount = 0.4f, color = Color(0xFFFB1D32)),
+                DonutSection(amount = 0.4f, color = Color(0xFFFFB98E)),
+            )
+        ),
+        config = DonutConfig.create(
+            layoutAnimationSpec = tween(
+                durationMillis = 1000,
+                easing = CubicBezierEasing(0.18f, 0.7f, 0.16f, 1f),
+            ),
+            colorAnimationSpec = tween(durationMillis = 1000),
+        )
+    )
+}
+```
+
+You'll get something like this:
+
+![View with cap unexceeded](imgs/readme_intro_nocap.png)
+
+### About the data cap
+
+Once the sum of all section values exceeds the `cap` property, the chart starts to scale its sections proportionally to their amounts along its length. E.g. if we set cap to `1f` and total amount > 1f, we would get something like this:
+
+![View with cap exceeded](imgs/readme_intro_cap.png)
+
+### Legacy View-based (Android only)
 
 Place the view in your layout
 
@@ -90,16 +155,34 @@ You'll get something like this:
 
 ![View with cap unexceeded](imgs/readme_intro_nocap.png)
 
-### About the data cap
-
-Once the sum of all section values exceeds view's `cap` property, the view starts to scale it's sections proportionally to their amounts along it's length. E.g. if we, in the upper example, set cap to `donut_view.cap = 1f` (`section1.amount + section2.amount > 1f`), we would get something like this:
-
-![View with cap exceeded](imgs/readme_intro_cap.png)
-
 ### Submitting data
 
-The view accepts list of `DonutSection` objects that define data to be displayed.
-Each `DonutSection` object holds section's unique name (string), it's color (color int) and section's value. *(Note: the view uses unique name for each section to resolve it's internal state and animations, and throws `IllegalStateException` if multiple sections with same name are submitted.)*
+Both implementations work differently when it comes to data management.
+
+#### Compose Multiplatform
+
+The Compose version uses simple `DonutSection` objects with color and amount:
+
+```kotlin
+@Composable
+fun MyDonutChart() {
+    DonutProgress(
+        model = DonutModel(
+            cap = 5f,
+            sections = listOf(
+                DonutSection(color = Color.Cyan, amount = 1.2f),
+                DonutSection(color = Color.Red, amount = 2f),
+            )
+        )
+    )
+}
+```
+
+**Important**: The Compose version does not support adding or removing sections dynamically. The number of sections must remain the same throughout the component's lifecycle. To simulate adding/removing sections, initialize with empty sections and set their amounts to zero.
+
+#### Legacy View-based
+
+The View-based version requires unique names for each section and supports dynamic changes:
 
 ```kotlin
 val waterAmount = DonutSection(
@@ -107,15 +190,11 @@ val waterAmount = DonutSection(
     color = Color.parseColor("#03BFFA"),
     amount = 1.2f
 )
-```
 
-You have to submit new list of sections everytime you want to modify displayed data, as `DonutSection` object is immutable.
-
-```kotlin
 donut_view.submitData(listOf(waterAmount))
 ```
 
-#### Granular controls
+*(Note: the view uses unique name for each section to resolve its internal state and animations, and throws `IllegalStateException` if multiple sections with same name are submitted.)*
 
 The view also provides methods for more granular control over displayed data. You can use `addAmount`, `setAmount` and `removeAmount` methods to add, set or remove specified amounts from displayed sections.
 
@@ -161,28 +240,11 @@ Each call to a data method (submit, add, set, remove, clear) results in view **a
 
 ### Customization
 
-The view allows you to configure various properties to let you create a unique style that fits your needs. They can be changed either via XML attributes, or at runtime via property access.
-
-#### XML attributes
-
-|Name|Default value|Description|
-|---|---|---|
-| `donut_cap`| `1.0f` | View's cap property |
-| `donut_strokeWidth` | `12dp` | Width of background and section lines in dp |
-| `donut_strokeCap` | `round` | The paint cap used for all lines. Can be either 'round' or 'butt' |
-| `donut_bgLineColor`| `#e7e8e9` | Color of background line |
-| `donut_gapWidth` | `45°` | Width of the line gap in degrees |
-| `donut_gapAngle` | `90°` | Position of the line gap around the view in degrees |
-| `donut_direction` | `clockwise` | Progress lines direction (`clockwise` or `anticlockwise`) |
-| `donut_animateChanges` | `true` | Animation enabled flag, if `true`, the view will animate it's state changes (enabled by default) |
-| `donut_animationInterpolator` | `DecelerateInterpolator` | Interpolator to be used in state change animations |
-| `donut_animationDuration` | `1000 ms` | Duration of state change animations in ms |
-
-In addition to these XML attributes, the view features `masterProgress` property (`0f to 1f`) that can be changed programatically. It controls percentual progress of all lines, including the background line, which allows you to get creative with startup animations, etc.
+Both implementations provide extensive customization options to create unique donut chart styles. The Compose Multiplatform version offers more granular control over animations, while the View-based version uses traditional XML attributes.
 
 #### Jetpack Compose version
 
-This library is implemented as a standalone module also for Jetpack Compose. It has (almost) the same features as the original implementation, but it supports a wider variety of animations.
+This library is implemented as a standalone module also for Compose Multiplatform. It has (almost) the same features as the view implementation, but it supports a wider variety of animations.
 
 ```kotlin
 @Composable
@@ -210,9 +272,34 @@ fun Sample() {
 }
 ```
 
+#### XML attributes
+
+| Name                          | Default value            | Description                                                                                      |
+|-------------------------------|--------------------------|--------------------------------------------------------------------------------------------------|
+| `cap`                         | `1.0f`                   | View's cap property                                                                              |
+| `donut_strokeWidth`           | `12dp`                   | Width of background and section lines in dp                                                      |
+| `donut_strokeCap`             | `round`                  | The paint cap used for all lines. Can be either 'round' or 'butt'                                |
+| `donut_bgLineColor`           | `#e7e8e9`                | Color of background line                                                                         |
+| `donut_gapWidth`              | `45°`                    | Width of the line gap in degrees                                                                 |
+| `donut_gapAngle`              | `90°`                    | Position of the line gap around the view in degrees                                              |
+| `donut_direction`             | `clockwise`              | Progress lines direction (`clockwise` or `anticlockwise`)                                        |
+| `donut_animateChanges`        | `true`                   | Animation enabled flag, if `true`, the view will animate it's state changes (enabled by default) |
+| `donut_animationInterpolator` | `DecelerateInterpolator` | Interpolator to be used in state change animations                                               |
+| `donut_animationDuration`     | `1000 ms`                | Duration of state change animations in ms                                                        |
+
+In addition to these XML attributes, the view features `masterProgress` property (`0f to 1f`) that can be changed programmatically. It controls percentual progress of all lines, including the background line, which allows you to get creative with startup animations, etc.
+
 #### Sample app
 
-The quickest way to explore different styles is to try the [sample](sample/) app, which contains an interactive playground with buttons and sliders to fiddle with.
+The quickest way to explore different styles and configurations is to try the unified sample app:
+
+- **[sample-cmp](sample-cmp/)** - **Compose Multiplatform app with both implementations**
+  - **Android**: Run directly from Android Studio
+    - Choose between **Compose Multiplatform** (modern cross-platform) or **Legacy Views** (traditional Android) implementations
+    - Features an interactive playground with buttons and sliders to experiment with different configurations
+  - **iOS**: Open the [iOS project](iosApp/) in Xcode, fix signing errors regarding development team ID, and run on iOS devices or simulators
+    - *btw: you can add your team ID in [Signing.local.xcconfig.example](iosApp/sampleCmpIOS/Config/Signing.local.xcconfig.example). Remove `.example` from the filename and your `project.pbxproj` won't change.*
+    - iOS version shows the Compose Multiplatform implementation
 
 ![Playground](imgs/playground.gif)
 

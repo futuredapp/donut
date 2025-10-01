@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="app.futured.donut.sample.cmp.ViewsSampleActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/component_toolbar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <app.futured.donut.DonutProgressView
+        android:id="@+id/donut_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="64dp"
+        app:donut_animateChanges="true"
+        app:donut_animationDuration="1000"
+        app:donut_animationInterpolator="@android:interpolator/decelerate_quint"
+        app:donut_bgLineColor="@color/cloud"
+        app:donut_cap="5"
+        app:donut_direction="anticlockwise"
+        app:donut_gapAngle="270"
+        app:donut_gapWidth="60"
+        app:donut_strokeWidth="14dp"
+        app:donut_strokeCap="round"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="@id/donut_view"
+        app:layout_constraintEnd_toEndOf="@id/donut_view"
+        app:layout_constraintStart_toStartOf="@id/donut_view"
+        app:layout_constraintTop_toTopOf="@id/donut_view">
+
+        <TextView
+            android:id="@+id/amount_cap_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/amount_cap"
+            android:textColor="@color/process_black"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/amount_total_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/amount_total"
+            android:textColor="@color/process_black"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/black_section_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:drawableStart="@drawable/ic_dot_black"
+            android:drawablePadding="8dp"
+            android:includeFontPadding="false"
+            android:textColor="@color/process_black"
+            android:textStyle="bold"
+            tools:text="1.23"/>
+
+        <TextView
+            android:id="@+id/green_section_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:drawableStart="@drawable/ic_dot_green"
+            android:drawablePadding="8dp"
+            android:includeFontPadding="false"
+            android:textColor="@color/process_black"
+            android:textStyle="bold"
+            tools:text="1.23"/>
+
+        <TextView
+            android:id="@+id/orange_section_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:drawableStart="@drawable/ic_dot_orange"
+            android:drawablePadding="8dp"
+            android:includeFontPadding="false"
+            android:textColor="@color/process_black"
+            android:textStyle="bold"
+            tools:text="1.23"/>
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:fadeScrollbars="false"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/donut_view">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/graph_style"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/master_progress_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/master_progress"/>
+
+            <SeekBar
+                android:id="@+id/master_progress_seekbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="100"
+                android:padding="8dp"
+                android:progressTint="@color/process_black"
+                android:thumbTint="@color/process_black"
+                tools:progress="60"/>
+
+            <TextView
+                android:id="@+id/gap_width_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/gap_width"/>
+
+            <SeekBar
+                android:id="@+id/gap_width_seekbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="360"
+                android:padding="8dp"
+                tools:progress="60"/>
+
+            <TextView
+                android:id="@+id/gap_angle_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/gap_angle"/>
+
+            <SeekBar
+                android:id="@+id/gap_angle_seekbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="360"
+                android:padding="8dp"
+                tools:progress="270"/>
+
+            <TextView
+                android:id="@+id/stroke_width_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/stroke_width"/>
+
+            <SeekBar
+                android:id="@+id/stroke_width_seekbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="100"
+                android:padding="8dp"
+                tools:progress="40"/>
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/direction_switch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/direction"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/graph_data"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/cap_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/amount_cap"/>
+
+            <SeekBar
+                android:id="@+id/cap_seekbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="50"
+                android:padding="8dp"
+                android:progressTint="@color/process_black"
+                android:thumbTint="@color/process_black"
+                tools:progress="5"/>
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/button_add"
+                        style="?attr/buttonBarButtonStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/button_add"/>
+
+                    <Button
+                        android:id="@+id/button_remove"
+                        style="?attr/buttonBarButtonStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/button_remove"/>
+
+                    <Button
+                        android:id="@+id/button_random_colors"
+                        style="?attr/buttonBarButtonStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/button_random_colors"/>
+
+                    <Button
+                        android:id="@+id/button_clear"
+                        style="?attr/buttonBarButtonStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/button_clear"/>
+                </LinearLayout>
+
+            </HorizontalScrollView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/animations"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/anim_enabled_switch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/animation_enabled"/>
+
+            <TextView
+                android:id="@+id/anim_duration_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/animation_duration"/>
+
+            <SeekBar
+                android:id="@+id/anim_duration_seekbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="3000"
+                android:padding="8dp"
+                android:progressTint="@color/process_black"
+                android:thumbTint="@color/process_black"
+                tools:progress="5"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/animation_interpolators"/>
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RadioGroup
+                    android:id="@+id/interpolator_radio_group"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatRadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/interpolator_decel"/>
+
+                    <androidx.appcompat.widget.AppCompatRadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="@string/interpolator_accel"/>
+
+                    <androidx.appcompat.widget.AppCompatRadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="@string/interpolator_accel_decel"/>
+
+                    <androidx.appcompat.widget.AppCompatRadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="@string/interpolator_linear"/>
+
+                    <androidx.appcompat.widget.AppCompatRadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="@string/interpolator_bounce"/>
+
+                </RadioGroup>
+
+            </HorizontalScrollView>
+
+            <include layout="@layout/pick_stroke_cap" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

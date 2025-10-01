@@ -5,5 +5,10 @@
 /buildSrc/build/*
 .DS_Store
 /build
+*/build/
 /captures
 .externalNativeBuild
+.kotlin
+iosApp/**/Signing.local.xcconfig
+**/xcuserdata/
+**/*.xcuserstate
