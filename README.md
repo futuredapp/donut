@@ -58,7 +58,7 @@ Add new Maven repo in `settings.gradle.kts`:
 dependencyResolutionManagement {
     repositories {
         // ...
-        maven(url = "https://oss.sonatype.org/content/repositories/snapshots")
+        maven("https://central.sonatype.com/repository/maven-snapshots/")
     }
 }
 ```
