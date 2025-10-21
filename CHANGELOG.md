@@ -1,5 +1,18 @@
 # Donut Releases #
 
+## Version 2.3.0
+_2025-10-21_
+
+### Compose Multiplatform version
+- Add full Compose Multiplatform (CMP) support with iOS target
+- Merge sample apps into unified Compose Multiplatform sample
+- Add chooser screen to switch between Compose Multiplatform and legacy Android Views implementations for Android app
+- Remove legacy Android-only sample module
+- Fix publishing configuration for Maven Central
+- Bump Kotlin to 2.2.10
+- Bump Compose BOM to 2025.08.00
+- Bump Android Gradle Plugin to 8.13.0
+
 ## Version 2.2.4
 - Don't draw sections if amount is 0 (https://github.com/futuredapp/donut/pull/96)
 
