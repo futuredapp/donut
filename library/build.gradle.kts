@@ -6,6 +6,8 @@ plugins {
     id(libs.plugins.conventions.lint.get().pluginId)
 }
 
+group = "app.futured.donut"
+
 kotlin {
     jvmToolchain(ProjectSettings.Kotlin.JvmToolchainVersion)
 }
