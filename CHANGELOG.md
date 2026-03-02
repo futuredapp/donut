@@ -1,5 +1,12 @@
 # Donut Releases #
 
+## Version 2.3.1
+_2026-03-02_
+
+### Compose Multiplatform version
+- Fix publishing configuration for Compose Multiplatform library
+- Configure multiplatform publishing for donut-compose
+
 ## Version 2.3.0
 _2025-10-21_
 
