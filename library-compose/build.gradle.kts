@@ -62,8 +62,7 @@ android {
 mavenPublishing {
     coordinates(
         groupId = "app.futured.donut",
-        artifactId = "donut-compose",
-        version = project.findProperty("VERSION_NAME") as String? ?: "2.X.X-SNAPSHOT"
+        artifactId = "donut-compose"
     )
 
     pom {
