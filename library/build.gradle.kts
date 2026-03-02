@@ -6,6 +6,8 @@ plugins {
     id(libs.plugins.conventions.lint.get().pluginId)
 }
 
+group = "app.futured.donut"
+
 kotlin {
     jvmToolchain(ProjectSettings.Kotlin.JvmToolchainVersion)
 }
@@ -30,4 +32,37 @@ android {
 
 dependencies {
     implementation(libs.androidx.ktx)
+}
+
+mavenPublishing {
+    coordinates(
+        groupId = "app.futured.donut",
+        artifactId = "donut",
+        version = project.findProperty("VERSION_NAME") as String? ?: "2.X.X-SNAPSHOT"
+    )
+
+    pom {
+        name = "Donut"
+        description = "Doughnut-like graph view capable of displaying multiple datasets with assignable colors"
+        url = "https://github.com/futuredapp/donut"
+
+        licenses {
+            license {
+                name = "MIT"
+                url = "https://github.com/futuredapp/donut/blob/master/LICENSE"
+            }
+        }
+        scm {
+            connection = "scm:git:git://github.com/futuredapp/donut.git"
+            developerConnection = "scm:git:ssh://github.com/futuredapp/donut.git"
+            url = "https://github.com/futuredapp/donut"
+        }
+        developers {
+            developer {
+                id = "futured"
+                name = "Futured"
+                url = "https://futured.app"
+            }
+        }
+    }
 }
